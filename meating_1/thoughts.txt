@@ -1,0 +1,20 @@
+_Initial_thoughts_:
+
+1.  As input we are given a set of authors A each author in A has a set of texts
+    T. The texts span some period of time where the authors writing style might
+    or might not change. We want to classify future texts attributed to some
+    author a \in A as either true (written by that author) or false (written by
+    someone else). Alternatively we don't want to classify but simply output a
+    probability that the text is written by someone else.
+
+2.  To handle the time over which the texts are produced we could use some sort
+    of weighted average of the features extracted from each text. The newest
+    text has the most influence on the features chosen for an author while the
+    oldest text has much less influence.
+
+3.  It seems like character n-gram frequencies are a simple and effective way to
+    extract features from a text.
+
+4.  Maybe we could implement something like this:
+
+    1.  Preprocess
