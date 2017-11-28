@@ -1,0 +1,15 @@
+#!/bin/bash
+wget http://www.uni-weimar.de/medien/webis/corpora/corpus-pan-labs-09-today/pan-15/pan15-data/pan15-authorship-verification-training-dataset-2015-04-19.zip -O data.zip
+
+unzip data.zip
+
+cd ./pan15-authorship-verification-training-dataset-2015-04-19/
+unzip pan15-authorship-verification-training-dataset-english-2015-04-19.zip
+
+cd ./pan15-authorship-verification-training-dataset-english-2015-04-19/
+mv * ../../
+
+cd ../../
+
+rm -rf *-training-dataset-* *.txt *.zip
+
