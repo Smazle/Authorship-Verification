@@ -6,7 +6,7 @@ report.blg: literature.bib
 	pdflatex report.tex
 	bibtex report.aux
 
-report.pdf: report.tex report.blg
+report.pdf: report.tex report.blg makefile $(shell ls *.tex)
 	pdflatex report.tex
 	pdflatex report.tex
 
