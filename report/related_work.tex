@@ -25,12 +25,28 @@ features extracted and used that to determine whether or not the unknown texts
 were written by the author. Their results were not overwhelming and they
 commented that deep learning might make their results better.
 
-
-% August.
-% castro2015
+\cite{pacheco2015} also proposed using a random forest for the PAN 2015 task.
+They implemented two baseline models and one real model. The baseline models
+were a simple distance metric with a trained cutoff point and a Gaussian Mixture
+Model - Universal Background Model (UBM). The second baseline model is about
+defining a general feature vector for all authors and a feature vector for
+each specific author. To determine if a text from an unknown author belongs
+to a given author you compute the distance between the texts feature set and
+the universal and author specific feature set. If the unknown text is closer
+to universal than to the author specific it is presumed to not be written by
+the author. The used features in this case were number of stop words, number
+of sentences, number of paragraphs, spacing, punctuation, word frequencies,
+character frequencies, punctuation frequencies, lexical density, word diversity,
+unique words and unique words over all authors. The main model were a random
+forest and a UBM. A feature vector representing all documents and a feature
+vector for each document were constructed. The vectors were then combined and
+the result were fed to a random forest model. Their results were promising.
 
 % Magnus.
 % pacheco2015
+
+% August.
+% castro2015
 
 % August.
 % gutierrez2015
