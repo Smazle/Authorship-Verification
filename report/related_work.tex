@@ -42,14 +42,19 @@ forest and a UBM. A feature vector representing all documents and a feature
 vector for each document were constructed. The vectors were then combined and
 the result were fed to a random forest model. Their results were promising.
 
-% Magnus.
-% pacheco2015
+\cite{bartoli2015b} proposed yet another random forest based approach. They
+didn't use a random forest classifier as \cite{maitra2015} and
+\cite{pacheco2015} but a random forest regressor. The used features were word n
+grams, character n grams, POS tag n grams, word lengths, sentence lengths,
+sentence length n grams, word richness \footnote{Word richness is number of
+distinct words in a text divided by the total number of words.}, punctuation n
+grams and text shape n grams. They then performed a feature selection and
+normalization. They performed the final regression with both trees, a random
+forest and an SVM. They ended up choosing the random forest as it performed the
+best. Their results were very good being the best performer on Spanish texts.
 
 % August.
 % castro2015
 
 % August.
 % gutierrez2015
-
-% Magnus.
-% bartoli2015b
