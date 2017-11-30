@@ -62,9 +62,19 @@ authors constructed such a graph for each text and used commonalities in
 shortest paths in the graph to compare the texts. The results were not very
 good.
 
+\cite{castro2015} solved the PAN 2014 task by using the average similarity of an
+unknown text to all known texts of an author. The features used were character n
+grams, character n gram prefixes, character n gram postfixes, word n grams,
+punctuation, \gls{POS} tagging n grams, \gls{POS} tagging at start of sentences
+and \gls{POS} tagging at the end of sentences. The authors tried several
+different similarity measures Cosine, Dice, Jaccard, Tanimoto, Euclidean and
+MinMax. They generally got the best results with Dice and Jaccard similarity.
+The results obtained were quite good.
+
 \cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
 attribution methods in identifying authors of texts written in Danish secondary
 school. \cite{aalykke2016} mainly used a distance based approach, he extracted
 features and then used different distance metrics to compute the closest and
 therefore best author. \cite{hansen2014} used SVM's for the author
-classification they obtained an accuracy of 84\%.
+classification they obtained an accuracy of 84\%. The features used were the
+1000 most frequent character n grams.
