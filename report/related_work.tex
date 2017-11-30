@@ -1,22 +1,15 @@
 % TODO: Maybe call this previous work instead.
 \section{Related Work}
-% Describe stylometry.
+\cite{stamatos2009} gives a really good overview of the current state and
+history of authorship verification and authorship attribution methods.
 
-% stamatos2009.
-
-PAN \footnote{\url{http: // pan.webis.de /}} keeps a collection of shared tasks 
-in
+PAN \footnote{\url{http://pan.webis.de/}} keeps a collection of shared tasks in
 digital text forensics. In 2013, 2014 and 2015 the tasks focused on authorship
 verification. In the 2015 task a dataset of authors with a set of texts were
 given. Each author had a known text and an unknown text and the task was to
 determine which of the unknown texts belonged to the same author as the known
 text.
 
-% Magnus.
-% gomezadorno2015
-
-% August.
-% juanpablo2015
 \cite{juanpablo2015} chose to perform their analysis on the syntactic level in
 their submission for the PAN 2015 task. This was done using syntactic n - grams,
 which was extracted used a syntactic analyser designed for the designated
@@ -113,6 +106,28 @@ doesn't match the proposed author,  the author isn't considered the writer of
 the unknown text. This in a relatively good performance for all the languages 
 used in their test, besides Dutch which they explain is because of the short 
 texts provided. 
+
+\cite{gomezadorno2015} tried to solve the PAN 2015 task by using a graph based
+approach. The graph used is a \gls{ISG} which represents the text by creating a
+graph for each sentence and combining those graphs into one large graph. The
+authors constructed such a graph for each text and used commonalities in
+shortest paths in the graph to compare the texts. The results were not very
+good.
+
+
+
+\cite{layton:2014} makes use of a more simple approach. TODO
+
+
+\cite{castro2015} solved the PAN 2014 task by using the average similarity of an
+unknown text to all known texts of an author. The features used were character n
+grams, character n gram prefixes, character n gram postfixes, word n grams,
+punctuation, \gls{POS} tagging n grams, \gls{POS} tagging at start of sentences
+and \gls{POS} tagging at the end of sentences. The authors tried several
+different similarity measures Cosine, Dice, Jaccard, Tanimoto, Euclidean and
+MinMax. They generally got the best results with Dice and Jaccard similarity.
+The results obtained were quite good.
+
 
 \cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
 attribution methods in identifying authors of texts written in Danish secondary
