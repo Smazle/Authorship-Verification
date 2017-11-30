@@ -1,8 +1,7 @@
 % TODO: Maybe call this previous work instead.
 \section{Related Work}
-% Describe stylometry.
-
-% stamatos2009.
+\cite{stamatos2009} gives a really good overview of the current state and
+history of authorship verification and authorship attribution methods.
 
 PAN \footnote{\url{http://pan.webis.de/}} keeps a collection of shared tasks in
 digital text forensics. In 2013, 2014 and 2015 the tasks focused on authorship
@@ -10,9 +9,6 @@ verification. In the 2015 task a dataset of authors with a set of texts were
 given. Each author had a known text and an unknown text and the task was to
 determine which of the unknown texts belonged to the same author as the known
 text.
-
-% Magnus.
-% gomezadorno2015
 
 % August.
 % juanpablo2015
@@ -76,6 +72,13 @@ best. Their results were very good being the best performer on Spanish texts.
 
 % August.
 % gutierrez2015
+
+\cite{gomezadorno2015} tried to solve the PAN 2015 task by using a graph based
+approach. The graph used is a \gls{ISG} which represents the text by creating a
+graph for each sentence and combining those graphs into one large graph. The
+authors constructed such a graph for each text and used commonalities in
+shortest paths in the graph to compare the texts. The results were not very
+good.
 
 \cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
 attribution methods in identifying authors of texts written in Danish secondary
