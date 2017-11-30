@@ -69,7 +69,7 @@ best. Their results were very good being the best performer on Spanish texts.
 
 % August.
 % castro2015
-\cite{castro2015} presents an approach that focuses more on the feature, than 
+\cite{castro2015Paper} presents an approach that focuses more on the feature, than 
 the algorithm applied to it. Using a set of 10 features spanning across 3 
 different linguistic layer, the character layer, the lexical layer and the 
 semantic layer. For each of these 10 features a vote is cast.
@@ -115,8 +115,18 @@ shortest paths in the graph to compare the texts. The results were not very
 good.
 
 
-
-\cite{layton:2014} makes use of a more simple approach. TODO
+\cite{layton:2014} makes use of a more simple approach. It makes use of
+Local N-grams (LNG). This is used to compute a feature vector for each
+document written by a specific author. Collectively they can be combined
+to a matrix describing the writing style of that author. When a new unknown
+text is introduced, one of three comparative algorithms were used to compute
+the average similarity between each of the authors known texts (Intra-Distance. 
+The average similarity between the unkown text an the known ones by the proposed author
+is then computed as well (Inter-Distance). The author is considered correct if the
+Inter-Distance was lower then the Intra-Distance plus 2 times the
+known datasets' standard diviation. This was performed using the CNG, SCAP and RLP
+as the methods for comparing the diffrent texts. It did however not perform
+very well.
 
 
 \cite{castro2015} solved the PAN 2014 task by using the average similarity of an
