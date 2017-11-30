@@ -1,35 +1,41 @@
 % TODO: Maybe call this previous work instead.
 \section{Related Work}
-\cite{stamatos2009} gives a really good overview of the current state and
-history of authorship verification and authorship attribution methods.
+% Describe stylometry.
 
-PAN \footnote{\url{http://pan.webis.de/}} keeps a collection of shared tasks in
+% stamatos2009.
+
+PAN \footnote{\url{http: // pan.webis.de /}} keeps a collection of shared tasks 
+in
 digital text forensics. In 2013, 2014 and 2015 the tasks focused on authorship
 verification. In the 2015 task a dataset of authors with a set of texts were
 given. Each author had a known text and an unknown text and the task was to
 determine which of the unknown texts belonged to the same author as the known
 text.
 
+% Magnus.
+% gomezadorno2015
+
 % August.
 % juanpablo2015
-\cite{juanpablo2015} chose to perform their analysis on the syntactic level in 
-their submission for the PAN 2015 task. This was done using syntactic n-grams,
-which was extracted used a syntactic analyser designed for the designated 
-language. This syntactic served to subvert the topic of text, as the focus 
-would be on the syntactic class of the n-grams extracted, rather than the word 
+\cite{juanpablo2015} chose to perform their analysis on the syntactic level in
+their submission for the PAN 2015 task. This was done using syntactic n - grams,
+which was extracted used a syntactic analyser designed for the designated
+language. This syntactic served to subvert the topic of text, as the focus
+would be on the syntactic class of the n - grams extracted, rather than the word
 it self.
-After extracting the n-grams wanted, some light filtering was performed, 
-removing the less frequent n-grams. At this point they chose to represent their 
-n-grams frequencies, as a vector in space, allowing them to use the jaccard 
-distance to measure the difference between this newly introduced unknown text, 
-and its' proposed authors' known texts. When the similarity fell under a 
-certain threshold, the author was deemed non-valid.
-This yielded somewhat mediocre results, and they themselves noted that a new 
-heuristic handling ill-constructed sentences would probably improved their 
-results, as the were just discarded in their case, which caused very low 
-accuracy in some cases. Additionally, more features describing other linguistic 
-layers, such as lexical, and syntactic feature would probably improve results 
-as well.   
+After extracting the n - grams wanted, some light filtering was performed,
+removing the less frequent n - grams. At this point they chose to represent 
+their
+n - grams frequencies, as a vector in space, allowing them to use the jaccard
+distance to measure the difference between this newly introduced unknown text,
+and its' proposed authors' known texts. When the similarity fell under a
+certain threshold, the author was deemed non - valid.
+This yielded somewhat mediocre results, and they themselves noted that a new
+heuristic handling ill - constructed sentences would probably improved their
+results, as the were just discarded in their case, which caused very low
+accuracy in some cases. Additionally, more features describing other linguistic
+layers, such as lexical, and syntactic feature would probably improve results
+as well.
 
 \cite{maitra2015} implemented a solution for the PAN 2015 task. They used a
 collection of different features extracted from the text. The features were
@@ -42,7 +48,7 @@ that deep learning might make their results better.
 \cite{pacheco2015} also proposed using a random forest for the PAN 2015 task.
 They implemented two baseline models and one real model. The baseline models
 were a simple distance metric with a trained cutoff point and a Gaussian Mixture
-Model - Universal Background Model (UBM). The second baseline model is about
+Model - Universal Background Model(UBM). The second baseline model is about
 defining a general feature vector for all authors and a feature vector for
 each specific author. To determine if a text from an unknown author belongs
 to a given author you compute the distance between the texts feature set and
@@ -61,7 +67,8 @@ They didn't use a random forest classifier as \cite{maitra2015} and
 \cite{pacheco2015} but a random forest regressor. The used features were word n
 grams, character n grams, \gls{POS} tag n grams, word lengths, sentence lengths,
 sentence length n grams, word richness \footnote{Word richness is number of
-distinct words in a text divided by the total number of words.}, punctuation
+                                                 distinct words in a text 
+divided by the total number of words.}, punctuation
 n grams and text shape n grams. They then performed a feature selection and
 normalization. They performed the final regression with both trees, a random
 forest and an SVM. They ended up choosing the random forest as it performed the
@@ -69,20 +76,34 @@ best. Their results were very good being the best performer on Spanish texts.
 
 % August.
 % castro2015
+\cite{castro2015} presents an approach that focuses more on the feature, than 
+the algorithm applied to it. Using a set of 10 features spanning across 3 
+different linguistic layer, the character layer, the lexical layer and the 
+semantic layer. For each of these 10 features a vote is cast.
+This vote is determined by, comparing the average similarity of the authors 
+texts. In the scenario where a new unknown document is introduced, and wished 
+validate the following happend.
+For each author, the similarity of their texts are computed using one of the 10 
+feature vectors as input for a chosen similarity function. The similarity for 
+each of these author are then averaged to form the \texttt{Average Group 
+Similarity}(AGS). The new document is then added to the group of documents of 
+the proposed author, and the similarity of that group of documents is computed. 
+If that similarity is above AGS, then a vote for this being the correct author 
+is thrown.
+However, before the vote for the feature is finalized, this is done with 3 
+different similarity functions, Cosine, Dice and 1 - MinMax. The majority vote 
+of those 3, determine what should be votes on that feature. This is done for 
+each of the 10 feature, where in case of a tie vote(5 against 5) no decision is 
+taken. This yielded some very good results, however some questions was raised 
+as to the accuracy of documents on other genres.
+
 
 % August.
 % gutierrez2015
-
-\cite{gomezadorno2015} tried to solve the PAN 2015 task by using a graph based
-approach. The graph used is a \gls{ISG} which represents the text by creating a
-graph for each sentence and combining those graphs into one large graph. The
-authors constructed such a graph for each text and used commonalities in
-shortest paths in the graph to compare the texts. The results were not very
-good.
 
 \cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
 attribution methods in identifying authors of texts written in Danish secondary
 school. \cite{aalykke2016} mainly used a distance based approach, he extracted
 features and then used different distance metrics to compute the closest and
 therefore best author. \cite{hansen2014} used SVM's for the author
-classification they obtained an accuracy of 84\%.
+classification they obtained an accuracy of 84\% .

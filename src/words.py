@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 from collections import Counter
+
+
 def words(filepath):
     """
         Gets word count dictionary, of file. Removing everything
