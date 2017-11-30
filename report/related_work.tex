@@ -100,6 +100,19 @@ as to the accuracy of documents on other genres.
 
 % August.
 % gutierrez2015
+\cite{gutierrez20150} uses a somewhat different approach by using Homotopy-based 
+Classification in their work. Their approach bases on a set of M, features. 
+Which in their case is 4. Bag of words, Bigram of words, Punctuation and 
+trigram of words. All represent frequencies. From there a set \textit{N} 
+imposters are created, using the generic imposter method. The \textit{L}-1 
+homotopy then applied to construct a feature set matching a document generated 
+using the imposters and a known other. The unknown document and the 
+reconstructed document are then compared using what is called the computed 
+residual. This residual is compared to each author in the set, and if it 
+doesn't match the proposed author,  the author isn't considered the writer of 
+the unknown text. This in a relatively good performance for all the languages 
+used in their test, besides Dutch which they explain is because of the short 
+texts provided. 
 
 \cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
 attribution methods in identifying authors of texts written in Danish secondary
