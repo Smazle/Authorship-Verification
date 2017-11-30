@@ -76,3 +76,27 @@
 %(b) Uni-grams of Part of Speech (F8)
 %(c) Tri-grams of lemmas (F9)
 %(d) Tri-grams of Part of Speech (F10)
+
+
+% FROM bartoli2015b
+% Sentence lengths (SL) We transform the document to a sequence of tokens, a token
+%being a sequence of characters separated by one or more blank spaces. Next, we
+%transform the sequence of tokens to a sequence of sentences, a sentence being a
+%sequence of tokens separated by any of the following characters: .,;,:,!,?. We
+%count the number of sentences whose length in tokens is n, with n ∈ {1, . . . , 40}:
+%we obtain a feature for each value of n.)
+%
+% Sentence length ngrams (SG) We transform each document to a sequence of labels,
+%where each label represents a full sentence and is chosen based on the sentence
+%length (as described in the following). Next, we compute the ngram)
+%
+%Word richness (WR) We transform the document to a sequence of words as for the
+%WG features group. Then we compute the ratio between the number of distinct
+%words and the number of total w)
+%
+%Text shape ngrams (TG) We transform the document as follows: sequences of digits
+%are replaced by the single character n; sequences of alphabetic characters are replaced
+%by a single character: l if all the characters in the sequence are lowercase,
+%u if only the first character is uppercase, w if at least two characters are uppercase;
+%sequences of blank spaces are replaced by a single blank space; other characters are
+%left unchanged.)

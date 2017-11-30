@@ -1,1 +1,67 @@
+% TODO: Maybe call this previous work instead.
 \section{Related Work}
+% Describe stylometry.
+
+% stamatos2009.
+
+PAN \footnote{\url{http://pan.webis.de/}} keeps a collection of shared tasks in
+digital text forensics. In 2013, 2014 and 2015 the tasks focused on authorship
+verification. In the 2015 task a dataset of authors with a set of texts were
+given. Each author had a known text and an unknown text and the task was to
+determine which of the unknown texts belonged to the same author as the known
+text.
+
+% Magnus.
+% gomezadorno2015
+
+% August.
+% juanpablo2015
+
+\cite{maitra2015} implemented a solution for the PAN 2015 task. They used a
+collection of different features extracted from the text. The features were
+based on punctuation, sentence length, vocabulary, character n grams and
+\gls{POS} tagging. They trained a random forest classifier on the features
+extracted and used that to determine whether or not the unknown texts were
+written by the author. Their results were not overwhelming and they commented
+that deep learning might make their results better.
+
+\cite{pacheco2015} also proposed using a random forest for the PAN 2015 task.
+They implemented two baseline models and one real model. The baseline models
+were a simple distance metric with a trained cutoff point and a Gaussian Mixture
+Model - Universal Background Model (UBM). The second baseline model is about
+defining a general feature vector for all authors and a feature vector for
+each specific author. To determine if a text from an unknown author belongs
+to a given author you compute the distance between the texts feature set and
+the universal and author specific feature set. If the unknown text is closer
+to universal than to the author specific it is presumed to not be written by
+the author. The used features in this case were number of stop words, number
+of sentences, number of paragraphs, spacing, punctuation, word frequencies,
+character frequencies, punctuation frequencies, lexical density, word diversity,
+unique words and unique words over all authors. The main model were a random
+forest and a UBM. A feature vector representing all documents and a feature
+vector for each document were constructed. The vectors were then combined and
+the result were fed to a random forest model. Their results were promising.
+
+\cite{bartoli2015b} proposed yet another random forest based approach.
+They didn't use a random forest classifier as \cite{maitra2015} and
+\cite{pacheco2015} but a random forest regressor. The used features were word n
+grams, character n grams, \gls{POS} tag n grams, word lengths, sentence lengths,
+sentence length n grams, word richness \footnote{Word richness is number of
+distinct words in a text divided by the total number of words.}, punctuation
+n grams and text shape n grams. They then performed a feature selection and
+normalization. They performed the final regression with both trees, a random
+forest and an SVM. They ended up choosing the random forest as it performed the
+best. Their results were very good being the best performer on Spanish texts.
+
+% August.
+% castro2015
+
+% August.
+% gutierrez2015
+
+\cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
+attribution methods in identifying authors of texts written in Danish secondary
+school. \cite{aalykke2016} mainly used a distance based approach, he extracted
+features and then used different distance metrics to compute the closest and
+therefore best author. \cite{hansen2014} used SVM's for the author
+classification they obtained an accuracy of 84\%.
