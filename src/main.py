@@ -112,3 +112,6 @@ for a in range(1, 101):
     authors.append(features)
 
 np.savetxt('outfile.txt', np.array(authors))
+
+# TODO: Use same extractors to extract features from unknown text and use
+# ground truth get author of the unknowns.
