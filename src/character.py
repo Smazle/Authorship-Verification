@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from collections import Counter
 import sys
 import string
@@ -265,7 +263,3 @@ def special_character_n_gram_frequencies(f, n_grams, n):
             and c not in string.digits else '' for c in content])
 
     return find_frequencies(content, n_grams, n)
-
-
-if __name__ == '__main__':
-    print(find_ngrams(sys.stdin, 3))

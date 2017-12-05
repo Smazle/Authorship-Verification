@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 from collections import Counter
 from polyglot.text import Text
 
