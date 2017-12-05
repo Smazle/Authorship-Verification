@@ -21,3 +21,22 @@ def words(text):
     ret = Counter(text.split(' '))
     del ret['']
     return ret
+
+
+def wordFrequencies(text, wordsList):
+    """
+        Computes the frequencies of words present
+        in a supplied text.
+
+        Args:
+            text (string): Text to be analysed for word frequencies
+            wordsList (list): List containing the words one wants the
+                frequencies of, in the form of strings
+
+        Returns:
+            dicionary: A frequencies dicionary of type {word:frequency}
+
+    """
+    wordCounts = words(text)
+    return {key: value / float(len(wordCounts)) for
+            key, value in wordCounts.iteritems() if key in wordsList}
