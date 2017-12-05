@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from collections import Counter
 import string
 
