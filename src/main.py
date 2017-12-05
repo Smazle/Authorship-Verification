@@ -30,10 +30,6 @@ DATA_FOLDER = './data/'
 # in the training data set.
 FULL_TEXT_FILE = './full_text.txt'
 
-# Number of features to use for each n-gram.
-GRAM_FEATURE_NUMBER = 500
-SPECIAL_GRAM_FEATURE_NUMBER = 5
-
 # Construct text consisting of a concatenation of all texts in training data.
 files = glob.glob(DATA_FOLDER + '/*/*.txt')
 with open(FULL_TEXT_FILE, 'w') as outfile:
@@ -45,8 +41,20 @@ with open(FULL_TEXT_FILE, 'w') as outfile:
 parser = argparse.ArgumentParser(description='Extract features.')
 parser.add_argument('--n-gram', type=int, nargs='+',
                     help='n-gram sizes to extract.')
+
+parser.add_argument('--n-gram-size', type=int, nargs='?',
+                    help='Number of character n-grams to use. If n then the ' +
+                    'n most frequent n-grams are used. If multiple values ' +
+                    'are specified on --n-gram then n features are ' +
+                    'extracted for all of them.')
+
 parser.add_argument('--special-n-gram', type=int, nargs='+',
                     help='special n-gram sizes to extract')
+
+parser.add_argument('--special-n-gram-size', type=int, nargs='?',
+                    help='Number of special n-grams to use. If n then the ' +
+                    'n most frequent special n-grams are used.')
+
 args = parser.parse_args()
 
 # Add default command line arguments.
@@ -54,20 +62,24 @@ if args.n_gram is None:
     args.n_gram = []
 if args.special_n_gram is None:
     args.special_n_gram = []
+if args.n_gram_size is None:
+    args.n_gram_size = 500
+if args.special_n_gram_size is None:
+    args.special_n_gram_size = 5
 
 extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
     content = f.read()
 
     for n in args.n_gram:
-        extractor = CharacterNGramFeatureExtractor(n, GRAM_FEATURE_NUMBER)
+        extractor = CharacterNGramFeatureExtractor(n, args.n_gram_size)
         extractor.fit(content)
 
         extractors.append(extractor)
 
     for n in args.special_n_gram:
         extractor = SpecialCharacterNGramFeatureExtractor(n,
-                SPECIAL_GRAM_FEATURE_NUMBER)
+                args.special_n_gram_size)
         extractor.fit(content)
 
         extractors.append(extractor)
