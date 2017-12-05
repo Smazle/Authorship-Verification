@@ -4,6 +4,23 @@ from collections import Counter
 import sys
 
 
+class NGramFeatureExtracter:
+
+    def __init__(self, n, size):
+        self.n = n
+        self.size = size
+
+    def fit(self, text):
+        grams = find_ngrams(text, self.n)
+        most_common = grams.most_common(self.size)
+        most_common = [key for (key, val) in most_common]
+
+        self.grams = most_common
+
+    def extract(self, text):
+        return find_frequencies(text, self.grams, self.n)
+
+
 def n_gram_number(string_length, n):
     """
         Compute number of n-grams in a string of length string_length.

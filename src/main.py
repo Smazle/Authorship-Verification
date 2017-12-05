@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from gram import find_ngrams, find_frequencies
+from gram import NGramFeatureExtracter
 import argparse
 import glob
 import numpy as np
@@ -8,16 +8,16 @@ import numpy as np
 
 class FeatureExtractor:
 
-    def __init__(self, character_n_grams):
-        self.character_n_grams = character_n_grams
+    def __init__(self, extractors):
+        self.extractors = extractors
 
     def extract(self, f):
         features = []
         with open(fname) as f:
             content = f.read()
 
-            for (grams, n) in n_grams:
-                features = features + find_frequencies(content, grams, n)
+            for extractor in self.extractors:
+                features = features + extractor.extract(content)
 
         return features
 
@@ -49,19 +49,17 @@ args = parser.parse_args()
 if args.n_gram is None:
     args.n_gram = []
 
+extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
     content = f.read()
 
-    # Extract a list of all the n-grams we are using for all n we are using.
-    n_grams = []
     for n in args.n_gram:
-        grams = find_ngrams(content, n)
-        most_common = grams.most_common(GRAM_FEATURE_NUMBER)
-        most_common = [key for (key, val) in most_common]
+        extractor = NGramFeatureExtracter(n, GRAM_FEATURE_NUMBER)
+        extractor.fit(content)
 
-        n_grams.append((most_common, n))
+        extractors.append(extractor)
 
-feature_extractor = FeatureExtractor(n_grams)
+feature_extractor = FeatureExtractor(extractors)
 
 # Generate features for each author.
 authors = []
@@ -69,6 +67,8 @@ for a in range(1, 101):
     fname = DATA_FOLDER + '/EN%03d/known01.txt' % a
 
     features = feature_extractor.extract(fname)
+
+    # Add author class to feature vector.
     features.append(a)
     authors.append(features)
 
