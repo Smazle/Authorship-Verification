@@ -3,6 +3,40 @@ from collections import Counter
 import string
 
 
+class CountFeatureExtractor:
+
+    def __init__(self, size):
+        self.size = size
+
+    def fit(self, text):
+        words = Count(text)
+        most_common = words.most_common(self.size)
+        most_common = [key for (key, value) in most_common]
+
+        self.words = most_common
+
+    def extract(self, text):
+        return Frequency(text, self.words)
+
+
+class NGramsFeatureExtractor:
+
+    def __init__(self, n, size):
+        self.n = n
+        self.size = size
+
+    def fit(self, text):
+        grams = NGramCount(text, self.n)
+        most_common = grams.most_common(self.size)
+        most_common = [key for (key, value) in most_common]
+
+        self.grams = most_common
+        print most_common
+
+    def extract(self, text):
+        return NGramFrequency(text, self.n, self.grams)
+
+
 def Words(text):
     """
         Cleans up the text, removing characters not
@@ -58,7 +92,7 @@ def Frequency(text, wordsList):
             for key in wordsList]
 
 
-def NGramCount(text, n, tolower):
+def NGramCount(text, n):
     """
         Computes the count of the word n-grams
         that appear in the provided text.
@@ -66,19 +100,16 @@ def NGramCount(text, n, tolower):
         Args:
             text (string): Text to be analysed for word n-gram counts
             n (int): Which kind of gram to be used
-            tolower (bool): Denotes of the text should be non-capitalized
-                during the n-gram counting process
         Returns:
             dictionary: A counting dictionary of type {n-gram: count}
 
     """
-    words = Words(text.lower()) if tolower else Words(text)
-    print words
+    words = Words(text.lower())
     grams = [tuple(words[i:i + n][:]) for i in range(len(words) - n + 1)]
     return Counter(grams)
 
 
-def NGramFrequency(text, n, tolower, ngramList):
+def NGramFrequency(text, n, ngramList):
     """
         Computes the Frequency of a specified list
         of n-grams in the provided text string.
@@ -86,8 +117,6 @@ def NGramFrequency(text, n, tolower, ngramList):
         Args:
             text (string): Text to be analysed for word n-gram counts
             n (int): Which kind of gram to be used
-            tolower (bool): Denotes of the text should be non-capitalized
-                during the n-gram counting process
             ngramList (list): A list of strings describing the word n-grams
                 where a frequency is desired
         Returns:
@@ -95,11 +124,8 @@ def NGramFrequency(text, n, tolower, ngramList):
                 in the order of ngramList
     """
 
-    ngramCounts = NGramCount(text, n, tolower)
+    ngramCounts = NGramCount(text, n)
     total = float(len(ngramCounts))
 
     return [ngramCounts[key] / total if key in ngramCounts
             else 0 for key in ngramList]
-
-
-print(Frequency("This is a test", ['a', 'test', "wow"]))
