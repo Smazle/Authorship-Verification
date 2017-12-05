@@ -18,7 +18,7 @@ def find_ngrams(f, n):
     """
         Gets the character n-grams of provided texts, and
         returns counts
-        Arg, f: File object.
+        Arg, f: File object or string object.
         Arg, n: Which kind of gram to compute.
         Returns counting dictionary, of the n-grams contained in file.
     """
@@ -33,7 +33,7 @@ def find_frequencies(f, n_grams, n):
     """
         Get frequencies of specific n-grams in the order they appear in the
         list.
-        Arg, f: File object.
+        Arg, f: File object or string object.
         Arg, n_grams: List of n-grams to extract frequencies for.
         Arg, n: Lenght of n-grams.
         Returns The frequencies of each of the specific n-grams given.
