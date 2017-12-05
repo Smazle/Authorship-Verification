@@ -73,7 +73,8 @@ def NGramCount(text, n, tolower):
 
     """
     words = Words(text.lower()) if tolower else Words(text)
-    grams = [words[i:i + 1][:] for i in range(len(words) - n)]
+    print words
+    grams = [tuple(words[i:i + n][:]) for i in range(len(words) - n + 1)]
     return Counter(grams)
 
 
@@ -95,7 +96,10 @@ def NGramFrequency(text, n, tolower, ngramList):
     """
 
     ngramCounts = NGramCount(text, n, tolower)
-    total = float(len(ngramCounts) - n) + 1
+    total = float(len(ngramCounts))
 
     return [ngramCounts[key] / total if key in ngramCounts
             else 0 for key in ngramList]
+
+
+print(Frequency("This is a test", ['a', 'test', "wow"]))
