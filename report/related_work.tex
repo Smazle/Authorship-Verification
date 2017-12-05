@@ -5,30 +5,25 @@ history of authorship verification and authorship attribution methods.
 
 PAN \footnote{\url{http://pan.webis.de/}} keeps a collection of shared tasks in
 digital text forensics. In 2013, 2014 and 2015 the tasks focused on authorship
-verification. In the 2015 task a dataset of authors with a set of texts were
-given. Each author had a known text and an unknown text and the task was to
-determine which of the unknown texts belonged to the same author as the known
-text.
+verification. In the 2015 task a dataset of authors were given. Each author had
+a set of known texts and an unknown text and the task was to determine which of
+the unknown texts belonged to the same author as the known texts.
 
-\cite{juanpablo2015} chose to perform their analysis on the syntactic level in
-their submission for the PAN 2015 task. This was done using syntactic n - grams,
-which was extracted used a syntactic analyser designed for the designated
-language. This syntactic served to subvert the topic of text, as the focus
-would be on the syntactic class of the n - grams extracted, rather than the word
-it self.
-After extracting the n - grams wanted, some light filtering was performed,
-removing the less frequent n - grams. At this point they chose to represent 
-their
-n - grams frequencies, as a vector in space, allowing them to use the jaccard
-distance to measure the difference between this newly introduced unknown text,
-and its' proposed authors' known texts. When the similarity fell under a
-certain threshold, the author was deemed non - valid.
-This yielded somewhat mediocre results, and they themselves noted that a new
-heuristic handling ill - constructed sentences would probably improved their
-results, as the were just discarded in their case, which caused very low
-accuracy in some cases. Additionally, more features describing other linguistic
-layers, such as lexical, and syntactic feature would probably improve results
-as well.
+\cite{juanpablo2015} chose to perform their analysis on the syntactic level.
+This was done using syntactic n-grams, which was extracted using a syntactic
+analyser designed for the designated language. This approach served to subvert
+the topic of text, as the focus would be on the syntactic class of the n-grams
+extracted, rather than the word itself. After extracting the n-grams wanted
+filtering was performed, removing the less frequent n-grams. At this point they
+chose to represent their n-grams frequencies as a vector, allowing them to use
+the jaccard distance to measure the difference between new introduced unknown
+texts, and its' proposed authors' known texts. When the similarity fell under
+a certain threshold, the author was deemed non-valid. This yielded somewhat
+mediocre results, and they themselves noted that a new heuristic handling
+ill-constructed sentences would probably improved their results, as the were
+just discarded in their case, which caused very low accuracy in some cases.
+Additionally, more features describing other linguistic layers, such as lexical,
+and syntactic feature would probably improve results as well.
 
 \cite{maitra2015} implemented a solution for the PAN 2015 task. They used a
 collection of different features extracted from the text. The features were
@@ -41,71 +36,63 @@ that deep learning might make their results better.
 \cite{pacheco2015} also proposed using a random forest for the PAN 2015 task.
 They implemented two baseline models and one real model. The baseline models
 were a simple distance metric with a trained cutoff point and a Gaussian Mixture
-Model - Universal Background Model(UBM). The second baseline model is about
-defining a general feature vector for all authors and a feature vector for
-each specific author. To determine if a text from an unknown author belongs
-to a given author you compute the distance between the texts feature set and
-the universal and author specific feature set. If the unknown text is closer
-to universal than to the author specific it is presumed to not be written by
-the author. The used features in this case were number of stop words, number
-of sentences, number of paragraphs, spacing, punctuation, word frequencies,
-character frequencies, punctuation frequencies, lexical density, word diversity,
-unique words and unique words over all authors. The main model were a random
-forest and a UBM. A feature vector representing all documents and a feature
-vector for each document were constructed. The vectors were then combined and
-the result were fed to a random forest model. Their results were promising.
+Model - \gls{UBM}. The second baseline model was about defining a general
+feature vector for all authors and a feature vector for each specific author. To
+determine if a text from an unknown author belongs to a given author you compute
+the distance between the texts feature set and the universal and author specific
+feature set. If the unknown text is closer to universal than to the author
+specific it is presumed to not be written by the author. The used features in
+this case were number of stop words, number of sentences, number of paragraphs,
+spacing, punctuation, word frequencies, character frequencies, punctuation
+frequencies, lexical density, word diversity, unique words and unique words
+over all authors. The main model were a random forest and a \gls{UBM}. A feature
+vector representing all documents and a feature vector for each document were
+constructed. The vectors were then combined and the result were fed to a random
+forest model. Their results were promising.
 
 \cite{bartoli2015b} proposed yet another random forest based approach.
 They didn't use a random forest classifier as \cite{maitra2015} and
-\cite{pacheco2015} but a random forest regressor. The used features were word n
-grams, character n grams, \gls{POS} tag n grams, word lengths, sentence lengths,
-sentence length n grams, word richness \footnote{Word richness is number of
-                                                 distinct words in a text 
-divided by the total number of words.}, punctuation
-n grams and text shape n grams. They then performed a feature selection and
-normalization. They performed the final regression with both trees, a random
-forest and an SVM. They ended up choosing the random forest as it performed the
-best. Their results were very good being the best performer on Spanish texts.
+\cite{pacheco2015} but a random forest regressor. The used features were word
+n-grams, character n-grams, \gls{POS} tag n-grams, word lengths, sentence
+lengths, sentence length n-grams, word richness \footnote{Word richness is
+number of distinct words in a text divided by the total number of words.},
+punctuation n-grams and text shape n-grams. They then performed a feature
+selection and normalization. They performed the final regression with both
+trees, a random forest and an SVM. They ended up choosing the random forest as
+it performed the best. Their results were very good having the best performance
+on Spanish texts.
 
-% August.
-% castro2015
-\cite{castro2015Paper} presents an approach that focuses more on the feature, than 
-the algorithm applied to it. Using a set of 10 features spanning across 3 
-different linguistic layer, the character layer, the lexical layer and the 
-semantic layer. For each of these 10 features a vote is cast.
-This vote is determined by, comparing the average similarity of the authors 
-texts. In the scenario where a new unknown document is introduced, and wished 
-validate the following happend.
-For each author, the similarity of their texts are computed using one of the 10 
-feature vectors as input for a chosen similarity function. The similarity for 
-each of these author are then averaged to form the \texttt{Average Group 
-Similarity}(AGS). The new document is then added to the group of documents of 
-the proposed author, and the similarity of that group of documents is computed. 
-If that similarity is above AGS, then a vote for this being the correct author 
-is thrown.
-However, before the vote for the feature is finalized, this is done with 3 
-different similarity functions, Cosine, Dice and 1 - MinMax. The majority vote 
-of those 3, determine what should be votes on that feature. This is done for 
-each of the 10 feature, where in case of a tie vote(5 against 5) no decision is 
-taken. This yielded some very good results, however some questions was raised 
-as to the accuracy of documents on other genres.
+\cite{castro2015Paper} presents an approach that focuses more on the feature
+extraction, than the algorithm applied to it. Using a set of 10 features
+spanning across 3 different linguistic layers, the character layer, the lexical
+layer and the semantic layer. For each of these 10 features a vote is cast. This
+vote is determined by comparing the average similarity of the authors texts. In
+the scenario where a new unknown document is introduced, and wished validated
+the following happened. For each author, the similarity of their texts are
+computed using one of the 10 feature vectors as input for a chosen similarity
+function. The similarity for each of these author are then averaged to form
+the \gls{AGS}. The new document is then added to the group of documents of the
+proposed author, and the similarity of that group of documents is computed.
+If that similarity is above \gls{AGS}, then a vote for this being the correct
+author is thrown. However, before the vote for the feature is finalized, this
+is done with 3 different similarity functions, Cosine, Dice and 1-MinMax. The
+majority vote of those 3, determine what should be votes on that feature. This
+is done for each of the 10 features, where in case of a tie vote(5 against 5) no
+decision is taken. This yielded some very good results, however some questions
+was raised as to the accuracy of documents on other genres.
 
-
-% August.
-% gutierrez2015
-\cite{gutierrez20150} uses a somewhat different approach by using Homotopy-based 
-Classification in their work. Their approach bases on a set of M, features. 
-Which in their case is 4. Bag of words, Bigram of words, Punctuation and 
-trigram of words. All represent frequencies. From there a set \textit{N} 
-imposters are created, using the generic imposter method. The \textit{L}-1 
-homotopy then applied to construct a feature set matching a document generated 
-using the imposters and a known other. The unknown document and the 
-reconstructed document are then compared using what is called the computed 
-residual. This residual is compared to each author in the set, and if it 
-doesn't match the proposed author,  the author isn't considered the writer of 
-the unknown text. This in a relatively good performance for all the languages 
-used in their test, besides Dutch which they explain is because of the short 
-texts provided. 
+\cite{gutierrez20150} uses a somewhat different approach by using Homotopy-based
+Classification in their work. Their approach use a set of 4 features. Bag
+of words, Bigram of words, Punctuation and trigram of words. All represent
+frequencies. From there a set of $N$ imposters are created, using the generic
+imposter method. The \textit{L}-1 homotopy then applied to construct a feature
+set matching a document generated using the imposters and a known other. The
+unknown document and the reconstructed document are then compared using what is
+called the computed residual. This residual is compared to each author in the
+set, and if it doesn't match the proposed author, the author isn't considered
+the writer of the unknown text. The method had relatively good performance
+for all the languages used in their test besides Dutch which they explain is
+because of the short texts provided.
 
 \cite{gomezadorno2015} tried to solve the PAN 2015 task by using a graph based
 approach. The graph used is a \gls{ISG} which represents the text by creating a
@@ -114,20 +101,18 @@ authors constructed such a graph for each text and used commonalities in
 shortest paths in the graph to compare the texts. The results were not very
 good.
 
-
-\cite{layton:2014} makes use of a more simple approach. It makes use of
-Local N-grams (LNG). This is used to compute a feature vector for each
-document written by a specific author. Collectively they can be combined
-to a matrix describing the writing style of that author. When a new unknown
-text is introduced, one of three comparative algorithms were used to compute
-the average similarity between each of the authors known texts (Intra-Distance. 
-The average similarity between the unkown text an the known ones by the proposed author
-is then computed as well (Inter-Distance). The author is considered correct if the
-Inter-Distance was lower then the Intra-Distance plus 2 times the
-known datasets' standard diviation. This was performed using the CNG, SCAP and RLP
-as the methods for comparing the diffrent texts. It did however not perform
-very well.
-
+\cite{layton:2014} makes use of a more simple approach. It makes use of Local
+n-grams (LNG). This is used to compute a feature vector for each document
+written by a specific author. Collectively they can be combined to a matrix
+describing the writing style of that author. When a new unknown text is
+introduced, one of three comparative algorithms were used to compute the average
+similarity between each of the authors known texts (Intra-Distance. The average
+similarity between the unknown text and the known ones by the proposed author is
+then computed as well (Inter-Distance). The author is considered correct if
+the Inter-Distance was lower than the Intra-Distance plus 2 times the known
+datasets' standard diviation. This was performed using the CNG, SCAP and RLP as
+the methods for comparing the different texts. It did however not perform very
+well.
 
 \cite{castro2015} solved the PAN 2014 task by using the average similarity of an
 unknown text to all known texts of an author. The features used were character n
@@ -137,7 +122,6 @@ and \gls{POS} tagging at the end of sentences. The authors tried several
 different similarity measures Cosine, Dice, Jaccard, Tanimoto, Euclidean and
 MinMax. They generally got the best results with Dice and Jaccard similarity.
 The results obtained were quite good.
-
 
 \cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
 attribution methods in identifying authors of texts written in Danish secondary
