@@ -2,16 +2,17 @@
 
 from collections import Counter
 import sys
+import string
 
 
-class NGramFeatureExtracter:
+class NGramFeatureExtractor:
 
     def __init__(self, n, size):
         self.n = n
         self.size = size
 
-    def fit(self, text):
-        grams = find_ngrams(text, self.n)
+    def fit(self, full_text):
+        grams = find_ngrams(full_text, self.n)
         most_common = grams.most_common(self.size)
         most_common = [key for (key, val) in most_common]
 
@@ -19,6 +20,23 @@ class NGramFeatureExtracter:
 
     def extract(self, text):
         return find_frequencies(text, self.grams, self.n)
+
+
+class SpecialCharacterNGramFeatureExtractor:
+
+    def __init__(self, n, size):
+        self.n = n
+        self.size = size
+
+    def fit(self, full_text):
+        grams = special_character_n_grams(full_text, self.n)
+        most_common = grams.most_common(self.size)
+        most_common = [key for (key, val) in most_common]
+
+        self.grams = most_common
+
+    def extract(self, text):
+        return special_character_n_gram_frequencies(text, self.grams, self.n)
 
 
 def n_gram_number(string_length, n):
@@ -73,6 +91,33 @@ def find_frequencies(f, n_grams, n):
                    (content.count(n_gram) for n_gram in n_grams)]
 
     return frequencies
+
+
+def special_character_n_grams(f, n):
+    content = None
+    try:
+        content = f.read()
+    except AttributeError:
+        content = f
+
+    # Remove all non special characters.
+    content = ''.join([c if c not in string.ascii_letters
+                      and not c.isspace() else '' for c in content])
+
+    return find_ngrams(content, n)
+
+
+def special_character_n_gram_frequencies(f, n_grams, n):
+    content = None
+    try:
+        content = f.read()
+    except AttributeError:
+        content = f
+
+    content = ''.join([c if c not in string.ascii_letters
+                      and not c.isspace() else '' for c in content])
+
+    return find_frequencies(content, n_grams, n)
 
 
 if __name__ == '__main__':

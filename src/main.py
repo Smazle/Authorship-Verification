@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from gram import NGramFeatureExtracter
+from gram import NGramFeatureExtractor, SpecialCharacterNGramFeatureExtractor
 import argparse
 import glob
 import numpy as np
@@ -31,6 +31,7 @@ FULL_TEXT_FILE = './full_text.txt'
 
 # Number of features to use for each n-gram.
 GRAM_FEATURE_NUMBER = 500
+SPECIAL_GRAM_FEATURE_NUMBER = 5
 
 # Construct text consisting of a concatenation of all texts in training data.
 files = glob.glob(DATA_FOLDER + '/*/*.txt')
@@ -43,18 +44,29 @@ with open(FULL_TEXT_FILE, 'w') as outfile:
 parser = argparse.ArgumentParser(description='Extract features.')
 parser.add_argument('--n-gram', type=int, nargs='+',
                     help='n-gram sizes to extract.')
+parser.add_argument('--special-n-gram', type=int, nargs='+',
+                    help='special n-gram sizes to extract')
 args = parser.parse_args()
 
 # Add default command line arguments.
 if args.n_gram is None:
     args.n_gram = []
+if args.special_n_gram is None:
+    args.special_n_gram = []
 
 extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
     content = f.read()
 
     for n in args.n_gram:
-        extractor = NGramFeatureExtracter(n, GRAM_FEATURE_NUMBER)
+        extractor = NGramFeatureExtractor(n, GRAM_FEATURE_NUMBER)
+        extractor.fit(content)
+
+        extractors.append(extractor)
+
+    for n in args.special_n_gram:
+        extractor = SpecialCharacterNGramFeatureExtractor(n,
+                SPECIAL_GRAM_FEATURE_NUMBER)
         extractor.fit(content)
 
         extractors.append(extractor)
