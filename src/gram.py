@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 from collections import Counter
-
 def find_ngrams(filepath, n):
     """
         Gets the character n-grams of provided texts, and
