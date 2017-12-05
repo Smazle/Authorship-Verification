@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from gram import CharacterNGramFeatureExtractor,\
+from character import CharacterNGramFeatureExtractor,\
     SpecialCharacterNGramFeatureExtractor
 import argparse
 import glob
