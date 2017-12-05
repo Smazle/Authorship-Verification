@@ -1,0 +1,8 @@
+character n-grams
+punctuation n-grams
+word frequencies
+word n-grams (toLower first)
+word length n-grams (toLower first)
+vocabulary strength (number of distinct words over total number of words)
+pos tagging n-grams
+sentence length n-grams
