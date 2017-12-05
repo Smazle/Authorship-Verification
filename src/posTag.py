@@ -47,7 +47,7 @@ def GetFrequencies(text, n, language, ngrams):
             dictionary: Of type {n-gram: frequency}
     """
 
-    total = float(len(text) - n)
+    total = float(len(text) - n) + 1
     tags = GetPosNGrams(text, n, language)
-    return {key: (value / total) for key, value
-            in tags.iteritems() if key in ngrams}
+    return [tags[key] / total if key in tags else 0
+            for key in ngrams]
