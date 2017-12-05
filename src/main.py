@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from gram import find_ngrams, find_frequencies
+import argparse
 import glob
 
 # Location of training data.
@@ -20,11 +21,15 @@ with open(FULL_TEXT_FILE, 'w') as outfile:
         with open(fname, 'r') as infile:
             outfile.write(infile.read())
 
-# Find most frequent n-grams over all texts.
-n = 3
+parser = argparse.ArgumentParser(description='Extract features.')
+parser.add_argument('--n-gram', type=int, nargs='+',
+                    help='n-gram size to extract.')
+args = parser.parse_args()
+
 with open(FULL_TEXT_FILE, 'r') as f:
     content = f.read()
-    grams = find_ngrams(content, n)
-    most_common = grams.most_common(GRAM_FEATURE_NUMBER)
-    most_common = [key for (key, val) in most_common]
-    print(find_frequencies(content, most_common, n))
+    for n in args.n_gram:
+        grams = find_ngrams(content, n)
+        most_common = grams.most_common(GRAM_FEATURE_NUMBER)
+        most_common = [key for (key, val) in most_common]
+        print(find_frequencies(content, most_common, n))
