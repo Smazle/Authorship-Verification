@@ -55,6 +55,12 @@ parser.add_argument('--special-n-gram-size', type=int, nargs='?',
                     help='Number of special n-grams to use. If n then the ' +
                     'n most frequent special n-grams are used.')
 
+# TODO: Support config of word frequencies.
+
+# TODO: Support config of word n-grams.
+
+# TODO: Support config of POS tagging n-grams.
+
 args = parser.parse_args()
 
 # Add default command line arguments.
@@ -71,18 +77,26 @@ extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
     content = f.read()
 
+    # Handle character n-grams.
     for n in args.n_gram:
         extractor = CharacterNGramFeatureExtractor(n, args.n_gram_size)
         extractor.fit(content)
 
         extractors.append(extractor)
 
+    # Handle special character n-grams.
     for n in args.special_n_gram:
         extractor = SpecialCharacterNGramFeatureExtractor(n,
                 args.special_n_gram_size)
         extractor.fit(content)
 
         extractors.append(extractor)
+
+    # TODO: Handle word frequencies.
+
+    # TODO: Handle word n-grams.
+
+    # TODO: Handle POS tagging n-grams.
 
 feature_extractor = FeatureExtractor(extractors)
 
