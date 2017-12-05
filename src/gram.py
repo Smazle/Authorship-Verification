@@ -23,7 +23,12 @@ def find_ngrams(f, n):
         Returns counting dictionary, of the n-grams contained in file.
     """
 
-    content = f.read() if type(f) is file else f
+    content = None
+    try:
+        content = f.read()
+    except AttributeError:
+        content = f
+
     n_grams = [content[i:i + n][:] for i in range(len(content) - n)]
 
     return Counter(n_grams)
@@ -39,7 +44,12 @@ def find_frequencies(f, n_grams, n):
         Returns The frequencies of each of the specific n-grams given.
     """
 
-    content = f.read() if type(f) is file else f
+    content = None
+    try:
+        content = f.read()
+    except AttributeError:
+        content = f
+
     gram_n = n_gram_number(len(content), n)
 
     frequencies = [c / float(gram_n) for c in
