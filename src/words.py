@@ -79,7 +79,7 @@ class WordFrequencyExtractor:
         return find_word_frequencies(text, self.words)
 
 
-class NGramsFeatureExtractor:
+class WordNGramsFeatureExtractor:
 
     def __init__(self, n, size):
         self.n = n

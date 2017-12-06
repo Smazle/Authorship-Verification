@@ -15,7 +15,7 @@ class FeatureExtractor:
 
     def extract(self, f):
         features = []
-        with open(fname) as f:
+        with open(f) as f:
             content = f.read()
 
             for extractor in self.extractors:
@@ -110,16 +110,19 @@ feature_extractor = FeatureExtractor(extractors)
 
 # Generate features for each author.
 authors = []
-for a in range(1, 101):
-    fname = DATA_FOLDER + '/EN%03d/known01.txt' % a
+with open(DATA_FOLDER + '/truth.txt') as truth_f:
+    for a in range(1, 101):
+        truth = truth_f.readline().endswith('Y\n')
 
-    features = feature_extractor.extract(fname)
+        known_file = DATA_FOLDER + '/EN%03d/known01.txt' % a
+        unknown_file = DATA_FOLDER + '/EN%03d/unknown.txt' % a
 
-    # Add author class to feature vector.
-    features.append(a)
-    authors.append(features)
+        known_features = feature_extractor.extract(known_file)
+        unknown_features = feature_extractor.extract(unknown_file)
+
+        features = known_features + unknown_features + [truth]
+
+        # Add author class to feature vector.
+        authors.append(features)
 
 np.savetxt('outfile.txt', np.array(authors))
-
-# TODO: Use same extractors to extract features from unknown text and use
-# ground truth get author of the unknowns.
