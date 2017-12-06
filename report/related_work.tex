@@ -19,31 +19,35 @@ where $n$ is the number of problems, $n_c$ is the number of correct answers and
 $n_u$ is the number of unanswered problems. In the case where $n_u$ is 0 c@1
 is equivalent to a simple accuracy. The final rating of the solutions is the
 product of the two measures. In this section when we speak about performance we
-mean the product of the two measures for a specific method.
+mean the product of the two measures for a specific method. Since we only use
+the English texts in the PAN 2015 dataset we will also only report the
+performance on English texts.
 
 \cite{juanpablo2015} chose to perform their analysis on the syntactic level.
 This was done using syntactic n-grams, which was extracted using a syntactic
 analyser designed for the designated language. This approach served to subvert
 the topic of text, as the focus would be on the syntactic class of the n-grams
 extracted, rather than the word itself. After extracting the n-grams wanted
-filtering was performed, removing the less frequent n-grams. At this point they
-chose to represent their n-grams frequencies as a vector, allowing them to use
-the jaccard distance to measure the difference between new introduced unknown
-texts, and its' proposed authors' known texts. When the similarity fell under
-a certain threshold, the author was deemed non-valid. This yielded somewhat
-mediocre results, and they themselves noted that a new heuristic handling
-ill-constructed sentences would probably improved their results, as the were
-just discarded in their case, which caused very low accuracy in some cases.
-Additionally, more features describing other linguistic layers, such as lexical,
-and syntactic feature would probably improve results as well.
+filtering was performed, removing the less frequent n-grams. At this point
+they chose to represent their n-grams frequencies as a vector, allowing them
+to use the jaccard distance to measure the difference between new introduced
+unknown texts, and its' proposed authors' known texts. When the similarity fell
+under a certain threshold, the author was deemed non-valid. This yielded a
+somewhat mediocre performance of 0.39999, and the authors themselves noted that
+a new heuristic handling ill-constructed sentences would probably have improved
+their results, as they were just discarded in their case, which caused very low
+accuracy in some cases. Additionally, more features describing other linguistic
+layers, such as lexical, and syntactic feature would probably improve results as
+well.
 
 \cite{maitra2015} implemented a solution for the PAN 2015 task. They used a
 collection of different features extracted from the text. The features were
 based on punctuation, sentence length, vocabulary, character n grams and
 \gls{POS} tagging. They trained a random forest classifier on the features
 extracted and used that to determine whether or not the unknown texts were
-written by the author. Their results were not overwhelming and they commented
-that deep learning might make their results better.
+written by the author. The performance of the method were 0.34749 which is not
+overwhelming and they commented that deep learning might make their results
+better.
 
 \cite{pacheco2015} also proposed using a random forest for the PAN 2015 task.
 They implemented two baseline models and one real model. The baseline models
@@ -60,7 +64,7 @@ frequencies, lexical density, word diversity, unique words and unique words
 over all authors. The main model were a random forest and a \gls{UBM}. A feature
 vector representing all documents and a feature vector for each document were
 constructed. The vectors were then combined and the result were fed to a random
-forest model. Their results were promising.
+forest model. Their performance were 0.43811.
 
 \cite{bartoli2015b} proposed yet another random forest based approach.
 They didn't use a random forest classifier as \cite{maitra2015} and
@@ -72,7 +76,7 @@ punctuation n-grams and text shape n-grams. They then performed a feature
 selection and normalization. They performed the final regression with both
 trees, a random forest and an SVM. They ended up choosing the random forest as
 it performed the best. Their results were very good having the best performance
-on Spanish texts.
+on Spanish texts. However their English performance were only 0.323.
 
 \cite{castro2015Paper} presents an approach that focuses more on the feature
 extraction, than the algorithm applied to it. Using a set of 10 features
@@ -91,7 +95,8 @@ is done with 3 different similarity functions, Cosine, Dice and 1-MinMax. The
 majority vote of those 3, determine what should be votes on that feature. This
 is done for each of the 10 features, where in case of a tie vote(5 against 5) no
 decision is taken. This yielded some very good results, however some questions
-was raised as to the accuracy of documents on other genres.
+was raised as to the accuracy of documents on other genres. The performance of
+the method were 0.52041 which is the second best for the English language.
 
 \cite{gutierrez2015} uses a somewhat different approach by using Homotopy-based
 Classification in their work. Their approach use a set of 4 features. Bag
@@ -104,14 +109,14 @@ called the computed residual. This residual is compared to each author in the
 set, and if it doesn't match the proposed author, the author isn't considered
 the writer of the unknown text. The method had relatively good performance
 for all the languages used in their test besides Dutch which they explain is
-because of the short texts provided.
+because of the short texts provided. The performance were 0.51.
 
 \cite{gomezadorno2015} tried to solve the PAN 2015 task by using a graph based
 approach. The graph used is a \gls{ISG} which represents the text by creating a
 graph for each sentence and combining those graphs into one large graph. The
 authors constructed such a graph for each text and used commonalities in
 shortest paths in the graph to compare the texts. The results were not very
-good.
+good with a performance of 0.2809.
 
 \cite{layton:2014} makes use of a more simple approach. It makes use of Local
 n-grams (LNG). This is used to compute a feature vector for each document
