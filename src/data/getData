@@ -11,5 +11,4 @@ mv * ../../
 
 cd ../../
 
-rm -rf *-training-dataset-* *.txt *.zip
-
+rm -rf *-training-dataset-* *.zip
