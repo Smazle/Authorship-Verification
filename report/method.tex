@@ -1,6 +1,107 @@
 \section{Method}
 
 \subsection{Feature Extraction}
+% FROM maitra2015
+%
+%for example-
+%Letter frequencies, N-gram frequencies, Function word usage, Vocabulary richness,
+%Lexical richness, Distribution of syllables per word, Word frequencies, Hapax
+%legomena, Hapax dislegomena, Word length distribution, Word collocations, Sentence
+%length, Preferred word positions, Prepositional phrase structure, Distribution
+%parts of speech, Phrasal composition grammar etc. [1][2][3][4][8][9]. The fact is that
+%there is no such consensus on which stylometric features are applied to achieve the
+%best results for authorship identification.
+%
+% Total Punctuation Count: This feature counts the number of total punctuation
+%symbols used in a text, normalized by the word count in that text.
+%
+% Specific Punctuation Ratio: This is the ratio of the total number of specific
+%punctuation symbols like comma (,), semicolon (;), question-mark (?), exclamation-mark
+%(!), stop (.), slash (/), dash (-), colon (:) etc. to the total punctuation
+%count.
+%
+% Long-sentence/ Short-sentence Ratio: Ratio of the long (length>12) or
+%short (length<6) sentences to the total number of sentences is represented by
+%this feature.
+%
+% Vocabulary Strength: We tried to capture the vocabulary strength of an author
+%by calculating the ratio of the unique words used to the total number of
+%words used in a text snippet.
+%
+% xPOS Frequency: In this feature, we try to capture the tendency of an author
+%to use one or two particular types of POS that appear more frequently than
+%the others, if there is any. So, we calculate the frequencies of each POS tag
+%from texts and compare the known and unknown texts based on that.
+%
+% Starting POS Frequency: We try to list the POS tags that the author uses in
+%the beginning of sentences according to their frequency and then compare
+%them among the known and unknown documents to find a lexical pattern.
+%For example, a particular author might have the tendency to start sentences
+%with auxiliary verbs (example) or prepositions (in, for) unknowingly for a
+%considerable number of sentences in the corpus. The feature also indicates
+%the writing style of the author.
+%In the above example, both known
+%
+
+% FROM pacheco2015
+%
+% Number of sentences: minimum, average and maximum number of sentences per
+%paragraph and document
+%
+%Spacing: minimum, average and maximum number of consecutive spaces, number
+% of consecutive spaces in the beginning/end of the line and number of empty lines
+%
+% Punctuation: minimum, average and maximum number of punctuation characters
+%(.,;?¿!¡"’) per document, paragraph and sentence.
+%
+%  Lexical density: measure of how “dense” is the content, i.e, the ratio between each
+%lexical category (nouns, adjectives, verbs and adverbs) divided by the total number
+%of words
+%
+% Hapax: number of words that appear only one time and are only used by the current
+%author.
+
+
+
+
+% From Castro:2015
+%1. Character
+%(a) Tri-grams of characters (F1)
+%(b) Quad-grams of characters (F2)
+%(c) Word prefixes of size 2 (F3)
+%(d) Word suffixes of size 2 (F4)
+%2. Words
+%(a) Uni-grams of words (F5)
+%(b) Tri-grams of words (F6)
+%3. Lemma and Part of Speech
+%(a) Uni-grams of lemmas (F7)
+%(b) Uni-grams of Part of Speech (F8)
+%(c) Tri-grams of lemmas (F9)
+%(d) Tri-grams of Part of Speech (F10)
+
+
+% FROM bartoli2015b
+% Sentence lengths (SL) We transform the document to a sequence of tokens, a token
+%being a sequence of characters separated by one or more blank spaces. Next, we
+%transform the sequence of tokens to a sequence of sentences, a sentence being a
+%sequence of tokens separated by any of the following characters: .,;,:,!,?. We
+%count the number of sentences whose length in tokens is n, with n ∈ {1, . . . , 40}:
+%we obtain a feature for each value of n.)
+%
+% Sentence length ngrams (SG) We transform each document to a sequence of labels,
+%where each label represents a full sentence and is chosen based on the sentence
+%length (as described in the following). Next, we compute the ngram)
+%
+%Word richness (WR) We transform the document to a sequence of words as for the
+%WG features group. Then we compute the ratio between the number of distinct
+%words and the number of total w)
+%
+%Text shape ngrams (TG) We transform the document as follows: sequences of digits
+%are replaced by the single character n; sequences of alphabetic characters are replaced
+%by a single character: l if all the characters in the sequence are lowercase,
+%u if only the first character is uppercase, w if at least two characters are uppercase;
+%sequences of blank spaces are replaced by a single blank space; other characters are
+%left unchanged.)
 
 \subsection{Learning}
 
