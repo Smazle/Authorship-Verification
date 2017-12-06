@@ -7,9 +7,19 @@ the text and then some form of machine learning or statistical method to analyse
 the data \cite{stamatos2009}. A lot of different text features has been proposed
 as describing an authors writing style. That includes but is not limited to
 character frequencies, word frequencies, vocabulary size, sentence length,
-punctuation usage, character n grams, word n grams and \gls{POS} tagging n grams
+punctuation usage, character n-grams, word n-grams and \gls{POS} tagging n-grams
 \cite{stamatos2009}.
 
 Authorship verification has been used for plagiarism control in danish secondary
 schools \cite{hansen2014} and also has uses in civil law, criminal law and
 computer forensics \cite{stamatos2009}.
+
+In this article we explore state of the art methods for authorship verification.
+We extract several different types of features including word frequencies, word
+n-grams and pos-tagging n-grams. We implement several different algorithms to
+work on the features. We start by implementing a baseline method which is a K-NN
+with one nearest neighbour where an unknown text is considered to be written
+by the closest author. We then use the baseline method to compare to our other
+results. We mainly use data from \cite{pan:2015} which is a yearly competition
+in digital text forensics. Since we use PAN data we also compare our results to
+the results obtained by others in the competition.
