@@ -1,5 +1,6 @@
 from collections import Counter
 import string
+import nltk
 
 
 class CountFeatureExtractor:
@@ -30,13 +31,13 @@ class NGramsFeatureExtractor:
         most_common = [key for (key, value) in most_common]
 
         self.grams = most_common
-        print most_common
+        print(most_common)
 
     def extract(self, text):
         return NGramFrequency(text, self.n, self.grams)
 
 
-def Words(text):
+def find_words(text):
     """
         Cleans up the text, removing characters not
         in string.ascii_letters, and get all the words
@@ -49,15 +50,12 @@ def Words(text):
             list[string]: A list of all
                 the words contained in the supplied text
     """
-    text = ''.join([char if char in string.ascii_letters or
-                    char == ' ' else '' for char in text])
-
-    return text.split(' ')
+    return nltk.word_tokenize(text)
 
 
 def Count(text):
     """
-        Makes use of the Words function to get the list of
+        Makes use of the find_words function to get the list of
         words contained within the text, and then returns the
         total count.
 
@@ -67,7 +65,7 @@ def Count(text):
         Returns:
             dictionary: A counting dicionary of type {word:count}
     """
-    return Counter(Words(text))
+    return Counter(find_words(text))
 
 
 def Frequency(text, wordsList):
@@ -103,7 +101,7 @@ def NGramCount(text, n):
             dictionary: A counting dictionary of type {n-gram: count}
 
     """
-    words = Words(text.lower())
+    words = find_words(text.lower())
     grams = [tuple(words[i:i + n][:]) for i in range(len(words) - n + 1)]
     return Counter(grams)
 
