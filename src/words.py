@@ -4,11 +4,47 @@ import nltk
 
 
 class WordFrequencyExtractor:
+    """
+    Extract word frequencies from a text.
+
+    The class is initialized with number of most frequent words to use. After
+    the feature extractor has been created it has to be fitted. To fit it give
+    the text to fit to. The fitting text is used to identify the most common
+    words. When features are then extracted from another text the most common
+    words from the fitting process is the ones frequencies are computed for.
+
+    Both the fitting text and the extraction text is preprocessed by removing
+    all special characters from them before the words are found.
+
+    Attributes:
+        size (int): Number of most frequent words to compute frequencies for.
+        words (list): List of most common words in the fitting text.
+    """
 
     def __init__(self, size):
+        """
+        Create new feature extractor.
+
+        Args:
+            size (int): Number of most frequent words to compute frequencies
+                for.
+        """
+
         self.size = size
 
     def fit(self, text):
+        """
+        Fit a feature extractor to a text corpus. The `size` most common words
+        are identified in the `corpus` text. These most common words can then
+        later be extracted by using the extract method.
+
+        Special character are removed from the text before the words are
+        extracted.
+
+        Args:
+            corpus (str): Text corpus to find most common words in.
+        """
+
         text = ''.join(
             [c if c in string.ascii_letters
                 or c.isspace()
@@ -21,6 +57,20 @@ class WordFrequencyExtractor:
         self.words = most_common
 
     def extract(self, text):
+        """
+        Extract `size` most common features as identified in `fit` from the
+        `text`. Frequencies are computed by computing the total number of words
+        and the count of the most common and dividing the count with the total.
+
+        Special character are removed before the frequencies are computed.
+
+        Args:
+            text (str): Text to extract features for.
+
+        Returns:
+            list: List of frequencies in the order they appear in `self.words`.
+        """
+
         text = ''.join(
             [c if c in string.ascii_letters
                 or c.isspace()
