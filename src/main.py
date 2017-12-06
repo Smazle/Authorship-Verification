@@ -2,6 +2,7 @@
 
 from character import CharacterNGramFeatureExtractor,\
     SpecialCharacterNGramFeatureExtractor
+from words import WordFrequencyExtractor
 import argparse
 import glob
 import numpy as np
@@ -55,7 +56,8 @@ parser.add_argument('--special-n-gram-size', type=int, nargs='?',
                     help='Number of special n-grams to use. If n then the ' +
                     'n most frequent special n-grams are used.')
 
-# TODO: Support config of word frequencies.
+parser.add_argument('--word-frequencies', type=int, nargs='?',
+                    help='Number of most frequent words to count.')
 
 # TODO: Support config of word n-grams.
 
@@ -72,6 +74,8 @@ if args.n_gram_size is None:
     args.n_gram_size = 500
 if args.special_n_gram_size is None:
     args.special_n_gram_size = 5
+if args.word_frequencies is None:
+    args.word_frequencies = 0
 
 extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
@@ -92,7 +96,11 @@ with open(FULL_TEXT_FILE, 'r') as f:
 
         extractors.append(extractor)
 
-    # TODO: Handle word frequencies.
+    if args.word_frequencies != 0:
+        extractor = WordFrequencyExtractor(args.word_frequencies)
+        extractor.fit(content)
+
+        extractors.append(extractor)
 
     # TODO: Handle word n-grams.
 

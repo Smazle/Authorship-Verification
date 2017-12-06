@@ -3,12 +3,17 @@ import string
 import nltk
 
 
-class CountFeatureExtractor:
+class WordFrequencyExtractor:
 
     def __init__(self, size):
         self.size = size
 
     def fit(self, text):
+        text = ''.join(
+            [c if c in string.ascii_letters
+                or c.isspace()
+                or c in string.digits else '' for c in text])
+
         words = find_word_count(text)
         most_common = words.most_common(self.size)
         most_common = [key for (key, value) in most_common]
@@ -16,6 +21,11 @@ class CountFeatureExtractor:
         self.words = most_common
 
     def extract(self, text):
+        text = ''.join(
+            [c if c in string.ascii_letters
+                or c.isspace()
+                or c in string.digits else '' for c in text])
+
         return find_word_frequencies(text, self.words)
 
 
@@ -67,25 +77,27 @@ def find_word_count(text):
     return Counter(find_words(text))
 
 
-def find_word_frequencies(text, wordsList):
+def find_word_frequencies(text, words):
     """
         Computes the frequencies of words present
         in a supplied text.
 
         Args:
             text (string): Text to be analysed for word frequencies
-            wordsList (list): List containing the words one wants the
+            words (list): List containing the words one wants the
                 frequencies of, in the form of strings
 
         Returns:
             list (int): A list containing the frequencies of the words
-                in wordsList, in the same order as wordsList
+                in words, in the same order as words
 
     """
-    wordCounts = find_word_count(text)
-    total = float(len(wordCounts))
-    return [wordCounts[key] / total if key in wordCounts else 0
-            for key in wordsList]
+
+    total = float(len(find_words(text)))
+    word_counts = find_word_count(text)
+
+    return [word_counts[key] / total if key in word_counts else 0.0
+            for key in words]
 
 
 def find_word_n_grams(text, n):
