@@ -2,24 +2,29 @@ from collections import Counter
 from polyglot.text import Text
 
 
-class NGramsExtractor:
+class PosTagNGramsExtractor:
+    """
+        Extracts the frequency of Part-Of-Speech n-grams
+        from a text.
+    """
+        
 
     def __init__(self, n, size):
         self.size = size
         self.n = n
 
     def fit(self, text):
-        grams = NGramCount(text, self.n)
+        grams = nGramCount(text, self.n)
         most_common = grams.most_common(self.size)
         most_common = [key for (key, value) in most_common]
 
         self.grams = most_common
 
     def extract(self, text):
-        return Frequency(text, self.n, self.grams)
+        return frequency(text, self.n, self.grams)
 
 
-def NGramCount(text, n):
+def nGramCount(text, n):
     """
         Computes the count of the pos tag n-grams of the
         text supplied.
@@ -43,7 +48,7 @@ def NGramCount(text, n):
     return Counter(posTagging)
 
 
-def Frequency(text, n, ngrams):
+def frequency(text, n, ngrams):
     """
         Computes the frequencies of a list if supplied n-grams in
         a text provided, by dividing the number of n-gram occourence
@@ -60,10 +65,10 @@ def Frequency(text, n, ngrams):
                 of type tuple(string, ..)
 
         Returns:
-            dictionary: Of type {n-gram: frequency}
+            list: Of type [int], containing the frequencies
     """
 
-    tags = NGramCount(text, n)
+    tags = nGramCount(text, n)
     total = float(len(tags))
     return [tags[key] / total if key in tags else 0
             for key in ngrams]

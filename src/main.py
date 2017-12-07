@@ -3,9 +3,12 @@
 from character import CharacterNGramFeatureExtractor,\
     SpecialCharacterNGramFeatureExtractor
 from words import WordFrequencyExtractor
+from posTag import PosTagNGramsExtractor
 import argparse
 import glob
 import numpy as np
+import nltk
+nltk.download("punkt")
 
 
 class FeatureExtractor:
@@ -40,10 +43,10 @@ with open(FULL_TEXT_FILE, 'w') as outfile:
 
 # Parse command line arguments.
 parser = argparse.ArgumentParser(description='Extract features.')
-parser.add_argument('--n-gram', type=int, nargs='+',
+parser.add_argument('--char-n-gram', type=int, nargs='+',
                     help='n-gram sizes to extract.')
 
-parser.add_argument('--n-gram-size', type=int, nargs='?',
+parser.add_argument('--char-n-gram-size', type=int, nargs='?',
                     help='Number of character n-grams to use. If n then the ' +
                     'n most frequent n-grams are used. If multiple values ' +
                     'are specified on --n-gram then n features are ' +
@@ -59,31 +62,39 @@ parser.add_argument('--special-n-gram-size', type=int, nargs='?',
 parser.add_argument('--word-frequencies', type=int, nargs='?',
                     help='Number of most frequent words to count.')
 
-# TODO: Support config of word n-grams.
+parser.add_argument('--postag-n-gram', type=int, nargs='+',
+                    help='What grams should be used when extracting pos tags')
 
-# TODO: Support config of POS tagging n-grams.
+parser.add_argument('--postag-n-gram-size', type=int, nargs='?',
+                    help='The number of most common n-grams')
+
+# TODO: Support config of word n-grams.
 
 args = parser.parse_args()
 
 # Add default command line arguments.
-if args.n_gram is None:
-    args.n_gram = []
+if args.char_n_gram is None:
+    args.char_n_gram = []
 if args.special_n_gram is None:
     args.special_n_gram = []
-if args.n_gram_size is None:
-    args.n_gram_size = 500
+if args.char_n_gram_size is None:
+    args.char_n_gram_size = 500
 if args.special_n_gram_size is None:
     args.special_n_gram_size = 5
 if args.word_frequencies is None:
     args.word_frequencies = 0
+if args.postag_n_gram is None:
+    args.postag_n_gram = []
+if args.postag_n_gram_size is None:
+   args.postag_n_gram_size = 100 
 
 extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
     content = f.read()
 
     # Handle character n-grams.
-    for n in args.n_gram:
-        extractor = CharacterNGramFeatureExtractor(n, args.n_gram_size)
+    for n in args.char_n_gram:
+        extractor = CharacterNGramFeatureExtractor(n, args.char_n_gram_size)
         extractor.fit(content)
 
         extractors.append(extractor)
@@ -101,6 +112,13 @@ with open(FULL_TEXT_FILE, 'r') as f:
         extractor.fit(content)
 
         extractors.append(extractor)
+
+    for n in args.postag_n_gram:
+        extractor = PosTagNGramsExtractor(n, args.postag_n_gram_size)
+        extractor.fit(content)
+
+        extractors.append(extractor)
+    
 
     # TODO: Handle word n-grams.
 
