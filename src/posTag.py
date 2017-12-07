@@ -4,16 +4,42 @@ from polyglot.text import Text
 
 class PosTagNGramsExtractor:
     """
-        Extracts the frequency of Part-Of-Speech n-grams
+        Extracts the frequency of Part-Of-Speech(tag) n-grams
         from a text.
+
+        The class is initialized with an interger denoting the number
+         of most common postag n-grams to use from initialization and onwards.
+         When fit against a text, the most common n-grams are extacted,
+         which allowed for comparrison against a newly introduced text
+         resulting in a list of pos-tag frequencies, matching the
+         extracted most common n-grams.
+
+         Attributes:
+            size (int): Number of most frequent pos tag n-gram in text
+            n (int): What number of gram should be extracted
+            grams (list): A list of most frequent n-grams
     """
         
 
     def __init__(self, n, size):
+        """
+            Create a new instance the class, with the set size
+
+            Args:
+                size (int): The number of most common grams to extract
+        """
+
         self.size = size
         self.n = n
 
     def fit(self, text):
+        """
+            Fit the extractor to a text, thus computing the set of 
+            grams used for frequency computation on newly introduced texts
+
+            Args:
+                text (str): Text to generate out n-grams from
+        """
         grams = nGramCount(text, self.n)
         most_common = grams.most_common(self.size)
         most_common = [key for (key, value) in most_common]
@@ -21,6 +47,16 @@ class PosTagNGramsExtractor:
         self.grams = most_common
 
     def extract(self, text):
+        """
+            Gets the frequency of self.grams in the text provided
+
+            Args:
+                text (string): Text to get gram frequencies from
+
+            Returns:
+                list: Of type [int], containing the frequencies
+        """
+
         return frequency(text, self.n, self.grams)
 
 
