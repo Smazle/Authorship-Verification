@@ -2,12 +2,8 @@
 
 from character import CharacterNGramFeatureExtractor,\
     SpecialCharacterNGramFeatureExtractor
-<<<<<<< HEAD
-from words import WordFrequencyExtractor
 from posTag import PosTagNGramsExtractor
-=======
 from words import WordFrequencyExtractor, WordNGramsFeatureExtractor
->>>>>>> 32ab3a1c452df3c160c259030f878b9c50dae0e7
 import argparse
 import glob
 import numpy as np
