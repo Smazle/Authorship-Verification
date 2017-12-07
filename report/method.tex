@@ -35,12 +35,6 @@ features.
 
 \end{description}
 
-% TODO: Write about character features we use.
-
-% TODO: Write about word features we use.
-
-% TODO: Write about POS tagging features we use.
-
 % FROM maitra2015
 %
 %for example-
@@ -143,8 +137,21 @@ features.
 %sequences of blank spaces are replaced by a single blank space; other characters are
 %left unchanged.)
 
-\subsection{Learning}
-% TODO: Describe baseline approach.
+\subsection{Delta Method}
+We have chosen to use the Delta method as a baseline method for our other
+implementations. The Delta method is described by \cite{evert2015towards} and
+consist of extracting word frequencies, applying a linear transformation to
+those frequencies and using KNN with different distance metrics. There are a
+number of parameters to choose. First of all the number of different words
+to find frequencies for has to be chosen (it was originally chosen at 150
+words \cite{evert2015towards}). Then the linear transformation can be chosen,
+the usual transformation is a normalization to zero mean unit variance. And
+finally the distance metric can be chosen. In our implementation we work with
+n(TODO: specify) different word frequencies, the linear transformation is
+a normalization of the data and the used distance metric is the Manhatten
+distance.
+
+TODO: Write result of our test.
 
 % TODO: Describe other approaches we implement.
 
