@@ -15,8 +15,23 @@ features.
     most frequent n-grams. The most frequent n-grams are found by concatenating
     all training text and computing frequencies in that.
 
-    \item[Special character n-grams:] We extract special character n-grams of size
-    (TODO: specify)
+    \item[Special character n-grams:] We extract special character n-grams of
+    size (TODO: specify) by filtering all alphanumeric and space characters out
+    of a string. We are then left with only special characters and we extract
+    n-grams as described above from that string.
+
+    \item[Word frequencies:] We extract the frequencies of the n(TODO: specify)
+    most common words. We find the most common words from a concatenation of all
+    the training data files and extract the frequencies of those words from the
+    files one by one.
+
+    \item[Word n-grams:] We extract word n-grams of size (TODO: specify). The
+    n-grams are extracted by converting the text to a list of words. To split
+    the text we use the \textit{nltk} python module.
+
+    \item[POS tagging n-grams:] We use POS tag n-grams of size (TODO:specify).
+    The POS tags are generated using Polyglot (TODO: citation) POS tagging
+    engine. We then extract n-grams as described above.
 
 \end{description}
 
