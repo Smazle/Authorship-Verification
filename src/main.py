@@ -122,7 +122,6 @@ with open(DATA_FOLDER + '/truth.txt') as truth_f:
 
         features = known_features + unknown_features + [truth]
 
-        # Add author class to feature vector.
         authors.append(features)
 
 np.savetxt('outfile.txt', np.array(authors))
