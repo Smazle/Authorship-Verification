@@ -2,7 +2,7 @@
 
 from character import CharacterNGramFeatureExtractor,\
     SpecialCharacterNGramFeatureExtractor
-from words import WordFrequencyExtractor
+from words import WordFrequencyExtractor, WordNGramsFeatureExtractor
 import argparse
 import glob
 import numpy as np
@@ -59,7 +59,11 @@ parser.add_argument('--special-n-gram-size', type=int, nargs='?',
 parser.add_argument('--word-frequencies', type=int, nargs='?',
                     help='Number of most frequent words to count.')
 
-# TODO: Support config of word n-grams.
+parser.add_argument('--word-n-gram', type=int, nargs='+',
+                    help='Sizes of word n-grams to use.')
+
+parser.add_argument('--word-n-gram-size', type=int, nargs='?',
+                    help='Number of most frequent word n-grams to use.')
 
 # TODO: Support config of POS tagging n-grams.
 
@@ -76,6 +80,10 @@ if args.special_n_gram_size is None:
     args.special_n_gram_size = 5
 if args.word_frequencies is None:
     args.word_frequencies = 0
+if args.word_n_gram is None:
+    args.word_n_gram = []
+if args.word_n_gram_size is None:
+    args.word_n_gram_size = 500
 
 extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
@@ -102,7 +110,11 @@ with open(FULL_TEXT_FILE, 'r') as f:
 
         extractors.append(extractor)
 
-    # TODO: Handle word n-grams.
+    for n in args.word_n_gram:
+        extractor = WordNGramsFeatureExtractor(n, args.word_n_gram_size)
+        extractor.fit(content)
+
+        extractors.append(extractor)
 
     # TODO: Handle POS tagging n-grams.
 
