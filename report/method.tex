@@ -1,7 +1,24 @@
 \section{Method}
 
 \subsection{Feature Extraction}
-% TODO: Write about feature extraction in general.
+Feature extraction from a text is the process of finding a vector that
+represents the text. There are a lot of different features that can be
+extracted and we use several of them. Specifically we use some character
+level features, some word level features and som \gls{POS} tagging
+features.
+
+\begin{description}
+
+    \item[Character n-grams:] We extract character n-grams (TODO: Fill in sizes)
+    by extracting all substrings of length n from a text and computing the
+    frequencies of the different substrings. We only use the K(TODO: specify)
+    most frequent n-grams. The most frequent n-grams are found by concatenating
+    all training text and computing frequencies in that.
+
+    \item[Special character n-grams:] We extract special character n-grams of size
+    (TODO: specify)
+
+\end{description}
 
 % TODO: Write about character features we use.
 
