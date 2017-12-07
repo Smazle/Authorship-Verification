@@ -86,6 +86,11 @@ class WordNGramsFeatureExtractor:
         self.size = size
 
     def fit(self, text):
+        text = ''.join(
+            [c if c in string.ascii_letters
+                or c.isspace()
+                or c in string.digits else '' for c in text])
+
         grams = find_word_n_grams(text, self.n)
         most_common = grams.most_common(self.size)
         most_common = [key for (key, value) in most_common]
@@ -93,6 +98,11 @@ class WordNGramsFeatureExtractor:
         self.grams = most_common
 
     def extract(self, text):
+        text = ''.join(
+            [c if c in string.ascii_letters
+                or c.isspace()
+                or c in string.digits else '' for c in text])
+
         return find_word_n_gram_frequencies(text, self.n, self.grams)
 
 

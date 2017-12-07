@@ -2,8 +2,12 @@
 
 from character import CharacterNGramFeatureExtractor,\
     SpecialCharacterNGramFeatureExtractor
+<<<<<<< HEAD
 from words import WordFrequencyExtractor
 from posTag import PosTagNGramsExtractor
+=======
+from words import WordFrequencyExtractor, WordNGramsFeatureExtractor
+>>>>>>> 32ab3a1c452df3c160c259030f878b9c50dae0e7
 import argparse
 import glob
 import numpy as np
@@ -68,6 +72,12 @@ parser.add_argument('--postag-n-gram', type=int, nargs='+',
 parser.add_argument('--postag-n-gram-size', type=int, nargs='?',
                     help='The number of most common n-grams')
 
+parser.add_argument('--word-n-gram', type=int, nargs='+',
+                    help='Sizes of word n-grams to use.')
+
+parser.add_argument('--word-n-gram-size', type=int, nargs='?',
+                    help='Number of most frequent word n-grams to use.')
+
 # TODO: Support config of word n-grams.
 
 args = parser.parse_args()
@@ -87,6 +97,10 @@ if args.postag_n_gram is None:
     args.postag_n_gram = []
 if args.postag_n_gram_size is None:
    args.postag_n_gram_size = 100 
+if args.word_n_gram is None:
+    args.word_n_gram = []
+if args.word_n_gram_size is None:
+    args.word_n_gram_size = 500
 
 extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
@@ -113,16 +127,20 @@ with open(FULL_TEXT_FILE, 'r') as f:
 
         extractors.append(extractor)
 
+    # TODO: Handle POS tagging n-grams.
     for n in args.postag_n_gram:
         extractor = PosTagNGramsExtractor(n, args.postag_n_gram_size)
         extractor.fit(content)
 
         extractors.append(extractor)
-    
 
     # TODO: Handle word n-grams.
+    for n in args.word_n_gram:
+        extractor = WordNGramsFeatureExtractor(n, args.word_n_gram_size)
+        extractor.fit(content)
 
-    # TODO: Handle POS tagging n-grams.
+        extractors.append(extractor)
+
 
 feature_extractor = FeatureExtractor(extractors)
 
