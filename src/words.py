@@ -42,7 +42,7 @@ class WordFrequencyExtractor:
         extracted.
 
         Args:
-            corpus (str): Text corpus to find most common words in.
+            text (str): Text corpus to find most common words in.
         """
 
         text = ''.join(
@@ -80,12 +80,50 @@ class WordFrequencyExtractor:
 
 
 class WordNGramsFeatureExtractor:
+    """
+    Extract word n-gram frequencies from a text.
+
+    The class is initialized with number of most frequent words to use. After
+    the feature extractor has been created it has to be fitted. To fit it give
+    the text to fit to. The fitting text is used to identify the most common
+    words n-grams. When features are then extracted from another text the most
+    common word n-grams from the fitting process is the ones frequencies are 
+    computed for.
+
+    Both the fitting text and the extraction text is preprocessed by removing
+    all special characters from them before the words are found.
+
+    Attributes:
+        size (int): Number of most frequent word n-grams to compute 
+            frequencies for.
+        n (int): The type of gram which should be extracted.
+        grams (list): List of most common word n-grams in the fitting text.
+    """
 
     def __init__(self, n, size):
+        """
+        Create new feature extractor.
+
+        Args:
+            size (int): Number of most frequent words to compute frequencies
+                for.
+            n (int): The number used for the grams
+        """
         self.n = n
         self.size = size
 
     def fit(self, text):
+        """
+        Fit a feature extractor to a text corpus. The `size` most common words
+        are identified in the `corpus` text. These most common word n-grams 
+        can then later be extracted by using the extract method.
+
+        Special character are removed from the text before the words are
+        extracted.
+
+        Args:
+            text (str): Text corpus to find most common word n-grams in.
+        """
         text = ''.join(
             [c if c in string.ascii_letters
                 or c.isspace()
@@ -98,6 +136,20 @@ class WordNGramsFeatureExtractor:
         self.grams = most_common
 
     def extract(self, text):
+        """
+        Extract `size` most common features as identified in `fit` from the
+        `text`. Frequencies are computed by computing the total number 
+        of words n-grams and the count of the most common and 
+        dividing the count with the total.
+
+        Special character are removed before the frequencies are computed.
+
+        Args:
+            text (str): Text to extract features for.
+
+        Returns:
+            list: List of frequencies in the order they appear in `self.grams`.
+        """
         text = ''.join(
             [c if c in string.ascii_letters
                 or c.isspace()
