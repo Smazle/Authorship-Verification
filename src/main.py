@@ -117,20 +117,21 @@ with open(FULL_TEXT_FILE, 'r') as f:
 
         extractors.append(extractor)
 
+    # Handle word frequencies.
     if args.word_frequencies != 0:
         extractor = WordFrequencyExtractor(args.word_frequencies)
         extractor.fit(content)
 
         extractors.append(extractor)
 
-    # TODO: Handle POS tagging n-grams.
+    # Handle POS tagging n-grams.
     for n in args.postag_n_gram:
         extractor = PosTagNGramsExtractor(n, args.postag_n_gram_size)
         extractor.fit(content)
 
         extractors.append(extractor)
 
-    # TODO: Handle word n-grams.
+    # Handle word n-grams.
     for n in args.word_n_gram:
         extractor = WordNGramsFeatureExtractor(n, args.word_n_gram_size)
         extractor.fit(content)
