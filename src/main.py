@@ -6,8 +6,8 @@ from posTag import PosTagNGramsExtractor
 from words import WordFrequencyExtractor, WordNGramsFeatureExtractor
 import argparse
 import glob
-import numpy as np
 import nltk
+import numpy as np
 nltk.download("punkt")
 
 
@@ -92,7 +92,7 @@ if args.word_frequencies is None:
 if args.postag_n_gram is None:
     args.postag_n_gram = []
 if args.postag_n_gram_size is None:
-   args.postag_n_gram_size = 100 
+    args.postag_n_gram_size = 100
 if args.word_n_gram is None:
     args.word_n_gram = []
 if args.word_n_gram_size is None:
