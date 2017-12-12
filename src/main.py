@@ -158,3 +158,4 @@ with open(DATA_FOLDER + '/truth.txt') as truth_f:
         authors.append(features)
 
 np.savetxt('outfile.txt', np.array(authors))
+print("Data saved to outfile.txt")
