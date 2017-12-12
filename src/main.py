@@ -42,9 +42,11 @@ with open(FULL_TEXT_FILE, 'w') as outfile:
     for fname in files:
         with open(fname, 'r') as infile:
             text = infile.read()
-            if text not in prev:
+            if args.type.lower() != "pancho" and text not in prev:
                 outfile.write(text)
                 prev.append(text)
+            else:
+                outfile.write(text)
 
 # Parse command line arguments.
 parser = argparse.ArgumentParser(description='Extract features.')
@@ -152,7 +154,8 @@ with open(FULL_TEXT_FILE, 'r') as f:
 feature_extractor = FeatureExtractor(extractors)
 
 # Generate features for each author.
-authors = []
+authorFeatures = []
+texts = []
 with open(DATA_FOLDER + '/truth.txt') as truth_f:
     for a in range(1, 101):
         truth = truth_f.readline().endswith('Y\n')
@@ -165,7 +168,10 @@ with open(DATA_FOLDER + '/truth.txt') as truth_f:
 
         features = known_features + unknown_features + [truth]
 
-        authors.append(features)
+        if args.type.lower() != "pancho" and known_file not in texts:
+            authorFeatures.append(features)
+        else:
+            authorFeatures.append(features)
 
 if args.type.lower() == "pancho":
     master = feature_extractor.extract(FULL_TEXT_FILE)
