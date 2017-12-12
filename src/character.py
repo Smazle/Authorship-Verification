@@ -153,7 +153,7 @@ def n_gram_number(string_length, n):
     Returns:
         int: Number of n-grams.
     """
-    return string_length - n
+    return string_length - n + 1
 
 
 def find_ngrams(f, n):
