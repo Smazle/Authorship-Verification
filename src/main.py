@@ -37,10 +37,14 @@ FULL_TEXT_FILE = './full_text.txt'
 
 # Construct text consisting of a concatenation of all texts in training data.
 files = glob.glob(DATA_FOLDER + '/*/*.txt')
+prev = []
 with open(FULL_TEXT_FILE, 'w') as outfile:
     for fname in files:
         with open(fname, 'r') as infile:
-            outfile.write(infile.read())
+            text = infile.read()
+            if text not in prev:
+                outfile.write(text)
+                prev.append(text)
 
 # Parse command line arguments.
 parser = argparse.ArgumentParser(description='Extract features.')
@@ -75,6 +79,9 @@ parser.add_argument('--word-n-gram', type=int, nargs='+',
 parser.add_argument('--word-n-gram-size', type=int, nargs='?',
                     help='Number of most frequent word n-grams to use.')
 
+parser.add_argument('--type', type=str, nargs='?',
+                    help="The type of output file to produce.")
+
 # TODO: Support config of word n-grams.
 
 args = parser.parse_args()
@@ -98,6 +105,8 @@ if args.word_n_gram is None:
     args.word_n_gram = []
 if args.word_n_gram_size is None:
     args.word_n_gram_size = 500
+if args.type is None:
+    args.type = "Normal"
 
 extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
@@ -158,5 +167,13 @@ with open(DATA_FOLDER + '/truth.txt') as truth_f:
 
         authors.append(features)
 
-np.savetxt('outfile.txt', np.array(authors))
+if args.type.lower() == "pancho":
+    master = feature_extractor.extract(FULL_TEXT_FILE)
+    np.savetxt('outfile.txt', np.array(authors))
+    np.savetxt('fullOut.txt', np.array([master]))
+    print("Data saved to fullOut.txt")
+else:
+    np.savetxt('outfile.txt', np.array(authors))
+    
 print("Data saved to outfile.txt")
+
