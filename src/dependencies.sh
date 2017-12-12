@@ -13,3 +13,5 @@ for i in "${pip[@]}"
 do
     sudo pip3 install "$i"
 done
+
+polyglot download embeddings2.en pos2.en
