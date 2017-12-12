@@ -1,4 +1,31 @@
 #!/bin/bash
+
+# Handle PAN2013.
+mkdir pan_2013
+cd pan_2013
+wget http://www.uni-weimar.de/medien/webis/corpora/corpus-pan-labs-09-today/pan-13/pan13-data/pan13-authorship-verification-training-corpus-2013-02-01.zip -O data.zip
+
+unzip data.zip
+cd pan13-authorship-verification-training-corpus-2013-02-01
+rm -R GR*
+rm -R SP*
+mv * ../
+cd ..
+rm *.zip
+rm -R pan13-authorship-verification-training-corpus-2013-02-01
+
+# Cleanup truth file.
+tr -d '\r' < truth.txt > tmp.file
+awk 'NF' tmp.file > truth.txt
+grep "EN" < truth.txt > tmp.file
+mv tmp.file truth.txt
+rm tmp.file
+
+cd ../
+
+# Handle PAN2015.
+mkdir pan_2015
+cd pan_2015
 wget http://www.uni-weimar.de/medien/webis/corpora/corpus-pan-labs-09-today/pan-15/pan15-data/pan15-authorship-verification-training-dataset-2015-04-19.zip -O data.zip
 
 unzip data.zip
@@ -12,3 +39,4 @@ mv * ../../
 cd ../../
 
 rm -rf *-training-dataset-* *.zip
+rm contents.json
