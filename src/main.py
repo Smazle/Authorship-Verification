@@ -8,7 +8,8 @@ import argparse
 import glob
 import nltk
 import numpy as np
-nltk.download("punkt")
+
+#nltk.download("punkt")
 
 
 class FeatureExtractor:
@@ -158,3 +159,4 @@ with open(DATA_FOLDER + '/truth.txt') as truth_f:
         authors.append(features)
 
 np.savetxt('outfile.txt', np.array(authors))
+print("Data saved to outfile.txt")

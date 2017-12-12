@@ -80,7 +80,7 @@ def nGramCount(text, n):
     posTagging = Text(text, hint_language_code="en")
     posTagging = [x[-1].encode("utf-8") for x in posTagging.pos_tags]
     posTagging = [tuple(posTagging[i:i + n][:])
-                  for i in range(len(posTagging) - n)]
+                  for i in range(len(posTagging) - n + 1)]
     return Counter(posTagging)
 
 
