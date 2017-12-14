@@ -83,44 +83,6 @@ class FeatureExtractor:
         return features
 
 
-
-        # texts = []
-        # with open(args.data_folder + '/truth.txt') as truth_f:
-            # for a in range(1, 101):
-                # truth = truth_f.readline().endswith('Y\n')
-
-                # known_file = args.data_folder + '/EN%03d/known01.txt' % a
-                # unknown_file = args.data_folder + '/EN%03d/unknown.txt' % a
-
-                # known_features = feature_extractor.extract(known_file)
-                # unknown_features = feature_extractor.extract(unknown_file)
-
-                # features = known_features + unknown_features + [truth]
-
-                # if args.type.lower() != "pancho" and known_file not in texts:
-                    # authorFeatures.append(features)
-                # else:
-                    # authorFeatures.append(features)
-
-
-
-
-
-
-    # def __init__(self, extractors):
-        # self.extractors = extractors
-
-    # def extract(self, f):
-        # features = []
-        # with open(f) as f:
-            # content = f.read()
-
-            # for extractor in self.extractors:
-                # features = features + extractor.extract(content)
-
-        # return features
-
-
 # TODO: description.
 class Author:
 
