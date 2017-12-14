@@ -25,28 +25,12 @@ class FeatureExtractor:
         return features
 
 
-# Location of training data.
-DATA_FOLDER = './data/'
-
-# Path to a file that will be created containing a concatenation of all files
-# in the training data set.
-FULL_TEXT_FILE = './full_text.txt'
-
-# Construct text consisting of a concatenation of all texts in training data.
-files = glob.glob(DATA_FOLDER + '/*/*.txt')
-prev = []
-with open(FULL_TEXT_FILE, 'w') as outfile:
-    for fname in files:
-        with open(fname, 'r') as infile:
-            text = infile.read()
-            if args.type.lower() != "pancho" and text not in prev:
-                outfile.write(text)
-                prev.append(text)
-            else:
-                outfile.write(text)
-
 # Parse command line arguments.
 parser = argparse.ArgumentParser(description='Extract features.')
+
+parser.add_argument('data_folder', type=str)
+
+parser.add_argument('outfile', type=str)
 
 parser.add_argument(
     '--char-n-gram', type=int, nargs='+', default=[],
@@ -93,45 +77,55 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+# Construct text consisting of a concatenation of all texts in training data.
+files = glob.glob(args.data_folder + '/*/*.txt')
+prev = []
+fulltext = ""
+for fname in files:
+    with open(fname, 'r') as infile:
+        text = infile.read()
+        if args.type.lower() != "pancho" and text not in prev:
+            fulltext = fulltext + text
+            prev.append(text)
+        else:
+            fulltext = fulltext + text
+
 extractors = []
-with open(FULL_TEXT_FILE, 'r') as f:
-    content = f.read()
+# Handle character n-grams.
+for n in args.char_n_gram:
+    extractor = CharacterNGramFeatureExtractor(n, args.char_n_gram_size)
+    extractor.fit(fulltext)
 
-    # Handle character n-grams.
-    for n in args.char_n_gram:
-        extractor = CharacterNGramFeatureExtractor(n, args.char_n_gram_size)
-        extractor.fit(content)
+    extractors.append(extractor)
 
-        extractors.append(extractor)
+# Handle special character n-grams.
+for n in args.special_n_gram:
+    extractor = SpecialCharacterNGramFeatureExtractor(
+        n, args.special_n_gram_size)
+    extractor.fit(fulltext)
 
-    # Handle special character n-grams.
-    for n in args.special_n_gram:
-        extractor = SpecialCharacterNGramFeatureExtractor(n,
-                args.special_n_gram_size)
-        extractor.fit(content)
+    extractors.append(extractor)
 
-        extractors.append(extractor)
+# Handle word frequencies.
+if args.word_frequencies != 0:
+    extractor = WordFrequencyExtractor(args.word_frequencies)
+    extractor.fit(fulltext)
 
-    # Handle word frequencies.
-    if args.word_frequencies != 0:
-        extractor = WordFrequencyExtractor(args.word_frequencies)
-        extractor.fit(content)
+    extractors.append(extractor)
 
-        extractors.append(extractor)
+# Handle POS tagging n-grams.
+for n in args.postag_n_gram:
+    extractor = PosTagNGramsExtractor(n, args.postag_n_gram_size)
+    extractor.fit(fulltext)
 
-    # Handle POS tagging n-grams.
-    for n in args.postag_n_gram:
-        extractor = PosTagNGramsExtractor(n, args.postag_n_gram_size)
-        extractor.fit(content)
+    extractors.append(extractor)
 
-        extractors.append(extractor)
+# Handle word n-grams.
+for n in args.word_n_gram:
+    extractor = WordNGramsFeatureExtractor(n, args.word_n_gram_size)
+    extractor.fit(fulltext)
 
-    # Handle word n-grams.
-    for n in args.word_n_gram:
-        extractor = WordNGramsFeatureExtractor(n, args.word_n_gram_size)
-        extractor.fit(content)
-
-        extractors.append(extractor)
+    extractors.append(extractor)
 
 
 feature_extractor = FeatureExtractor(extractors)
@@ -139,12 +133,12 @@ feature_extractor = FeatureExtractor(extractors)
 # Generate features for each author.
 authorFeatures = []
 texts = []
-with open(DATA_FOLDER + '/truth.txt') as truth_f:
+with open(args.data_folder + '/truth.txt') as truth_f:
     for a in range(1, 101):
         truth = truth_f.readline().endswith('Y\n')
 
-        known_file = DATA_FOLDER + '/EN%03d/known01.txt' % a
-        unknown_file = DATA_FOLDER + '/EN%03d/unknown.txt' % a
+        known_file = args.data_folder + '/EN%03d/known01.txt' % a
+        unknown_file = args.data_folder + '/EN%03d/unknown.txt' % a
 
         known_features = feature_extractor.extract(known_file)
         unknown_features = feature_extractor.extract(unknown_file)
@@ -157,12 +151,9 @@ with open(DATA_FOLDER + '/truth.txt') as truth_f:
             authorFeatures.append(features)
 
 if args.type.lower() == "pancho":
-    master = feature_extractor.extract(FULL_TEXT_FILE)
-    np.savetxt('outfile.txt', np.array(authors))
+    master = feature_extractor.extract(fulltext)
+    np.savetxt(args.outfile, np.array(authorFeatures))
     np.savetxt('fullOut.txt', np.array([master]))
     print("Data saved to fullOut.txt")
 else:
-    np.savetxt('outfile.txt', np.array(authors))
-    
-print("Data saved to outfile.txt")
-
+    np.savetxt('outfile.txt', np.array(authorFeatures))
