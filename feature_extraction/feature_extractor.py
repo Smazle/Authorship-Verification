@@ -5,6 +5,7 @@ from posTag import PosTagNGramsExtractor
 from words import WordFrequencyExtractor, WordNGramsFeatureExtractor
 import numpy as np
 
+
 # TODO: description.
 class FeatureExtractor:
 
