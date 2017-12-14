@@ -1,8 +1,0 @@
-character n-grams - Done
-punctuation n-grams
-word frequencies - Done
-word n-grams (toLower first) - Done
-word length n-grams (toLower first)
-vocabulary strength (number of distinct words over total number of words)
-pos tagging n-grams - Done!
-sentence length n-grams
