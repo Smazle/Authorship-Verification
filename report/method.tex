@@ -41,11 +41,13 @@ in \cite{pacheco2015}. In order to establish the relation between unknown and
 known texts, that the random forest can then use to learn the verification
 process, we made use of an encoding function.
 
-$$
-\left\langle \dfrac{(A_i-U_i)^2+1}{(B-U_i)^2+1}|i \in [0,\dots, N)\right\rangle
-$$
+\begin{equation}
+    \left\langle
+        \dfrac{(A_i-U_i)^2+1}{(B-U_i)^2+1}|i \in [0,\dots, N)
+    \right\rangle,
+\end{equation}
 
-Where $A_i$ is the feature matrix for i'th known text , $U_i$ is the feature
+where $A_i$ is the feature matrix for i'th known text , $U_i$ is the feature
 matrix for the i'th unknown text, B is the feature matrix of the unified set of
 known texts, and N is the number of total data entries. This provides us with
 a new feature matrix, which is then used to train our \texttt{sklearn} random
@@ -56,7 +58,7 @@ a training set. Doing this split with 80\% being training, and the rest being
 test, and doing an average over 100 iteration, to account for the randomness, we
 only get around 48\% correctly classified entries.
 
-\subsection{Experiment}
+\subsection{Experiments}
 In this section we describe the different experiments we have performed.
 We have tested the different methods we have implemented with different
 features and on different datasets. In our experiments we use data from PAN
@@ -110,7 +112,10 @@ PAN 2013 data and in Figure \ref{} for the PAN 2015 data.
         $k=9$  &         &         &         &         &         \\
         $k=10$ &         &         &         &         &
     \end{tabular}
-    \caption{Accuracy on different number of word frequencies for }
+    \caption{Accuracy on different number of most frequent words and different
+        number of opposing authors for the Delta Method. Each number is a
+        average of 100 runs since there is randomness involved when picking the
+        opposing authors. The test is run on the 2013 dataset.}
 \end{figure}
 
 \begin{figure}
@@ -127,6 +132,10 @@ PAN 2013 data and in Figure \ref{} for the PAN 2015 data.
         $k=9$  &         &         &         &         &         \\
         $k=10$ &         &         &         &         &
     \end{tabular}
+    \caption{Accuracy on different number of most frequent words and different
+        number of opposing authors for the Delta Method. Each number is a
+        average of 100 runs since there is randomness involved when picking the
+        opposing authors. The test is run on the 2015 dataset.}
 \end{figure}
 
 \subsubsection{Random Forest}
