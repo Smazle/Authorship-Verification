@@ -4,7 +4,6 @@ import argparse
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
-
 # Set up arguments
 parser = argparse.ArgumentParser(
     description="Run Random Forest on extracted features")
@@ -54,7 +53,7 @@ if len(datafiles) > 1:
 # Get training and test set split - Randomly
 boundary = int(np.floor(len(X) * args.split))
 np.random.shuffle(X)
-    
+
 XTrain = X[:boundary]
 yTrain = y[:boundary]
 
@@ -66,11 +65,8 @@ else:
     yTest = y[boundary:]
 
 # Create model
-model = RandomForestClassifier(n_estimators = 10)
+model = RandomForestClassifier(n_estimators=10)
 model.fit(XTrain, yTrain)
 
 predictions = model.predict(XTest) == yTest
-print("Correct Random Forest", np.sum(predictions)/float(len(predictions)))
-
-
-
+print("Correct Random Forest", np.sum(predictions) / float(len(predictions)))
