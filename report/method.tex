@@ -155,4 +155,15 @@ TODO: Write result of our test.
 
 % TODO: Describe other approaches we implement.
 
+\subsection{Random Forest}
+In addition to the delta method, we also chose to make use of the Random Forest Algorithm. However in order to do so, we couldn't just make use of the raw feature set, derived from both the known and unknown text provided by PAN, as that would cause of Forest to only be trained on combination of the known and the unknown feature-set rather than it learning to verify the author based on the texts relation to one another. In order to do so, we made use of the method described in \cite{pacheco2015}. In order to establish the relation between unknown and known texts, that the random forest can then use to learn the verification process, we made use of an encoding function.
+$$
+\left\langle \dfrac{(A_i-U_i)^2+1}{(B-U_i)^2+1}|i \in [0,\dots, N)\right\rangle
+$$
+Where $A_i$ is the feature matrix for i'th known text , $U_i$ is the feature matrix for the i'th unknown text, B is the feature matrix of the unified set of known texts, and N is the number of total data entries.
+This provides us with a new feature matrix, which is then used to train our \texttt{sklearn} random forest.
+
+In order to test this, the feature matrix was shuffled and split into a test and a training set. Doing this split with 80\% being training, and the rest being test, and doing an average over 100 iteration, to account for the randomness, we only get around 48\% correctly classified entries. 
+
+
 \subsection{Experiment}
