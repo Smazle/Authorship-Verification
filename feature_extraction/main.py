@@ -87,7 +87,6 @@ feature_extractor = FeatureExtractor(
     special_character_grams=special_grams,
     word_frequencies=word_frequencies,
     postag_grams=postag_grams,
-    word_grams=word_grams,
-    type=type)
+    word_grams=word_grams)
 
 feature_extractor.extract(args.outfile, args.master_file)
