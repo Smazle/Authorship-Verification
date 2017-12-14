@@ -2,168 +2,114 @@
 
 \subsection{Feature Extraction}
 Feature extraction from a text is the process of finding a vector that
-represents the text. There are a lot of different features that can be
-extracted and we use several of them. Specifically we use some character
-level features, some word level features and som \gls{POS} tagging
-features.
+represents a text. There are a lot of different features that can be extracted
+and we use several of them. Specifically we use some character level features,
+some word level features and som \gls{POS} tagging features. In this section
+we will define the different features we use. The specific features used in
+different experiments will be described under those experiments.
 
-\begin{description}
-
-    \item[Character n-grams:] We extract character n-grams (TODO: Fill in sizes)
-    by extracting all substrings of length n from a text and computing the
-    frequencies of the different substrings. We only use the K(TODO: specify)
-    most frequent n-grams. The most frequent n-grams are found by concatenating
-    all training text and computing frequencies in that.
-
-    \item[Special character n-grams:] We extract special character n-grams of
-    size (TODO: specify) by filtering all alphanumeric and space characters out
-    of a string. We are then left with only special characters and we extract
-    n-grams as described above from that string.
-
-    \item[Word frequencies:] We extract the frequencies of the n(TODO: specify)
-    most common words. We find the most common words from a concatenation of all
-    the training data files and extract the frequencies of those words from the
-    files one by one.
-
-    \item[Word n-grams:] We extract word n-grams of size (TODO: specify). The
-    n-grams are extracted by converting the text to a list of words. To split
-    the text we use the \textit{nltk} python module.
-
-    \item[POS tagging n-grams:] We use POS tag n-grams of size (TODO:specify).
-    The POS tags are generated using Polyglot (TODO: citation) POS tagging
-    engine. We then extract n-grams as described above.
-
-\end{description}
-
-% FROM maitra2015
-%
-%for example-
-%Letter frequencies, N-gram frequencies, Function word usage, Vocabulary richness,
-%Lexical richness, Distribution of syllables per word, Word frequencies, Hapax
-%legomena, Hapax dislegomena, Word length distribution, Word collocations, Sentence
-%length, Preferred word positions, Prepositional phrase structure, Distribution
-%parts of speech, Phrasal composition grammar etc. [1][2][3][4][8][9]. The fact is that
-%there is no such consensus on which stylometric features are applied to achieve the
-%best results for authorship identification.
-%
-% Total Punctuation Count: This feature counts the number of total punctuation
-%symbols used in a text, normalized by the word count in that text.
-%
-% Specific Punctuation Ratio: This is the ratio of the total number of specific
-%punctuation symbols like comma (,), semicolon (;), question-mark (?), exclamation-mark
-%(!), stop (.), slash (/), dash (-), colon (:) etc. to the total punctuation
-%count.
-%
-% Long-sentence/ Short-sentence Ratio: Ratio of the long (length>12) or
-%short (length<6) sentences to the total number of sentences is represented by
-%this feature.
-%
-% Vocabulary Strength: We tried to capture the vocabulary strength of an author
-%by calculating the ratio of the unique words used to the total number of
-%words used in a text snippet.
-%
-% xPOS Frequency: In this feature, we try to capture the tendency of an author
-%to use one or two particular types of POS that appear more frequently than
-%the others, if there is any. So, we calculate the frequencies of each POS tag
-%from texts and compare the known and unknown texts based on that.
-%
-% Starting POS Frequency: We try to list the POS tags that the author uses in
-%the beginning of sentences according to their frequency and then compare
-%them among the known and unknown documents to find a lexical pattern.
-%For example, a particular author might have the tendency to start sentences
-%with auxiliary verbs (example) or prepositions (in, for) unknowingly for a
-%considerable number of sentences in the corpus. The feature also indicates
-%the writing style of the author.
-%In the above example, both known
-%
-
-% FROM pacheco2015
-%
-% Number of sentences: minimum, average and maximum number of sentences per
-%paragraph and document
-%
-%Spacing: minimum, average and maximum number of consecutive spaces, number
-% of consecutive spaces in the beginning/end of the line and number of empty lines
-%
-% Punctuation: minimum, average and maximum number of punctuation characters
-%(.,;?¿!¡"’) per document, paragraph and sentence.
-%
-%  Lexical density: measure of how “dense” is the content, i.e, the ratio between each
-%lexical category (nouns, adjectives, verbs and adverbs) divided by the total number
-%of words
-%
-% Hapax: number of words that appear only one time and are only used by the current
-%author.
-
-
-
-
-% From Castro:2015
-%1. Character
-%(a) Tri-grams of characters (F1)
-%(b) Quad-grams of characters (F2)
-%(c) Word prefixes of size 2 (F3)
-%(d) Word suffixes of size 2 (F4)
-%2. Words
-%(a) Uni-grams of words (F5)
-%(b) Tri-grams of words (F6)
-%3. Lemma and Part of Speech
-%(a) Uni-grams of lemmas (F7)
-%(b) Uni-grams of Part of Speech (F8)
-%(c) Tri-grams of lemmas (F9)
-%(d) Tri-grams of Part of Speech (F10)
-
-
-% FROM bartoli2015b
-% Sentence lengths (SL) We transform the document to a sequence of tokens, a token
-%being a sequence of characters separated by one or more blank spaces. Next, we
-%transform the sequence of tokens to a sequence of sentences, a sentence being a
-%sequence of tokens separated by any of the following characters: .,;,:,!,?. We
-%count the number of sentences whose length in tokens is n, with n ∈ {1, . . . , 40}:
-%we obtain a feature for each value of n.)
-%
-% Sentence length ngrams (SG) We transform each document to a sequence of labels,
-%where each label represents a full sentence and is chosen based on the sentence
-%length (as described in the following). Next, we compute the ngram)
-%
-%Word richness (WR) We transform the document to a sequence of words as for the
-%WG features group. Then we compute the ratio between the number of distinct
-%words and the number of total w)
-%
-%Text shape ngrams (TG) We transform the document as follows: sequences of digits
-%are replaced by the single character n; sequences of alphabetic characters are replaced
-%by a single character: l if all the characters in the sequence are lowercase,
-%u if only the first character is uppercase, w if at least two characters are uppercase;
-%sequences of blank spaces are replaced by a single blank space; other characters are
-%left unchanged.)
+\subsubsection{Feature Description}
+N-grams are subsequences extracted from a sequence of tokens. For example
+3-grams is all subsequences of length three of a given sequence. For example
+using individual characters as tokens all \textit{character 3-grams} of the
+string "hello" is "hel", "ell" and "llo". We use several different types of
+n-grams in different experiments including character n-grams, word n-grams,
+special character n-grams and \gls{POS} tagging n-grams. Word n-grams are
+subsequences of words, special character n-grams are sequences of characters
+with alphanumeric characters removed, \gls{POS} tagging n-grams are sequences of
+\gls{POS} tags. A special case of n-grams is 1-grams which is just a count of
+the different tokens in a sequence. We will refer to 1-grams as frequencies.
 
 \subsection{Delta Method}
 We have chosen to use the Delta method as a baseline method for our other
 implementations. The Delta method is described by \cite{evert2015towards} and
 consist of extracting word frequencies, applying a linear transformation to
-those frequencies and using KNN with different distance metrics. There are a
-number of parameters to choose. First of all the number of different words
-to find frequencies for has to be chosen (it was originally chosen at 150
-words \cite{evert2015towards}). Then the linear transformation can be chosen,
-the usual transformation is a normalization to zero mean unit variance. And
-finally the distance metric can be chosen. In our implementation we work with
-n(TODO: specify) different word frequencies, the linear transformation is
-a normalization of the data and the used distance metric is the Manhatten
-distance.
-
-TODO: Write result of our test.
-
-% TODO: Describe other approaches we implement.
+those frequencies and using \gls{KNN} with different distance metrics. There are
+a number of parameters to choose. First of all the number of different words to
+find frequencies for has to be chosen (it was originally chosen at 150 words
+\cite{evert2015towards}). Then the linear transformation can be chosen, the
+usual transformation is a normalization to zero mean unit variance. And finally
+the distance metric can be chosen.
 
 \subsection{Random Forest}
-In addition to the delta method, we also chose to make use of the Random Forest Algorithm. However in order to do so, we couldn't just make use of the raw feature set, derived from both the known and unknown text provided by PAN, as that would cause of Forest to only be trained on combination of the known and the unknown feature-set rather than it learning to verify the author based on the texts relation to one another. In order to do so, we made use of the method described in \cite{pacheco2015}. In order to establish the relation between unknown and known texts, that the random forest can then use to learn the verification process, we made use of an encoding function.
+In addition to the delta method, we chose to use the Random Forest Algorithm.
+However in order to do so, we couldn't just make use of the raw feature set,
+derived from both the known and unknown text provided by PAN, as that would
+cause of Forest to only be trained on combination of the known and the unknown
+feature-set rather than it learning to verify the author based on the texts
+relation to one another. In order to do so, we made use of the method described
+in \cite{pacheco2015}. In order to establish the relation between unknown and
+known texts, that the random forest can then use to learn the verification
+process, we made use of an encoding function.
+
 $$
 \left\langle \dfrac{(A_i-U_i)^2+1}{(B-U_i)^2+1}|i \in [0,\dots, N)\right\rangle
 $$
-Where $A_i$ is the feature matrix for i'th known text , $U_i$ is the feature matrix for the i'th unknown text, B is the feature matrix of the unified set of known texts, and N is the number of total data entries.
-This provides us with a new feature matrix, which is then used to train our \texttt{sklearn} random forest.
 
-In order to test this, the feature matrix was shuffled and split into a test and a training set. Doing this split with 80\% being training, and the rest being test, and doing an average over 100 iteration, to account for the randomness, we only get around 48\% correctly classified entries. 
+Where $A_i$ is the feature matrix for i'th known text , $U_i$ is the feature
+matrix for the i'th unknown text, B is the feature matrix of the unified set of
+known texts, and N is the number of total data entries. This provides us with
+a new feature matrix, which is then used to train our \texttt{sklearn} random
+forest.
 
+In order to test this, the feature matrix was shuffled and split into a test and
+a training set. Doing this split with 80\% being training, and the rest being
+test, and doing an average over 100 iteration, to account for the randomness, we
+only get around 48\% correctly classified entries.
 
 \subsection{Experiment}
+In this section we describe the different experiments we have performed.
+We have tested the different methods we have implemented with different
+features and on different datasets. In our experiments we use data from PAN
+2013 \footnote{http://pan.webis.de/clef13/pan13-web/index.html} and PAN 2015
+\footnote{http://pan.webis.de/clef15/pan15-web/index.html}. The PAN 2013 data
+consist of texts from English, Greek and Spanish authors. We work only on the
+English texts which consist of texts from 10 authors. There is a number (between
+1 and 10) known texts from each author and a single unknown text. The task is
+given the known texts of an author determine if the unknown text is written by
+the same author or not.
+
+The PAN 2015 data consist of texts by authors in English, Dutch, Greek and
+Spanish. Again we only work with English texts. Unlike the 2013 dataset there is
+only a single known text for each author and a single unknown text. There is
+therefore much less known data available for each author which makes the
+verification harder. In the 2015 dataset there is 100 \textit{problems} in which
+some of the known texts are the same (i.e. there is not 100 authors).
+
+\subsubsection{Delta Method}
+In the delta method we work only with word frequencies as originally proposed.
+As the linear function we normalize to 0 mean and unit variance and as features
+we use the $n$ most frequent words. We extract the most frequent words by
+counting all words in the text choosing the $n$ most frequent and dividing the
+counts by the total number of words. In the \gls{KNN} part we use the Manhatten
+distance and only a single nearest neighbour since in one of the datasets we
+have only 1 text for each author. We train a \gls{KNN} classifier for each of
+the unknown texts to a single of the known texts. Each classifier is trained
+with the author in question and $k$ other random authors. If the unknown text is
+classified as belonging to one of the $k$ random authors instead of the author
+in question we report that the unknown text is not written by the author. If the
+text is classified as belonging to the author in question we classify it as
+being written by the author.
+
+We chose the number of most frequent words $n$ and number of opposing authors
+$k$ by trying different configurations in a grid and choosing the best values.
+On the training dataset we obtained the results shown in Figure \ref{} for the
+PAN 2013 data and in Figure \ref{} for the PAN 2015 data.
+
+\begin{figure}
+    \begin{tabular}{cccccc}
+               & $n=100$ & $n=150$ & $n=200$ & $n=250$ & $n=300$ \\
+        $k=1$  &         &         &         &         &         \\
+        $k=2$  &         &         &         &         &         \\
+        $k=3$  &         &         &         &         &         \\
+        $k=4$  &         &         &         &         &         \\
+        $k=5$  &         &         &         &         &         \\
+        $k=6$  &         &         &         &         &         \\
+        $k=7$  &         &         &         &         &         \\
+        $k=8$  &         &         &         &         &         \\
+        $k=9$  &         &         &         &         &         \\
+        $k=10$ &         &         &         &         &
+    \end{tabular}
+\end{figure}
+
+\subsubsection{Random Forest}
