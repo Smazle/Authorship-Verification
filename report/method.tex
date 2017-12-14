@@ -2,7 +2,7 @@
 
 \subsection{Text Features}
 Feature extraction from a text is the process of finding a vector that
-represents a text. There are a lot of different features that can be extracted
+represents the text. There are a lot of different features that can be extracted
 and we use several of them. Specifically we use some character level features,
 some word level features and som \gls{POS} tagging features. In this section
 we will define the different features we use. The specific features used in
@@ -14,9 +14,9 @@ using individual characters as tokens all \textit{character 3-grams} of the
 string "hello" is "hel", "ell" and "llo". We use several different types of
 n-grams in different experiments including character n-grams, word n-grams,
 special character n-grams and \gls{POS} tagging n-grams. Word n-grams are
-subsequences of words, special character n-grams are sequences of characters
-with alphanumeric characters removed, \gls{POS} tagging n-grams are sequences of
-\gls{POS} tags. A special case of n-grams is 1-grams which is just a count of
+subsequences of words, special character n-grams are subsequences of characters
+with alphanumeric characters removed, \gls{POS} tagging n-grams are subsequences
+of \gls{POS} tags. A special case of n-grams is 1-grams which is just a count of
 the different tokens in a sequence. We will refer to 1-grams as frequencies.
 
 \subsection{Delta Method}
@@ -32,14 +32,14 @@ the distance metric can be chosen.
 
 \subsection{Random Forest}
 In addition to the delta method, we chose to use the Random Forest Algorithm.
-However in order to do so, we couldn't just make use of the raw feature set,
-derived from both the known and unknown text provided by PAN, as that would
-cause of Forest to only be trained on combination of the known and the unknown
+In order to do so, we couldn't just make use of the raw feature set, derived
+from both the known and unknown text provided by PAN, as that would cause
+the forest to only be trained on a combination of the known and the unknown
 feature-set rather than it learning to verify the author based on the texts
 relation to one another. In order to do so, we made use of the method described
-in \cite{pacheco2015}. In order to establish the relation between unknown and
-known texts, that the random forest can then use to learn the verification
-process, we made use of an encoding function.
+in \cite{pacheco2015}. To establish the relation between unknown and known
+texts, such that the random forest can learn the verification process, we made
+use of the encoding function,
 
 \begin{equation}
     \left\langle
@@ -51,15 +51,6 @@ where $A_i$ is the feature matrix for i'th known text , $U_i$ is the feature
 matrix for the $i$'th unknown text, B is the feature matrix of the unified set
 of known texts, and N is the number of total data entries. This provides us with
 a new feature matrix, which is then used for training.
-
-our \texttt{sklearn} random
-TODO
-forest.
-
-In order to test this, the feature matrix was shuffled and split into a test and
-a training set. Doing this split with 80\% being training, and the rest being
-test, and doing an average over 100 iteration, to account for the randomness, we
-only get around 48\% correctly classified entries.
 
 \subsection{Experiments}
 In this section we describe the different experiments we have performed.
@@ -152,4 +143,18 @@ opposing authors.
     \label{fig:delta_pan_2015_res}
 \end{figure}
 
+% TODO: Describe number of trees and other parameters.
+% TODO: Tables of tests.
 \subsubsection{Random Forest}
+In the test of our random forest implementation we used a combination
+of different features. We used the 20 most frequent character
+2-grams, the 20 most frequent 3-grams, the 10 most frequent
+word 3-grams and the 10 most frequent \gls{POS} tag 3-grams.
+We used the random forest implementation from \texttt{sklearn}
+\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html}.
+
+We tested our solution by splitting the training data into two sets a test used
+for training and a set used for testing. For this test we split with 80\% being
+training, and the rest being test. We computed the average of 100 tests to
+account for randomness. The accuracy on the 2015 dataset resulted only in 0.48
+accuracy.
