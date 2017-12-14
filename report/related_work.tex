@@ -118,8 +118,7 @@ authors constructed such a graph for each text and used commonalities in
 shortest paths in the graph to compare the texts. The results were not very
 good with a performance of 0.2809.
 
-\cite{layton:2014} makes use of a more simple approach. It makes use of Local
-n-grams (LNG). This is used to compute a feature vector for each document
+\cite{layton:2014} makes use of a more simple approach. It makes use of \gls{LNG}. This is used to compute a feature vector for each document
 written by a specific author. Collectively they can be combined to a matrix
 describing the writing style of that author. When a new unknown text is
 introduced, one of three comparative algorithms were used to compute the average
@@ -127,7 +126,7 @@ similarity between each of the authors known texts (Intra-Distance. The average
 similarity between the unknown text and the known ones by the proposed author is
 then computed as well (Inter-Distance). The author is considered correct if
 the Inter-Distance was lower than the Intra-Distance plus 2 times the known
-datasets' standard diviation. This was performed using the CNG, SCAP and RLP as
+datasets' standard diviation. This was performed using the \gls{CNG}, \gls{SCAP} and \gls{RLP} as
 the methods for comparing the different texts. It did however not perform very
 well.
 
