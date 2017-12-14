@@ -6,10 +6,7 @@ from posTag import PosTagNGramsExtractor
 from words import WordFrequencyExtractor, WordNGramsFeatureExtractor
 import argparse
 import glob
-import nltk
 import numpy as np
-
-#nltk.download("punkt")
 
 
 class FeatureExtractor:
@@ -48,65 +45,51 @@ with open(FULL_TEXT_FILE, 'w') as outfile:
 
 # Parse command line arguments.
 parser = argparse.ArgumentParser(description='Extract features.')
-parser.add_argument('--char-n-gram', type=int, nargs='+',
-                    help='n-gram sizes to extract.')
 
-parser.add_argument('--char-n-gram-size', type=int, nargs='?',
-                    help='Number of character n-grams to use. If n then the ' +
-                    'n most frequent n-grams are used. If multiple values ' +
-                    'are specified on --n-gram then n features are ' +
-                    'extracted for all of them.')
+parser.add_argument(
+    '--char-n-gram', type=int, nargs='+', default=[],
+    help='n-gram sizes to extract.')
 
-parser.add_argument('--special-n-gram', type=int, nargs='+',
-                    help='special n-gram sizes to extract')
+parser.add_argument(
+    '--char-n-gram-size', type=int, nargs='?', default=0,
+    help='Number of character n-grams to use. If n then the n most frequent ' +
+    'n-grams are used. If multiple values are specified on --n-gram then n ' +
+    'features are extracted for all of them.')
 
-parser.add_argument('--special-n-gram-size', type=int, nargs='?',
-                    help='Number of special n-grams to use. If n then the ' +
-                    'n most frequent special n-grams are used.')
+parser.add_argument(
+    '--special-n-gram', type=int, nargs='+', default=[],
+    help='special n-gram sizes to extract')
 
-parser.add_argument('--word-frequencies', type=int, nargs='?',
-                    help='Number of most frequent words to count.')
+parser.add_argument(
+    '--special-n-gram-size', type=int, nargs='?', default=0,
+    help='Number of special n-grams to use. If n then the n most frequent ' +
+    'special n-grams are used.')
 
-parser.add_argument('--postag-n-gram', type=int, nargs='+',
-                    help='What grams should be used when extracting pos tags')
+parser.add_argument(
+    '--word-frequencies', type=int, nargs='?', default=0,
+    help='Number of most frequent words to count.')
 
-parser.add_argument('--postag-n-gram-size', type=int, nargs='?',
-                    help='The number of most common n-grams')
+parser.add_argument(
+    '--postag-n-gram', type=int, nargs='+', default=[],
+    help='What grams should be used when extracting pos tags')
 
-parser.add_argument('--word-n-gram', type=int, nargs='+',
-                    help='Sizes of word n-grams to use.')
+parser.add_argument(
+    '--postag-n-gram-size', type=int, nargs='?', default=0,
+    help='The number of most common n-grams')
 
-parser.add_argument('--word-n-gram-size', type=int, nargs='?',
-                    help='Number of most frequent word n-grams to use.')
+parser.add_argument(
+    '--word-n-gram', type=int, nargs='+', default=[],
+    help='Sizes of word n-grams to use.')
 
-parser.add_argument('--type', type=str, nargs='?',
-                    help="The type of output file to produce.")
+parser.add_argument(
+    '--word-n-gram-size', type=int, nargs='?', default=0,
+    help='Number of most frequent word n-grams to use.')
 
-# TODO: Support config of word n-grams.
+parser.add_argument(
+    '--type', type=str, nargs='?', default='Normal',
+    help="The type of output file to produce.")
 
 args = parser.parse_args()
-
-# Add default command line arguments.
-if args.char_n_gram is None:
-    args.char_n_gram = []
-if args.special_n_gram is None:
-    args.special_n_gram = []
-if args.char_n_gram_size is None:
-    args.char_n_gram_size = 500
-if args.special_n_gram_size is None:
-    args.special_n_gram_size = 5
-if args.word_frequencies is None:
-    args.word_frequencies = 0
-if args.postag_n_gram is None:
-    args.postag_n_gram = []
-if args.postag_n_gram_size is None:
-    args.postag_n_gram_size = 100
-if args.word_n_gram is None:
-    args.word_n_gram = []
-if args.word_n_gram_size is None:
-    args.word_n_gram_size = 500
-if args.type is None:
-    args.type = "Normal"
 
 extractors = []
 with open(FULL_TEXT_FILE, 'r') as f:
