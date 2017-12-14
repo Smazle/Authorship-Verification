@@ -48,8 +48,8 @@ process, we made use of an encoding function.
 \end{equation}
 
 where $A_i$ is the feature matrix for i'th known text , $U_i$ is the feature
-matrix for the i'th unknown text, B is the feature matrix of the unified set of
-known texts, and N is the number of total data entries. This provides us with
+matrix for the $i$'th unknown text, B is the feature matrix of the unified set
+of known texts, and N is the number of total data entries. This provides us with
 a new feature matrix, which is then used to train our \texttt{sklearn} random
 forest.
 
@@ -94,28 +94,34 @@ as belonging to the author in question we classify it as being written by the
 author.
 
 We chose the number of most frequent words $n$ and number of opposing authors
-$k$ by trying different configurations in a grid and choosing the best values.
-On the training dataset we obtained the results shown in Figure \ref{} for the
-PAN 2013 data and in Figure \ref{} for the PAN 2015 data.
+$k$ by trying different configurations in a grid and choosing the best
+values. On the training dataset we obtained the results shown in Figure
+\ref{fig:delta_pan_2013_res} for the PAN 2013 data and in Figure \ref{} for the
+PAN 2015 data. For PAN 2013 the results are generally better since there is more
+text available and the best accuracy were obtained when using the 300 most
+frequent words and 5 opposing authors.
 
 \begin{figure}
-    \begin{tabular}{cccccc}
+    \centering
+    \begin{tabular}{c|ccccc}
                & $n=100$ & $n=150$ & $n=200$ & $n=250$ & $n=300$ \\
-        $k=1$  &         &         &         &         &         \\
-        $k=2$  &         &         &         &         &         \\
-        $k=3$  &         &         &         &         &         \\
-        $k=4$  &         &         &         &         &         \\
-        $k=5$  &         &         &         &         &         \\
-        $k=6$  &         &         &         &         &         \\
-        $k=7$  &         &         &         &         &         \\
-        $k=8$  &         &         &         &         &         \\
-        $k=9$  &         &         &         &         &         \\
-        $k=10$ &         &         &         &         &
+        \hline
+        $k=1$  & 0.63320 & 0.63791 & 0.65370 & 0.63837 & 0.65740 \\
+        $k=2$  & 0.68308 & 0.68670 & 0.67825 & 0.65062 & 0.66201 \\
+        $k=3$  & 0.66750 & 0.70228 & 0.69271 & 0.66620 & 0.69872 \\
+        $k=4$  & 0.71116 & 0.67245 & 0.64852 & 0.67541 & 0.69525 \\
+        $k=5$  & 0.70545 & 0.69491 & 0.65249 & 0.68393 & 0.76134 \\
+        $k=6$  & 0.65678 & 0.65666 & 0.64437 & 0.66838 & 0.67423 \\
+        $k=7$  & 0.67728 & 0.70379 & 0.66705 & 0.68670 & 0.73045 \\
+        $k=8$  & 0.72870 & 0.69072 & 0.70008 & 0.66928 & 0.73800 \\
+        $k=9$  & 0.72112 & 0.71179 & 0.67058 & 0.73857 & 0.73045 \\
+        $k=10$ & 0.70370 & 0.69513 & 0.66947 & 0.70593 & 0.71544
     \end{tabular}
     \caption{Accuracy on different number of most frequent words and different
         number of opposing authors for the Delta Method. Each number is a
-        average of 100 runs since there is randomness involved when picking the
+        average of 10 runs since there is randomness involved when picking the
         opposing authors. The test is run on the 2013 dataset.}
+    \label{fig:delta_pan_2013_res}
 \end{figure}
 
 \begin{figure}
@@ -134,7 +140,7 @@ PAN 2013 data and in Figure \ref{} for the PAN 2015 data.
     \end{tabular}
     \caption{Accuracy on different number of most frequent words and different
         number of opposing authors for the Delta Method. Each number is a
-        average of 100 runs since there is randomness involved when picking the
+        average of 10 runs since there is randomness involved when picking the
         opposing authors. The test is run on the 2015 dataset.}
 \end{figure}
 
