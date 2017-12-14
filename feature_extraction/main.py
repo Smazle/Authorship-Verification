@@ -63,18 +63,18 @@ args = parser.parse_args()
 
 # Convert arguments to description of features.
 size = args.char_n_gram_size
-character_grams = map(lambda x: (x, size), args.char_n_gram)
+character_grams = list(map(lambda x: (x, size), args.char_n_gram))
 
 size = args.special_n_gram_size
-special_grams = map(lambda x: (x, size), args.special_n_gram)
+special_grams = list(map(lambda x: (x, size), args.special_n_gram))
 
 word_frequencies = args.word_frequencies
 
 size = args.postag_n_gram_size
-postag_grams = map(lambda x: (x, size), args.postag_n_gram)
+postag_grams = list(map(lambda x: (x, size), args.postag_n_gram))
 
 size = args.word_n_gram_size
-word_grams = map(lambda x: (x, size), args.word_n_gram)
+word_grams = list(map(lambda x: (x, size), args.word_n_gram))
 
 type = args.type
 
