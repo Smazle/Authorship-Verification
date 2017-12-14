@@ -64,7 +64,8 @@ class FeatureExtractor:
             for known in author.known:
                 known_features = self.extract_features(known)
 
-                features = known_features + unknown_features + [author.truth]
+                features = known_features + unknown_features +\
+                    [author.truth] + [author.name]
                 author_features.append(features)
 
         # Write features to file.
@@ -119,7 +120,9 @@ def analyse_input_folder(data_folder):
         truth = filter(lambda x: x.startswith(folder), truth_f.split('\n'))
         truth = list(truth)[0].endswith('Y')
 
-        authors.append(Author(folder, list(known), unknown, truth))
+        name = int(folder[2:])
+
+        authors.append(Author(name, list(known), unknown, truth))
 
     return authors
 
