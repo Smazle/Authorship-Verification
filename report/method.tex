@@ -50,7 +50,10 @@ process, we made use of an encoding function.
 where $A_i$ is the feature matrix for i'th known text , $U_i$ is the feature
 matrix for the $i$'th unknown text, B is the feature matrix of the unified set
 of known texts, and N is the number of total data entries. This provides us with
-a new feature matrix, which is then used to train our \texttt{sklearn} random
+a new feature matrix, which is then used for training.
+
+our \texttt{sklearn} random
+TODO
 forest.
 
 In order to test this, the feature matrix was shuffled and split into a test and
@@ -93,13 +96,15 @@ that the unknown text is not written by the author. If the text is classified
 as belonging to the author in question we classify it as being written by the
 author.
 
-We chose the number of most frequent words $n$ and number of opposing authors
-$k$ by trying different configurations in a grid and choosing the best
-values. On the training dataset we obtained the results shown in Figure
-\ref{fig:delta_pan_2013_res} for the PAN 2013 data and in Figure \ref{} for the
-PAN 2015 data. For PAN 2013 the results are generally better since there is more
-text available and the best accuracy were obtained when using the 300 most
-frequent words and 5 opposing authors.
+We chose the number of most frequent words $n$ and number of opposing
+authors $k$ by trying different configurations in a grid and choosing the
+best values. On the training dataset we obtained the results shown in
+Figure \ref{fig:delta_pan_2013_res} for the PAN 2013 data and in Figure
+\ref{fig:delta_pan_2015_res} for the PAN 2015 data. For PAN 2013 the results are
+generally better since there is more text available and the best accuracy were
+obtained when using the 300 most frequent words and 5 opposing authors. For PAN
+2015 the best result is obtained when using the 200 most frequent words and 2
+opposing authors.
 
 \begin{figure}
     \centering
@@ -125,23 +130,26 @@ frequent words and 5 opposing authors.
 \end{figure}
 
 \begin{figure}
-    \begin{tabular}{cccccc}
+    \centering
+    \begin{tabular}{c|ccccc}
                & $n=100$ & $n=150$ & $n=200$ & $n=250$ & $n=300$ \\
-        $k=1$  &         &         &         &         &         \\
-        $k=2$  &         &         &         &         &         \\
-        $k=3$  &         &         &         &         &         \\
-        $k=4$  &         &         &         &         &         \\
-        $k=5$  &         &         &         &         &         \\
-        $k=6$  &         &         &         &         &         \\
-        $k=7$  &         &         &         &         &         \\
-        $k=8$  &         &         &         &         &         \\
-        $k=9$  &         &         &         &         &         \\
-        $k=10$ &         &         &         &         &
+        \hline
+        $k=1$  & 0.51800 & 0.55899 & 0.55800 & 0.55199 & 0.57300 \\
+        $k=2$  & 0.53000 & 0.54899 & 0.59800 & 0.57400 & 0.58600 \\
+        $k=3$  & 0.52300 & 0.57000 & 0.57700 & 0.58700 & 0.56900 \\
+        $k=4$  & 0.51400 & 0.56600 & 0.55700 & 0.56200 & 0.55500 \\
+        $k=5$  & 0.53300 & 0.54300 & 0.55400 & 0.55999 & 0.56199 \\
+        $k=6$  & 0.51300 & 0.55699 & 0.55000 & 0.55199 & 0.55700 \\
+        $k=7$  & 0.50600 & 0.55400 & 0.52100 & 0.53200 & 0.55500 \\
+        $k=8$  & 0.49400 & 0.53000 & 0.54000 & 0.54300 & 0.53800 \\
+        $k=9$  & 0.50300 & 0.53600 & 0.54000 & 0.53600 & 0.53999 \\
+        $k=10$ & 0.49600 & 0.52900 & 0.53600 & 0.54200 & 0.54399
     \end{tabular}
     \caption{Accuracy on different number of most frequent words and different
         number of opposing authors for the Delta Method. Each number is a
         average of 10 runs since there is randomness involved when picking the
         opposing authors. The test is run on the 2015 dataset.}
+    \label{fig:delta_pan_2015_res}
 \end{figure}
 
 \subsubsection{Random Forest}
