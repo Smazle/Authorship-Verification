@@ -1,14 +1,7 @@
 #!/usr/bin/python3
 
-# import os
-# from character import CharacterNGramFeatureExtractor,\
-    # SpecialCharacterNGramFeatureExtractor
-# from posTag import PosTagNGramsExtractor
-# from words import WordFrequencyExtractor, WordNGramsFeatureExtractor
 import argparse
 from feature_extractor import analyse_input_folder, FeatureExtractor
-# import glob
-# import numpy as np
 
 # Parse command line arguments.
 parser = argparse.ArgumentParser(description='Extract features.')
