@@ -11,13 +11,13 @@ class FeatureExtractor:
 
     def __init__(
         self, authors, character_grams=[], special_character_grams=[],
-        word_frequencies=0, postag_grams=[], word_grams=[], type='Normal'):
+        word_frequencies=0, postag_grams=[], word_grams=[]):
 
         self.authors = authors
 
         # If the type is Normal only unique files are used. If it is pancho
         # all files are concatenated.
-        self.fulltext = gen_full_text(self.authors, type=='Normal')
+        self.fulltext = gen_full_text(self.authors)
 
         # Create feature extractors for the types of features requested.
         self.extractors = []
@@ -127,10 +127,7 @@ def analyse_input_folder(data_folder):
 
     return authors
 
-def gen_full_text(authors, unique):
+def gen_full_text(authors):
     all_texts = sum(map(lambda x: [x.unknown] + x.known, authors), [])
 
-    if unique:
-        return ''.join(set(all_texts))
-    else:
-        return ''.join(all_texts)
+    return ''.join(set(all_texts))
