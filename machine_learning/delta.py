@@ -24,19 +24,21 @@ parser.add_argument(
 parser.add_argument(
     '--metric',
     help='Which Minkowski metric to use given 1 it will be the Manhattan ' +
-        'distance and 2 it is the Euclidean distance',
+    'distance and 2 it is the Euclidean distance',
     type=int,
     default=1)
 args = parser.parse_args()
 
-X = np.loadtxt(args.file, dtype=np.float)
-y = X[:, -1].astype(np.bool)
+# Import data ([features...], truth, author).
+data = np.loadtxt(args.file, dtype=np.float)
+y = data[:, -2].astype(np.bool)
+authors = data[:, -1].astype(np.int)
 
-feature_n = X.shape[1] - 1
+feature_n = data.shape[1] - 2
 feature_n_half = int(feature_n / 2)
 
-X_known = X[:, 0:feature_n_half]
-X_unknown = X[:, feature_n_half:-1]
+X_known = data[:, 0:feature_n_half]
+X_unknown = data[:, feature_n_half:-2]
 
 # Normalize the data.
 if args.with_normalization:
@@ -46,27 +48,27 @@ if args.with_normalization:
     X_known = (X_known - mean) / std_var
     X_unknown = (X_unknown - mean) / std_var
 
-# For each author choose args.opposing_set_size number of different authors to
+# For each problem choose args.opposing_set_size number of different authors to
 # test aginst.
-author_number = X_known.shape[0]
+problem_number = X_known.shape[0]
 predictions = []
-for i in range(0, author_number):
-    opposing = np.random.uniform(0, author_number, args.opposing_set_size)\
+for i in range(0, problem_number):
+    opposing = np.random.uniform(0, problem_number, args.opposing_set_size)\
         .astype(np.int)
 
     known = X_known[np.append(opposing, i)]
     unknown = np.reshape(X_unknown[i], (1, X_known.shape[1]))
 
+    results = authors[np.append(opposing, i)]
+
     model = neighbors.KNeighborsClassifier(
         n_neighbors=1,
         weights='uniform',
-        algorithm='auto',
-        metric='minkowski',
-        p=args.metric)
-    model.fit(known, np.append(opposing, i))
+        algorithm='auto', metric='minkowski', p=args.metric)
+    model.fit(known, results)
 
     predictions.append(model.predict(unknown)[0])
 
 predictions = np.array(predictions)
-results = predictions == np.array(range(0, 100))
-print(np.sum(results == y))
+results = predictions == authors
+print(np.sum(results == y) / X_known.shape[0])
