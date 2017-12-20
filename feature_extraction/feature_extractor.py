@@ -4,6 +4,7 @@ from character import CharacterNGramFeatureExtractor,\
 from posTag import PosTagNGramsExtractor
 from words import WordFrequencyExtractor, WordNGramsFeatureExtractor
 import numpy as np
+from sklearn.preprocessing import scale
 from nltk.corpus import brown
 
 
@@ -12,9 +13,12 @@ class FeatureExtractor:
 
     def __init__(
         self, authors, character_grams=[], special_character_grams=[],
-            word_frequencies=0, postag_grams=[], word_grams=[], corpus='all'):
+            word_frequencies=0, postag_grams=[], word_grams=[], corpus='all',
+            normalize=True):
 
         self.authors = authors
+
+        self.normalize = normalize
 
         # If the type is Normal only unique files are used. If it is pancho
         # all files are concatenated.
@@ -71,7 +75,12 @@ class FeatureExtractor:
                 author_features.append(features)
 
         # Write features to file.
-        np.savetxt(outfile, np.array(author_features))
+        author_features = np.array(author_features)
+        if self.normalize:
+            print('Scaling')
+            author_features = scale(author_features, 0)
+
+        np.savetxt(outfile, author_features)
 
         if master_file is not None:
             master_features = self.extract_features(self.fulltext)
