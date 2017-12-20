@@ -1,0 +1,8 @@
+--char-n-gram
+--char-n-gram-size
+--special-n-gram
+--special-n-gram-size
+--postag-n-gram
+--postag-n-gram-size
+--word-n-gram 
+--word-n-gram-size
