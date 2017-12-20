@@ -1,5 +1,6 @@
 import numpy as np
 import itertools
+import sys
 import os
 
 args = np.loadtxt('./args', dtype=str)
@@ -19,9 +20,9 @@ def GenArgs(args, argsSize):
         for combo in arg_selected:
 
             params = []
-            for i in range(1, 10):
+            for i in range(1, 11):
                 params.append(i)
-                for size in range(100, 600, 100):
+                for size in range(20, 220, 20):
 
                     for arg in combo:
 
@@ -42,9 +43,13 @@ def GenArgs(args, argsSize):
 strings = GenArgs(args, argsSize)
 
 for arg in strings:
-    cmd = '../../feature_extraction/main.py'
-    cmd += ' ../../data/pan_2015 out --master-file all' + arg
+    cmd = '../../feature_extraction/main.py ../../data/pan_2015 out'
+    cmd += ' --master-file all' + arg
     os.system(cmd)
-    os.system('../../machine_learning/forest.py out all --split 0.8')
 
-print '\n'.join(x)
+    cmd = '../../machine_learning/forest.py out all --split 0.8 --method ' \
+        + sys.argv[1]
+
+    os.system(cmd)
+
+print '\n'.join(strings)
