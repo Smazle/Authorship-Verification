@@ -64,9 +64,8 @@ for i in range(0, problem_number):
     results = authors[np.append(opposing, i)]
 
     model = neighbors.KNeighborsClassifier(
-        n_neighbors=1,
-        weights='uniform',
-        algorithm='auto', metric='minkowski', p=args.metric)
+        n_neighbors=1, weights='uniform', algorithm='auto', metric='minkowski',
+        p=args.metric)
     model.fit(known, results)
 
     predictions.append(model.predict(unknown)[0])
