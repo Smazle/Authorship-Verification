@@ -51,22 +51,26 @@ if len(datafiles) > 1:
 
 
 # Get training and test set split - Randomly
-boundary = int(np.floor(len(X) * args.split))
-np.random.shuffle(X)
+predictions = []
+for _ in range(10):
+    boundary = int(np.floor(len(X) * args.split))
+    np.random.shuffle(X)
 
-XTrain = X[:boundary]
-yTrain = y[:boundary]
+    XTrain = X[:boundary]
+    yTrain = y[:boundary]
 
-if(args.split == 1.0):
-    XTest = XTrain
-    yTest = yTrain
-else:
-    XTest = X[boundary:]
-    yTest = y[boundary:]
+    if(args.split == 1.0):
+        XTest = XTrain
+        yTest = yTrain
+    else:
+        XTest = X[boundary:]
+        yTest = y[boundary:]
 
-# Create model
-model = RandomForestClassifier(n_estimators=10)
-model.fit(XTrain, yTrain)
+    # Create model
+    model = RandomForestClassifier(n_estimators=10)
+    model.fit(XTrain, yTrain)
 
-predictions = model.predict(XTest) == yTest
-print("Correct Random Forest", np.sum(predictions) / float(len(predictions)))
+    p = model.predict(XTest) == yTest
+    predictions.append(np.sum(p) / float(len(p)))
+
+print(np.mean(predictions))

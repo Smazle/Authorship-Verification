@@ -55,10 +55,6 @@ parser.add_argument(
     '--word-n-gram-size', type=int, nargs='?', default=0,
     help='Number of most frequent word n-grams to use.')
 
-parser.add_argument(
-    '--type', type=str, nargs='?', default='Normal',
-    help="The type of output file to produce.")
-
 args = parser.parse_args()
 
 # Convert arguments to description of features.
@@ -75,8 +71,6 @@ postag_grams = list(map(lambda x: (x, size), args.postag_n_gram))
 
 size = args.word_n_gram_size
 word_grams = list(map(lambda x: (x, size), args.word_n_gram))
-
-type = args.type
 
 # Get authors from input folder.
 authors = analyse_input_folder(args.data_folder)
