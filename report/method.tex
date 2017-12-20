@@ -32,25 +32,38 @@ the distance metric can be chosen.
 
 \subsection{Random Forest}
 In addition to the delta method, we chose to use the Random Forest Algorithm.
-In order to do so, we couldn't just make use of the raw feature set, derived
-from both the known and unknown text provided by PAN, as that would cause
-the forest to only be trained on a combination of the known and the unknown
-feature-set rather than it learning to verify the author based on the texts
-relation to one another. In order to do so, we made use of the method described
-in \cite{pacheco2015}. To establish the relation between unknown and known
-texts, such that the random forest can learn the verification process, we made
-use of the encoding function,
+Normally one would train out forest on each of the authors individually, then
+use that model to verify whether or not the proposed author was is the same 
+one.
+However due to the small amount of that associated with each author in the PAN 
+2015 data, this approach wasn't feasible, as it lacks generalization 
+capabilties. \cite{pacheco2015} offers a way to achieve this generalization 
+using \gls{UBM}. A model describing the general text characteristics of the 
+entire data set is created, this serves as our \gls{UBM}. Using our \gls{UBM}, 
+and a author-specific text, we can compute a match score for an introduced 
+author-less text by comparing it to the \gls{UBM}, and the author-specific test. 
 
+The match score in our case is computed as follows:
 \begin{equation}
     \left\langle
         \dfrac{(A_i-U_i)^2+1}{(B-U_i)^2+1}|i \in [0,\dots, N)
     \right\rangle,
 \end{equation}
+Where $A_i$ is the i'th author-specific feature vector. $B$ is the \gls{UBM} 
+computed by taking concatenating out set of author-specific texts, and then 
+performing the same set of feature extractions on that set of texts, as we do on 
+each individual author-specific text, and our unknown text. Finally there $U_i$ 
+which is the i'th unknown author text feature vector. 
 
-where $A_i$ is the feature matrix for i'th known text , $U_i$ is the feature
-matrix for the $i$'th unknown text, B is the feature matrix of the unified set
-of known texts, and N is the number of total data entries. This provides us with
-a new feature matrix, which is then used for training.
+The addition of of 1 serves, to prevent division by zero, and squaring by two, 
+prevent negative values. As such, each value in the resulting encoded feature 
+vector is in the range $[0,\dots, 1)$ if it's closer to the \gls{UBM} in terms 
+of value, and in range $[0,\dots, \inf^+)$ if it's closer to the author-specific 
+text. Thus describing the three way relation between the unknown text, the 
+author-specific text, and the \gls{UBM}.
+
+It's with this generalized encoded feature matrix, that we train our random 
+forest.
 
 \subsection{Experiments}
 In this section we describe the different experiments we have performed.
@@ -146,6 +159,9 @@ opposing authors.
 % TODO: Describe number of trees and other parameters.
 % TODO: Tables of tests.
 \subsubsection{Random Forest}
+TBA
+
+
 In the test of our random forest implementation we used a combination
 of different features. We used the 20 most frequent character
 2-grams, the 20 most frequent 3-grams, the 10 most frequent

@@ -56,10 +56,6 @@ parser.add_argument(
     help='Number of most frequent word n-grams to use.')
 
 parser.add_argument(
-    '--type', type=str, nargs='?', default='Normal',
-    help="The type of output file to produce.")
-
-parser.add_argument(
     '--corpus', type=str, nargs='?', default='all',
     help='Which text corpus to use for fittings. If "all" the texts are ' +
     'concatenated and used as a corpus. If "brown" the brown corpus from ' +
@@ -81,8 +77,6 @@ postag_grams = list(map(lambda x: (x, size), args.postag_n_gram))
 
 size = args.word_n_gram_size
 word_grams = list(map(lambda x: (x, size), args.word_n_gram))
-
-type = args.type
 
 # Get authors from input folder.
 authors = analyse_input_folder(args.data_folder)
