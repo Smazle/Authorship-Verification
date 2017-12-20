@@ -6,18 +6,24 @@ from sklearn.ensemble import RandomForestClassifier
 
 # Set up arguments
 parser = argparse.ArgumentParser(
-    description="Run Random Forest on extracted features")
+    description='Run Random Forest on extracted features')
 
-parser.add_argument('file', type=str, help='Data File Location', nargs="+")
+parser.add_argument('file', type=str, help='Data File Location', nargs='+')
 parser.add_argument(
     '--split', type=float, nargs='?',
     help='The percentage of the data used for training')
+
+parser.add_argument(
+    '--method', type=str, nargs='?',
+    help='The encoding method used on the dataset')
 
 args = parser.parse_args()
 datafiles = args.file
 
 if args.split is None:
     args.split = .5
+if args.method is None:
+    args.method = 'Normal'
 
 
 def encode(allText, known, unknown):
@@ -41,13 +47,20 @@ X = np.column_stack((X_known, X_unknown))
 # If two files are supplied (One containing the total features against itself)
 # then encode it, as per pancho.
 if len(datafiles) > 1:
-    allText = np.loadtxt(datafiles[1], dtype=np.float)
+    if args.method == 'pancho':
+        allText = np.loadtxt(datafiles[1], dtype=np.float)
+        newX = []
+        for known, unknown in zip(X_known, X_unknown):
+            newX.append(encode(allText, known, unknown))
 
-    newX = []
-    for known, unknown in zip(X_known, X_unknown):
-        newX.append(encode(allText, known, unknown))
+        X = np.array(newX)
+    else:
+        if args.method == 'minus':
+            newX = []
+            for known, unknown in zip(X_known, X_unknown):
+                newX.append(known - unknown)
 
-    X = np.array(newX)
+            X = np.array(newX)
 
 
 # Get training and test set split - Randomly
@@ -67,7 +80,7 @@ for _ in range(10):
         yTest = y[boundary:]
 
     # Create model
-    model = RandomForestClassifier(n_estimators=10)
+    model = RandomForestClassifier(n_estimators=10, n_jobs=-1)
     model.fit(XTrain, yTrain)
 
     p = model.predict(XTest) == yTest
