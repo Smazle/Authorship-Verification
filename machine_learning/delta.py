@@ -45,6 +45,8 @@ if args.with_normalization:
     mean = np.mean(np.vstack([X_known, X_unknown]), axis=0)
     std_var = np.std(np.vstack([X_known, X_unknown]), axis=0)
 
+    std_var[std_var == 0] = 1
+
     X_known = (X_known - mean) / std_var
     X_unknown = (X_unknown - mean) / std_var
 
