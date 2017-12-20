@@ -55,6 +55,12 @@ parser.add_argument(
     '--word-n-gram-size', type=int, nargs='?', default=0,
     help='Number of most frequent word n-grams to use.')
 
+parser.add_argument(
+    '--corpus', type=str, nargs='?', default='all',
+    help='Which text corpus to use for fittings. If "all" the texts are ' +
+    'concatenated and used as a corpus. If "brown" the brown corpus from ' +
+    'the nltk package is used as corpus.')
+
 args = parser.parse_args()
 
 # Convert arguments to description of features.
@@ -81,6 +87,7 @@ feature_extractor = FeatureExtractor(
     special_character_grams=special_grams,
     word_frequencies=word_frequencies,
     postag_grams=postag_grams,
-    word_grams=word_grams)
+    word_grams=word_grams,
+    corpus=args.corpus)
 
 feature_extractor.extract(args.outfile, args.master_file)

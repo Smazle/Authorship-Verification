@@ -12,11 +12,15 @@ type Accuracy = Double
 type OpposingSize = Int
 type DataFolder = FilePath
 type WordFrequencies = Int
+type CharacterNGram = (Int, Int)
+type WordNGrams = (Int, Int)
+type PosTagNGrams = (Int, Int)
 
 data Corpus = Brown | All
   deriving (Show, Eq, Ord)
 
-data FeatureConfig = FeatureConfig DataFolder WordFrequencies Corpus
+data FeatureConfig = FeatureConfig DataFolder CharacterNGram WordNGrams
+    PosTagNGrams WordFrequencies Corpus
   deriving (Show, Eq, Ord)
 
 newtype DeltaConfig = DeltaConfig OpposingSize
@@ -46,17 +50,25 @@ testDelta infile (DeltaConfig oppositionSize) = do
     return $ sum results / fromIntegral (length results)
 
 createFeatures :: FilePath -> FeatureConfig -> IO ()
-createFeatures outfile (FeatureConfig infile wordFreqs corpus) = do
+createFeatures outfile fc = do
     (_, _, _, processHandle) <- S.createProcess (S.proc program args)
     exitCode <- S.waitForProcess processHandle
 
     C.unless (isSuccess exitCode) $ S.die "Feature Extraction failed."
   where
+    FeatureConfig infile (cGram, cGramSize) (wGram, wGramSize)
+        (pGram, pGramSize) wordFreqs corpus = fc
     program = "../../feature_extraction/main.py"
     args =
         [ infile
         , outfile
         , "--word-frequencies", show wordFreqs
+        , "--character-n-gram", show cGram
+        , "--character-n-gram-size", show cGramSize
+        , "--word-n-gram", show wGram
+        , "--word-n-gram-size", show wGramSize
+        , "--postag-n-gram", show pGram
+        , "--postag-n-gram-size", show pGramSize
         , "--corpus", corpusName corpus
         ]
 
@@ -90,6 +102,9 @@ configs = Config <$> featureConfigs <*> deltaConfigs
   where
     featureConfigs = FeatureConfig <$>
         ["../../data/pan_2013", "../../data/pan_2015"] <*>
+        [(3, 100), (4, 100), (5, 100)] <*>
+        [(3, 100), (4, 100), (5, 100)] <*>
+        [(3, 10)] <*>
         [100, 200..500] <*>
         [Brown]
     deltaConfigs = DeltaConfig <$> [1..10]

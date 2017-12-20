@@ -4,6 +4,7 @@ from character import CharacterNGramFeatureExtractor,\
 from posTag import PosTagNGramsExtractor
 from words import WordFrequencyExtractor, WordNGramsFeatureExtractor
 import numpy as np
+from nltk.corpus import brown
 
 
 # TODO: description.
@@ -11,13 +12,13 @@ class FeatureExtractor:
 
     def __init__(
         self, authors, character_grams=[], special_character_grams=[],
-        word_frequencies=0, postag_grams=[], word_grams=[]):
+            word_frequencies=0, postag_grams=[], word_grams=[], corpus='all'):
 
         self.authors = authors
 
         # If the type is Normal only unique files are used. If it is pancho
         # all files are concatenated.
-        self.fulltext = gen_full_text(self.authors)
+        self.fulltext = gen_full_text(self.authors, corpus)
 
         # Create feature extractors for the types of features requested.
         self.extractors = []
@@ -127,7 +128,13 @@ def analyse_input_folder(data_folder):
 
     return authors
 
-def gen_full_text(authors):
-    all_texts = sum(map(lambda x: [x.unknown] + x.known, authors), [])
 
-    return ''.join(set(all_texts))
+def gen_full_text(authors, corpus):
+    if corpus == 'all':
+        all_texts = sum(map(lambda x: [x.unknown] + x.known, authors), [])
+
+        return ''.join(set(all_texts))
+    elif corpus == 'brown':
+        return ' '.join(brown.words())
+    else:
+        raise Exception('UNKNOWN CORPUS')
