@@ -61,6 +61,10 @@ parser.add_argument(
     'concatenated and used as a corpus. If "brown" the brown corpus from ' +
     'the nltk package is used as corpus.')
 
+parser.add_argument(
+    '--normalize', type=bool, nargs='?', default=True,
+    help='Determines if the data should be normalized')
+
 args = parser.parse_args()
 
 # Convert arguments to description of features.
@@ -88,6 +92,7 @@ feature_extractor = FeatureExtractor(
     word_frequencies=word_frequencies,
     postag_grams=postag_grams,
     word_grams=word_grams,
-    corpus=args.corpus)
+    corpus=args.corpus,
+    normalize=args.normalize)
 
 feature_extractor.extract(args.outfile, args.master_file)

@@ -41,6 +41,7 @@ def GenArgs(args, argsSize):
 
 
 strings = GenArgs(args, argsSize)
+print strings[-1]
 
 for arg in strings:
     cmd = '../../feature_extraction/main.py ../../data/pan_2015 out'

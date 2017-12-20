@@ -9,6 +9,9 @@ parser = argparse.ArgumentParser(
     description='Run Random Forest on extracted features')
 
 parser.add_argument('file', type=str, help='Data File Location', nargs='?')
+parser.add_argument('--distance', type=str,
+                    help='What distance measure to use',
+                    nargs='?', default='euclidean')
 args = parser.parse_args()
 
 
@@ -27,12 +30,13 @@ avg_X = np.mean(X_known, 1)
 res = np.zeros(len(X))
 
 for i in range(len(X_unknown)):
-    # if np.linalg.norm(X_unknown[:,i] - avg_X) < \
-    #        np.linalg.norm(X_unknown[:,i] - X_known[:, i]):
-    #    res[i] = 1
-    if cityblock(X_unknown[:, 1], avg_X) < \
-            cityblock(X_unknown[:, i], X_known[:, i]):
-        res[i] = 1
+    if args.distance == 'euclidean':
+        if np.linalg.norm(X_unknown[:, i] - avg_X) < \
+                np.linalg.norm(X_unknown[:, i] - X_known[:, i]):
+            res[i] = 1
+    else:
+        if cityblock(X_unknown[:, 1], avg_X) < \
+                cityblock(X_unknown[:, i], X_known[:, i]):
+            res[i] = 1
 
-print(res)
-print(np.sum(res == y))
+print(np.sum(res == y) / float(len(y)))
