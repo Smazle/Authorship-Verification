@@ -1,0 +1,13 @@
+repos:
+    - repo: git://github.com/pre-commit/pre-commit-hooks
+      sha: v1.1.1
+      hooks:
+        - id: trailing-whitespace
+          types: [python]
+        - id: flake8
+          types: [python]
+        - id: autopep8-wrapper
+          types: [python]
+        - id: double-quote-string-fixer
+          types: [python]
+
