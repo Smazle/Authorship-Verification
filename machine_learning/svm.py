@@ -3,13 +3,19 @@
 import argparse
 import numpy as np
 from numpy.random import choice
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 
 # Set up arguments
 parser = argparse.ArgumentParser(
-    description="TODO: descript")
+    description="TODO descript")
 
 parser.add_argument('file', type=str, help='Data File Location')
+
+parser.add_argument(
+    '--with-normalization',
+    help='Whether or not to normalize data.',
+    action='store_true',
+    default=False)
 
 args = parser.parse_args()
 
@@ -40,13 +46,14 @@ for author in np.unique(authors):
     random = different_author[choice(different_author.shape[0], same_author_n,
                               replace=False), :]
 
-    print (author, result, X_unknown.shape, same_author.shape)
+    print(author, result)
 
     # Stack author specific and random.
     X_train = np.vstack([same_author, random])
     y_train = np.array([result] * same_author_n + [not result] * same_author_n)
+    print(y_train)
 
-    model = RandomForestClassifier(n_estimators=2)
+    model = SVC(C=1.0, kernel='rbf', gamma='auto')
     model.fit(X_train, y_train)
 
     prediction = model.predict(X_unknown.reshape(1, -1))[0]
