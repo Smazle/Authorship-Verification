@@ -86,7 +86,15 @@ the same authors and feature vectors of different authors.
 % TODO write.
 
 \subsection{Author Specific SVM}
-% TODO: write.
+We implemented an approach using \gls{SVM}'s inspired by \cite{hansen2014}. The
+approach is only applicable to problems with more than a single text per
+unknown author. The classification in this approach is done by training an \gls{SVM}
+classifier on all known texts of an author and an equal number of texts from
+other authors. Then the unknown text is given to the \gls{SVM} and is classified
+either as belonging to the same author or as belonging to a different author.
+
+If there is only a single known text available for an author it does not make
+sense to train an \gls{SVM} since there is simply to little data.
 
 \subsection{Author Specific Random Forest}
 % TODO: write.
@@ -112,6 +120,7 @@ some of the known texts are the same (i.e. there is not 100 authors).
 
 % TODO: Describe brown.
 
+% TODO Change delta to brown.
 \subsubsection{Delta Method}
 In the delta method we work only with word frequencies as originally proposed.
 As the linear function we normalize to 0 mean and unit variance and as features
@@ -207,7 +216,20 @@ only in 0.48 accuracy.
 % TODO write.
 
 \subsection{Author Specific SVM}
-% TODO: write.
+In this approach we work with a mixture of different features. We use the 500
+most frequent 3-, 4- and 5-character-grams, the 100 most frequent 3- an
+4-word-grams, the 20 most frequent 2-, 3- and 4-postag-grams. The most frequent
+grams is found in the brown text corpus. We run only on the PAN 2013 dataset
+since 2015 contains only a single known text per author and it would therefore
+not make sense to use this method. We use the \textit{sklearn} implementation of
+\gls{SVM}'s which internally use \textit{libsvm}.
+
+For each author $a$ in the 2013 dataset we compute features for all known texts
+$k$ and give them the class 1. Then we choose the $|k|$ number of random texts
+written by other authors and give them the class 0. We then train an \gls{SVM}
+classifier on the features and classes generated and use it to predict either 0
+or 1 for the unknown text. The \gls{SVM} use a rbf kernel with $C=1$ and
+$\gamma = frac{1}{(2|k|)}$. Using that approach we get an accuracy of TODO.
 
 \subsection{Author Specific Random Forest}
 % TODO: write.
