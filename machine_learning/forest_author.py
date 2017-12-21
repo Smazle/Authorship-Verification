@@ -11,6 +11,12 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument('file', type=str, help='Data File Location')
 
+parser.add_argument(
+    '--with-normalization',
+    help='Whether or not to normalize data.',
+    action='store_true',
+    default=False)
+
 args = parser.parse_args()
 
 # Remove author number
@@ -39,8 +45,6 @@ for author in np.unique(authors):
     same_author_n = same_author.shape[0]
     random = different_author[choice(different_author.shape[0], same_author_n,
                               replace=False), :]
-
-    print (author, result, X_unknown.shape, same_author.shape)
 
     # Stack author specific and random.
     X_train = np.vstack([same_author, random])

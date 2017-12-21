@@ -46,12 +46,9 @@ for author in np.unique(authors):
     random = different_author[choice(different_author.shape[0], same_author_n,
                               replace=False), :]
 
-    print(author, result)
-
     # Stack author specific and random.
     X_train = np.vstack([same_author, random])
     y_train = np.array([result] * same_author_n + [not result] * same_author_n)
-    print(y_train)
 
     model = SVC(C=1.0, kernel='rbf', gamma='auto')
     model.fit(X_train, y_train)
