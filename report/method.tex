@@ -121,7 +121,14 @@ therefore much less known data available for each author which makes the
 verification harder. In the 2015 dataset there is 100 \textit{problems} in which
 some of the known texts are the same (i.e. there is not 100 authors).
 
-% TODO: Describe brown.
+To generate metadata about English texts we use the Brown dataset
+\footnote{http://clu.uni.no/icame/brown/bcm-los.html}. The brown dataset
+contains more than 1,000,000 words across different genres and is therefore
+perfect to use for our datasets. We specifically use the dataset to identify
+the most frequently used n-grams (of all kinds). If we were to use our training
+data to generate that we would risk having a bias towards our specific training
+dataset.
+
 \subsubsection{Delta Method}
 In the delta method we work only with word frequencies as originally proposed.
 As the linear function we normalize to 0 mean and unit variance and as features
