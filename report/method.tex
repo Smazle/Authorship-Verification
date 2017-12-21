@@ -86,11 +86,11 @@ TODO: Experiment with different features.
 
 \subsection{Author Specific SVM} \label{subsec:author_specific_svm}
 We implemented an approach using \gls{SVM}'s inspired by \cite{hansen2014}. The
-approach is only applicable to problems with more than a single text per
-unknown author. The classification in this approach is done by training an \gls{SVM}
-classifier on all known texts of an author and an equal number of texts from
-other authors. Then the unknown text is given to the \gls{SVM} and is classified
-either as belonging to the same author or as belonging to a different author.
+approach is only applicable to problems with more than a single text per author.
+The classification in this approach is done by training an \gls{SVM} classifier
+on all known texts of an author and an equal number of texts from other authors.
+Then the unknown text is given to the \gls{SVM} and is classified either as
+belonging to the same author or as belonging to a different author.
 
 If there is only a single known text available for an author it does not make
 sense to train an \gls{SVM} since there is simply to little data.
@@ -265,13 +265,34 @@ opposing authors.
 % TODO: Describe number of trees and other parameters.
 % TODO: Tables of tests.
 \subsubsection{Generalising Random Forest}
-In the \nameref{subsec:Generalising Random Forest}, we have the possibility to use of a wide variety of features. It's a random subset of these features which are then used to train each of trees trees in our random forest. There are no limit to how many and what features can be used, thus the task of finding a good/perfect input to train out forest on is quite comprehensive. As such only some preliminary tests have been perform, to get a general idea of the efficiency of the method. There will however be expanded on this in the future.
+In the \nameref{subsec:Generalising Random Forest}, we have the possibility
+to use of a wide variety of features. It's a random subset of these features
+which are then used to train each of trees trees in our random forest. There are
+no limit to how many and what features can be used, thus the task of finding
+a good/perfect input to train out forest on is quite comprehensive. As such
+only some preliminary tests have been perform, to get a general idea of the
+efficiency of the method. There will however be expanded on this in the future.
 
-The \texttt{sklearn}\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html} offers a wide variety of configurations with regards to how our forest is built. Each configuration was set to its' default value, with the exception of \texttt{n\_estimators}. This denotes how many decision trees are in our forest, and due to ensemble nature of the algorithm, we can increase this parameter to create an average classification prediction based on a larger set of individual predictions, thus decreasing the overall variance our model. This also removes the need for us to compute the average ourselves, as was done in \ref{subsec: Delta Method}. In the follows tests, set \texttt{n\_estimators} to 10000.
+The \texttt{sklearn}
+\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html} offers a wide variety of configurations with regards to
+how our forest is built. Each configuration was set to its' default value, with
+the exception of \texttt{n\_estimators}. This denotes how many decision trees
+are in our forest, and due to ensemble nature of the algorithm, we can increase
+this parameter to create an average classification prediction based on a larger
+set of individual predictions, thus decreasing the overall variance our model.
+This also removes the need for us to compute the average ourselves, as was done
+in \ref{subsec: Delta Method}. In the following tests, \texttt{n\_estimators} is
+set to 10000.
 
-The data set in these experiments, were split into a test and a validation set, by randomly shuffling the entire data set, and taking the first 80\% of the data set as the training set, and the last 20\% as the validation set.
+The dataset in these experiments were split into a test and a validation set.
+The selection was done by randomly shuffling the entire data set and taking
+the first 80\% of the dataset as the training set, and the last 20\% as the
+validation set.
 
-In the following, we created our \gls{UBM} using the concatenation of all author-specific texts, from our training data set. Results describe number of correct predictions over total number of training points, and was run on the PAN 2015 dataset. 
+In the following, we created our \gls{UBM} using the concatenation of all
+author-specific texts, from our training data set. Results describe number of
+correct predictions over total number of training points, and was run on the PAN
+2015 dataset.
 
 $$
 \left.
@@ -304,11 +325,18 @@ $$
               \right\rbrace = 0.55
 $$
 
-In addition to using the encoding method presented by \cite{pacheco2015}, we also attempted an alternate way of encoding the features, replacing equation \ref{eq:rf-encode}.
+In addition to using the encoding method presented by \cite{pacheco2015}, we
+also attempted an alternate way of encoding the features, replacing equation
+\ref{eq:rf-encode}.
+
 $$
 R_k = A_k - U_k
 $$
-As such, the features we train our random forest on, is simply the difference in value between the features for the known and the unknown text. Using the same parameters as above but changing out encoding approach, we get the following:
+
+As such, the features we train our random forest on, is simply the difference in
+value between the features for the known and the unknown text. Using the same
+parameters as above but changing out encoding approach, we get the following:
+
 $$
 \left.
                 \begin{array}{ll}
@@ -340,12 +368,15 @@ $$
               \right\rbrace = 0.55
 $$
 
-In the future, we well need to do a more extensive systematic search for the ideal forest and feature configuration. This somewhat random selection of parameters, wont accurately depict the efficiency of the \nameref{subsec:Generalising Random Forest} approach as a whole.
+In the future, we well need to do a more extensive systematic search
+for the ideal forest and feature configuration. This somewhat random
+selection of parameters, wont accurately depict the efficiency of the
+\nameref{subsec:Generalising Random Forest} approach as a whole.
 
 \subsection{Extended Delta}
 TODO: Experiment with different features.
 
-\subsection{Author Specific SVM} \label{subsec:author_specific_svm}
+\subsection{Author Specific SVM} \label{subsec:author_specific_svm_impl}
 In this approach we work with a mixture of different features. We use the 500
 most frequent 3-, 4- and 5-character-grams, the 100 most frequent 3- an
 4-word-grams, the 20 most frequent 2-, 3- and 4-postag-grams. The most frequent
@@ -359,12 +390,12 @@ $k$ and give them the class 1. Then we choose the $|k|$ number of random texts
 written by other authors and give them the class 0. We then train an \gls{SVM}
 classifier on the features and classes generated and use it to predict either 0
 or 1 for the unknown text. The \gls{SVM} use a rbf kernel with $C=1$ and
-$\gamma = frac{1}{(2|k|)}$. Using that approach we get an average accuracy over
+$\gamma = \frac{1}{(2|k|)}$. Using that approach we get an average accuracy over
 100 runs of 0.736.
 
 \subsection{Author Specific Random Forest}
 In this approach we use the same features as in
-\ref{subsec:author_specific_svm}. The only difference is that we train a random
+\ref{subsec:author_specific_svm_impl}. The only difference is that we train a random
 forest instead of an \gls{SVM} on the data. The forest has 7 decision trees and
 we use the \textit{sklearn} implementation. Using that approach we get an
 accurate accuracy over 100 runs of 0.607.
