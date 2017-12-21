@@ -20,6 +20,7 @@ of \gls{POS} tags. A special case of n-grams is 1-grams which is just a count of
 the different tokens in a sequence. We will refer to 1-grams as frequencies.
 
 \subsection{Delta Method}
+\label{subsec: Delta Method}
 We have chosen to use the Delta method as a baseline method for our other
 implementations. The Delta method is described by \cite{evert2015towards} and
 consist of extracting word frequencies, applying a linear transformation to
@@ -31,24 +32,21 @@ usual transformation is a normalization to zero mean unit variance. And finally
 the distance metric can be chosen.
 
 \subsection{Generalising Random Forest}
+\label{subsec:Generalising Random Forest}
 In addition to the delta method we chose to use the Random Forest approach
 suggested by \cite{pacheco2015}. In our implementation we use different
 features than in the their proposal. The idea of the method is to learn a
 general difference between feature vectors of texts written by the same author
 and feature vectors written by the different authors. The generalization is
 obtained by combining the vectors of known texts with vectors of unknown
-text and training on that combination instead of on the raw vectors. In
-\cite{pacheco2015} the combining function is,
+text and training on that combination instead of on the raw vectors. Rewriting the encoding function used in \cite{pacheco2015}, we get the following combining function,
 
 \begin{equation}
-    \left\langle
-        \dfrac{(A_i-U_i)^2+1}{(B-U_i)^2+1}|i \in [0,\dots, N)
-    \right\rangle,
+        R_{i_k} = \frac{(A_{i_k}-U_{i_k})^2+1}{(B_k-U_{i_k})^2+1}
 \end{equation}
 
-where $A_i$ is the $i$'th author-specific feature vector, $B$ is a \gls{UBM}
-describing a general author independent text and $U_i$ is the feature vector of
-the $i$'th unknown text.
+Where $A$ is an author-specific text, $U$ is an author-unknown text, $B$ is a \gls{UBM}
+describing a general author independent text. $i$ denotes from which datapoint we get our author-specific and non-specific texts, and $k$ denotes a specific feature of a given text. As such $R_{i_k}$ describes the encoding of a specific feature for a specific data point.
 
 The \gls{UBM} is meant to represent the features of an author independent text.
 It is computed by concatenating all texts in the training dataset and computing
@@ -65,6 +63,7 @@ Let's examine what the above equation describes. Fix any specific $i$ and let
 $A$ be $A_i$ and $U$ be $U_i$ then for each feature $k$ we compute,
 
 \begin{equation}
+\label{eq:rf-encode}
     R_k = \frac{(A_k-U_k)^2+1}{(B_k-U_k)^2+1},
 \end{equation}
 
@@ -129,6 +128,7 @@ the most frequently used n-grams (of all kinds). If we were to use our training
 data to generate that we would risk having a bias towards our specific training
 dataset.
 
+% TODO Change delta to brown.
 \subsubsection{Delta Method}
 In the delta method we work only with word frequencies as originally proposed.
 As the linear function we normalize to 0 mean and unit variance and as features
@@ -334,21 +334,82 @@ opposing authors.
 % TODO: Describe number of trees and other parameters.
 % TODO: Tables of tests.
 \subsubsection{Generalising Random Forest}
-TBA
+In the \nameref{subsec:Generalising Random Forest}, we have the possibility to use of a wide variety of features. It's a random subset of these features which are then used to train each of trees trees in our random forest. There are no limit to how many and what features can be used, thus the task of finding a good/perfect input to train out forest on is quite comprehensive. As such only some preliminary tests have been perform, to get a general idea of the efficiency of the method. There will however be expanded on this in the future.
 
+The \texttt{sklearn}\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html} offers a wide variety of configurations with regards to how our forest is built. Each configuration was set to its' default value, with the exception of \texttt{n\_estimators}. This denotes how many decision trees are in our forest, and due to ensemble nature of the algorithm, we can increase this parameter to create an average classification prediction based on a larger set of individual predictions, thus decreasing the overall variance our model. This also removes the need for us to compute the average ourselves, as was done in \ref{subsec: Delta Method}. In the follows tests, set \texttt{n\_estimators} to 10000.
 
-In the test of our random forest implementation we used a combination
-of different features. We used the 20 most frequent character
-2-grams, the 20 most frequent 3-grams, the 10 most frequent
-word 3-grams and the 10 most frequent \gls{POS} tag 3-grams.
-We used the random forest implementation from \texttt{sklearn}
-\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html}.
+The data set in these experiments, were split into a test and a validation set, by randomly shuffling the entire data set, and taking the first 80\% of the data set as the training set, and the last 20\% as the validation set.
 
-We tested our solution by splitting the training data into two sets a set used
-for training and a set used for testing. For this test we split with 80\% being
-the training set, and the rest being the test set. We computed the average of
-100 tests to account for randomness. The accuracy on the 2015 dataset resulted
-only in 0.48 accuracy.
+In the following, we created our \gls{UBM} using the concatenation of all author-specific texts, from our training data set. Results describe number of correct predictions over total number of training points, and was run on the PAN 2015 dataset. 
+
+$$
+\left.
+                \begin{array}{ll}
+                  \text{60 Most Frequent Char 2 and 3-grams}\\
+                  \text{60 Most Frequent Special Char 2 and 3-grams}\\
+                  \text{20 Most Frequent Pos Tag 2 and 3-grams}
+                \end{array}
+              \right\rbrace = 0.5
+$$
+
+$$
+\left.
+                \begin{array}{ll}
+                  \text{20 Most Frequent Word 2 and 3-grams}\\
+                  \text{150 Highest word frequencies}
+                \end{array}
+              \right\rbrace = 0.6
+$$
+
+$$
+\left.
+                \begin{array}{ll}
+                  \text{60 Most Frequent Char 2 and 3-grams}\\
+                  \text{60 Most Frequent Special Char 2 and 3-grams}\\
+                  \text{20 Most Frequent Pos Tag 2 and 3-grams}\\
+                  \text{20 Most Frequent Word 2 and 3-grams}\\
+                  \text{150 Highest word frequencies}
+                \end{array}
+              \right\rbrace = 0.55
+$$
+
+In addition to using the encoding method presented by \cite{pacheco2015}, we also attempted an alternate way of encoding the features, replacing equation \ref{eq:rf-encode}.
+$$
+R_k = A_k - U_k
+$$
+As such, the features we train our random forest on, is simply the difference in value between the features for the known and the unknown text. Using the same parameters as above but changing out encoding approach, we get the following:
+$$
+\left.
+                \begin{array}{ll}
+                  \text{60 Most Frequent Char 2 and 3-grams}\\
+                  \text{60 Most Frequent Special Char 2 and 3-grams}\\
+                  \text{20 Most Frequent Pos Tag 2 and 3-grams}
+                \end{array}
+              \right\rbrace = 0.45
+$$
+
+$$
+\left.
+                \begin{array}{ll}
+                  \text{20 Most Frequent Word 2 and 3-grams}\\
+                  \text{150 Highest word frequencies}
+                \end{array}
+              \right\rbrace = 0.5
+$$
+
+$$
+\left.
+                \begin{array}{ll}
+                  \text{60 Most Frequent Char 2 and 3-grams}\\
+                  \text{60 Most Frequent Special Char 2 and 3-grams}\\
+                  \text{20 Most Frequent Pos Tag 2 and 3-grams}\\
+                  \text{20 Most Frequent Word 2 and 3-grams}\\
+                  \text{150 Highest word frequencies}
+                \end{array}
+              \right\rbrace = 0.55
+$$
+
+In the future, we well need to do a more extensive systematic search for the ideal forest and feature configuration. This somewhat random selection of parameters, wont accurately depict the efficiency of the \nameref{subsec:Generalising Random Forest} approach as a whole.
 
 \subsection{Extended Delta}
 TODO: Experiment with different features.

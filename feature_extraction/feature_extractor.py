@@ -139,7 +139,7 @@ def analyse_input_folder(data_folder):
 
 def gen_full_text(authors, corpus):
     if corpus == 'all':
-        all_texts = sum(map(lambda x: [x.unknown] + x.known, authors), [])
+        all_texts = sum([x.known for x in authors], [])
 
         return ''.join(set(all_texts))
     elif corpus == 'brown':
