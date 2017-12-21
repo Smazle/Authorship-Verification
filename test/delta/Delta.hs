@@ -9,6 +9,14 @@ import qualified System.Process as S
 import qualified Text.PrettyPrint.Boxes as Pretty
 
 type Accuracy = Double
+type TPRate = Double
+type TNRate = Double
+type FPRate = Double
+type FNRate = Double
+type TP = Int
+type TN = Int
+type FP = Int
+type FN = Int
 type OpposingSize = Int
 type DataFolder = FilePath
 type WordFrequencies = Int
@@ -24,7 +32,7 @@ newtype RunConfig = RunConfig OpposingSize
 
 data Config = Config FeatureConfig RunConfig
 
-data Result = Result Accuracy Config
+data Result = Result Accuracy TPRate TNRate FPRate FNRate Config
 
 main :: IO ()
 main = do
@@ -36,19 +44,34 @@ main = do
 testFeatures :: FeatureConfig -> [RunConfig] -> IO [Result]
 testFeatures featureConfig runConfigs = S.withSystemTempFile "" $ \fp h -> do
     createFeatures fp featureConfig
-    accuracies <- mapM (runTests fp) runConfigs
+    results <- mapM (runTests fp) runConfigs
 
-    return $ zipWith Result accuracies configs
+    return $ zipWith consResult results configs
   where
     configs = map (Config featureConfig) runConfigs
+    consResult (a, tp, tn, fp, fn) = Result a tp tn fp fn
 
-runTests :: FilePath -> RunConfig -> IO Accuracy
+runTests :: FilePath -> RunConfig ->
+    IO (Accuracy, TPRate, TNRate, FPRate, FNRate)
 runTests infile config = do
     results <- C.replicateM 100 $ runTest config infile
 
-    return $ sum results / fromIntegral (length results)
+    return $ aggregate results
+    {-return $ sum results / fromIntegral (length results)-}
 
-runTest :: RunConfig -> FilePath -> IO Double
+aggregate :: [(Accuracy, TP, TN, FP, FN)] ->
+    (Accuracy, Double, Double, Double, Double)
+aggregate results = (mean accuracies, mean tps, mean tns, mean fps, mean fns)
+  where
+    accuracies = map (\(a, _, _, _, _) -> a) results
+    tps = map (\(_, tp, _, _, _) -> fromIntegral tp) results
+    tns = map (\(_, _, tn, _, _) -> fromIntegral tn) results
+    fps = map (\(_, _, _, fp, _) -> fromIntegral fp) results
+    fns = map (\(_, _, _, _, fn) -> fromIntegral fn) results
+
+    mean xs = sum xs / fromIntegral (length xs)
+
+runTest :: RunConfig -> FilePath -> IO (Accuracy, TP, TN, FP, FN)
 runTest config file = do
     putStrLn $ unwords (program:args)
 
@@ -59,7 +82,9 @@ runTest config file = do
     C.unless (isSuccess exitCode) $
         S.die ("Test run failed with " ++ show exitCode)
 
-    read <$> S.hGetLine hout
+    [accuracy, tp, tn, fp, fn] <- words <$> S.hGetLine hout
+
+    return (read accuracy, read tp, read tn, read fp, read fn)
   where
     program = "../../machine_learning/delta.py"
     args = testArgs file config
@@ -71,7 +96,7 @@ createFeatures outfile config = do
     (_, _, _, processHandle) <- S.createProcess (S.proc program args)
     exitCode <- S.waitForProcess processHandle
 
-    C.unless (isSuccess exitCode) $ 
+    C.unless (isSuccess exitCode) $
         S.die ("Feature Extraction failed with " ++ show exitCode)
   where
     program = "../../feature_extraction/main.py"
@@ -98,18 +123,18 @@ testArgs filepath (RunConfig opposingSize) =
 
 formatResults :: [Result] -> String
 formatResults results =
-    Pretty.render $ Pretty.vcat Pretty.left  (header:formatResults)
+    Pretty.render $ Pretty.vcat Pretty.top  (header:formatResults)
   where
-    header = Pretty.hsep 3 Pretty.left $ map Pretty.text
+    header = Pretty.hsep 3 Pretty.bottom $ map Pretty.text
         [ "datafolder", "word frequencies", "oppositionSize", "corpus"
         , "average 100 result" ]
     formatResults = map formatResult results
 
 formatResult :: Result -> Pretty.Box
-formatResult (Result accuracy (Config featureConfig runConfig)) =
-    Pretty.hsep 3 Pretty.left $ map Pretty.text
+formatResult (Result accuracy tp tn fp fn (Config featureConfig runConfig)) =
+    Pretty.hsep 3 Pretty.top $ map Pretty.text
         [ datafolder, show wordFreqs, show oppositionSize, show corpus
-        , show accuracy
+        , show (accuracy, tp / (tp + fn), tn / (tn + fp))
         ]
   where
     FeatureConfig datafolder wordFreqs corpus = featureConfig
