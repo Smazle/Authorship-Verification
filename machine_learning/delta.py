@@ -54,6 +54,10 @@ if args.with_normalization:
 # test aginst.
 problem_number = X_known.shape[0]
 predictions = []
+true_positives = 0
+true_negatives = 0
+false_positives = 0
+false_negatives = 0
 for i in range(0, problem_number):
     opposing = np.random.uniform(0, problem_number, args.opposing_set_size)\
         .astype(np.int)
@@ -68,8 +72,20 @@ for i in range(0, problem_number):
         p=args.metric)
     model.fit(known, results)
 
-    predictions.append(model.predict(unknown)[0])
+    prediction = model.predict(unknown)[0]
+
+    if prediction == authors[i] and y[i]:
+        true_positives = true_positives + 1
+    elif prediction == authors[i] and not y[i]:
+        false_positives = false_positives + 1
+    elif prediction != authors[i] and y[i]:
+        false_negatives = false_negatives + 1
+    else:
+        true_negatives = true_negatives + 1
+
+    predictions.append(prediction)
 
 predictions = np.array(predictions)
 results = predictions == authors
-print(np.sum(results == y) / X_known.shape[0])
+print(np.sum(results == y) / X_known.shape[0], true_positives, true_negatives,
+      false_positives, false_negatives)
