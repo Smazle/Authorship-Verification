@@ -20,9 +20,9 @@ def GenArgs(args, argsSize):
         for combo in arg_selected:
 
             params = []
-            for i in range(1, 11):
+            for i in range(1, 6):
                 params.append(i)
-                for size in range(20, 220, 20):
+                for size in range(20, 120, 20):
 
                     for arg in combo:
 
@@ -41,7 +41,7 @@ def GenArgs(args, argsSize):
 
 
 strings = GenArgs(args, argsSize)
-print strings[-1]
+print len(strings)
 
 for arg in strings:
     cmd = '../../feature_extraction/main.py ../../data/pan_2015 out'
@@ -52,5 +52,3 @@ for arg in strings:
         + sys.argv[1]
 
     os.system(cmd)
-
-print '\n'.join(strings)

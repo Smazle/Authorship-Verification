@@ -1,5 +1,5 @@
 # Install Pip
-declare -a apt=("python3-pip" "libicu-dev")
+declare -a apt=("python3-pip" "libicu-dev" "python3-icu")
 
 for i in "${apt[@]}"
 do
@@ -7,7 +7,7 @@ do
 done
 
 # Install dependencies
-declare -a pip=("numpy" "sklearn" "polyglot" "nltk" "scipy")
+declare -a pip=("numpy" "sklearn" "polyglot" "nltk" "scipy" "pycld2" "morfessor")
 
 for i in "${pip[@]}"
 do
