@@ -77,8 +77,7 @@ class FeatureExtractor:
         # Write features to file.
         author_features = np.array(author_features)
         if self.normalize:
-            print('Scaling')
-            author_features = scale(author_features, 0)
+            author_features[:, :-2] = scale(author_features[:, :-2], axis=0)
 
         np.savetxt(outfile, author_features)
 
