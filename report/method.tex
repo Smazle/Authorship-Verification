@@ -83,9 +83,9 @@ where it is supposed to learn a general difference between feature vectors of
 the same authors and feature vectors of different authors.
 
 \subsection{Extended Delta}
-% TODO write.
+TODO: Experiment with different features.
 
-\subsection{Author Specific SVM}
+\subsection{Author Specific SVM} \label{subsec:author_specific_svm}
 We implemented an approach using \gls{SVM}'s inspired by \cite{hansen2014}. The
 approach is only applicable to problems with more than a single text per
 unknown author. The classification in this approach is done by training an \gls{SVM}
@@ -97,7 +97,10 @@ If there is only a single known text available for an author it does not make
 sense to train an \gls{SVM} since there is simply to little data.
 
 \subsection{Author Specific Random Forest}
-% TODO: write.
+We implemented an approach using Random Forests trained to recognise a single
+authors text. The approach is exactly the same as
+\ref{subsec:author_specific_svm} except that it uses a random forest instead of
+an \gls{SVM}.
 
 \subsection{Experiments}
 In this section we describe the different experiments we have performed.
@@ -119,8 +122,6 @@ verification harder. In the 2015 dataset there is 100 \textit{problems} in which
 some of the known texts are the same (i.e. there is not 100 authors).
 
 % TODO: Describe brown.
-
-% TODO Change delta to brown.
 \subsubsection{Delta Method}
 In the delta method we work only with word frequencies as originally proposed.
 As the linear function we normalize to 0 mean and unit variance and as features
@@ -211,7 +212,7 @@ the training set, and the rest being the test set. We computed the average of
 only in 0.48 accuracy.
 
 \subsection{Extended Delta}
-% TODO write.
+TODO: Experiment with different features.
 
 \subsection{Author Specific SVM} \label{subsec:author_specific_svm}
 In this approach we work with a mixture of different features. We use the 500
