@@ -48,9 +48,9 @@ for author in np.unique(authors):
 
     # Stack author specific and random.
     X_train = np.vstack([same_author, random])
-    y_train = np.array([result] * same_author_n + [not result] * same_author_n)
+    y_train = np.array([1] * same_author_n + [0] * same_author_n)
 
-    model = RandomForestClassifier(n_estimators=2)
+    model = RandomForestClassifier(n_estimators=7)
     model.fit(X_train, y_train)
 
     prediction = model.predict(X_unknown.reshape(1, -1))[0]
