@@ -82,9 +82,9 @@ where it is supposed to learn a general difference between feature vectors of
 the same authors and feature vectors of different authors.
 
 \subsection{Extended Delta}
-TODO: Experiment with different features.
+% TODO write.
 
-\subsection{Author Specific SVM} \label{subsec:author_specific_svm}
+\subsection{Author Specific SVM}
 We implemented an approach using \gls{SVM}'s inspired by \cite{hansen2014}. The
 approach is only applicable to problems with more than a single text per
 unknown author. The classification in this approach is done by training an \gls{SVM}
@@ -96,10 +96,7 @@ If there is only a single known text available for an author it does not make
 sense to train an \gls{SVM} since there is simply to little data.
 
 \subsection{Author Specific Random Forest}
-We implemented an approach using Random Forests trained to recognise a single
-authors text. The approach is exactly the same as
-\ref{subsec:author_specific_svm} except that it uses a random forest instead of
-an \gls{SVM}.
+% TODO: write.
 
 \subsection{Experiments}
 In this section we describe the different experiments we have performed.
@@ -120,14 +117,9 @@ therefore much less known data available for each author which makes the
 verification harder. In the 2015 dataset there is 100 \textit{problems} in which
 some of the known texts are the same (i.e. there is not 100 authors).
 
-To generate metadata about English texts we use the Brown dataset
-\footnote{http://clu.uni.no/icame/brown/bcm-los.html}. The brown dataset
-contains more than 1,000,000 words across different genres and is therefore
-perfect to use for our datasets. We specifically use the dataset to identify
-the most frequently used n-grams (of all kinds). If we were to use our training
-data to generate that we would risk having a bias towards our specific training
-dataset.
+% TODO: Describe brown.
 
+% TODO Change delta to brown.
 \subsubsection{Delta Method}
 In the delta method we work only with word frequencies as originally proposed.
 As the linear function we normalize to 0 mean and unit variance and as features
@@ -201,9 +193,9 @@ opposing authors.
 % TODO: Describe number of trees and other parameters.
 % TODO: Tables of tests.
 \subsubsection{Generalising Random Forest}
-In the \nameref{subsec:Generalising Random Forest}, we have the possibility to use of a wide variety of features. It's a random subset of these features which are then used to train each of trees trees in our random forest. There are no limit to how many and what features can be used, such the task of finding a good/perfect input to train out forest on is quite comprehensive. As such only some preliminary tests have been perform, to get a general idea of the efficiency of the method.
+In the \nameref{subsec:Generalising Random Forest}, we have the possibility to use of a wide variety of features. It's a random subset of these features which are then used to train each of trees trees in our random forest. There are no limit to how many and what features can be used, thus the task of finding a good/perfect input to train out forest on is quite comprehensive. As such only some preliminary tests have been perform, to get a general idea of the efficiency of the method. There will however be expanded on this in the future.
 
-The \texttt{sklearn}\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html} offers a wide variety of configurations with regards to how our forest is built. Each configuration was set to its' default value, besides the \texttt{n\_estimators}. This denotes how many decision are in our forest, and due to ensemble nature of the algorithm, we can increase this parameter to create an average classification prediction based on a larger set of individual predictions, thus decreasing the overall variance our model. This also removes the need for us to compute the average ourselves, as was done in \ref{subsec: Delta Method}. In the follows tests, set \texttt{n\_estimators} to 10000.
+The \texttt{sklearn}\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html} offers a wide variety of configurations with regards to how our forest is built. Each configuration was set to its' default value, with the exception of \texttt{n\_estimators}. This denotes how many decision trees are in our forest, and due to ensemble nature of the algorithm, we can increase this parameter to create an average classification prediction based on a larger set of individual predictions, thus decreasing the overall variance our model. This also removes the need for us to compute the average ourselves, as was done in \ref{subsec: Delta Method}. In the follows tests, set \texttt{n\_estimators} to 10000.
 
 The data set in these experiments, were split into a test and a validation set, by randomly shuffling the entire data set, and taking the first 80\% of the data set as the training set, and the last 20\% as the validation set.
 
@@ -279,7 +271,7 @@ $$
 In the future, we well need to do a more extensive systematic search for the ideal forest and feature configuration. This somewhat random selection of parameters, wont accurately depict the efficiency of the \nameref{subsec:Generalising Random Forest} approach as a whole.
 
 \subsection{Extended Delta}
-TODO: Experiment with different features.
+% TODO write.
 
 \subsection{Author Specific SVM} \label{subsec:author_specific_svm}
 In this approach we work with a mixture of different features. We use the 500
