@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import argparse
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -12,6 +11,10 @@ parser.add_argument('file', type=str, help='Data File Location', nargs='+')
 parser.add_argument(
     '--split', type=float, nargs='?',
     help='The percentage of the data used for training')
+parser.add_argument(
+    '--trees', type=int, nargs='?',
+    help='The number of trees to use in random forest',
+    default=10)
 
 parser.add_argument(
     '--method', type=str, nargs='?',
@@ -22,8 +25,6 @@ datafiles = args.file
 
 if args.split is None:
     args.split = .5
-if args.method is None:
-    args.method = 'Normal'
 
 
 def encode(allText, known, unknown):
@@ -64,26 +65,27 @@ if len(datafiles) > 1:
 
 
 # Get training and test set split - Randomly
-predictions = []
-for _ in range(10):
-    boundary = int(np.floor(len(X) * args.split))
-    np.random.shuffle(X)
+# predictions = []
+boundary = int(np.floor(len(X) * args.split))
+np.random.shuffle(X)
 
-    XTrain = X[:boundary]
-    yTrain = y[:boundary]
+XTrain = X[:boundary]
+yTrain = y[:boundary]
 
-    if(args.split == 1.0):
-        XTest = XTrain
-        yTest = yTrain
-    else:
-        XTest = X[boundary:]
-        yTest = y[boundary:]
+if(args.split == 1.0):
+    XTest = XTrain
+    yTest = yTrain
+else:
+    XTest = X[boundary:]
+    yTest = y[boundary:]
 
-    # Create model
-    model = RandomForestClassifier(n_estimators=10, n_jobs=-1)
-    model.fit(XTrain, yTrain)
+# Create model
+model = RandomForestClassifier(
+    n_estimators=args.trees, n_jobs=-1, max_features='auto')
+model.fit(XTrain, yTrain)
 
-    p = model.predict(XTest) == yTest
-    predictions.append(np.sum(p) / float(len(p)))
+p = model.predict(XTest) == yTest
+print(p)
+print(np.sum(p) / float(len(p)))
 
-print(np.mean(predictions))
+# print(np.mean(predictions))
