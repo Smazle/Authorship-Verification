@@ -30,40 +30,57 @@ find frequencies for has to be chosen (it was originally chosen at 150 words
 usual transformation is a normalization to zero mean unit variance. And finally
 the distance metric can be chosen.
 
-\subsection{Random Forest}
-In addition to the delta method, we chose to use the Random Forest Algorithm.
-Normally one would train out forest on each of the authors individually, then
-use that model to verify whether or not the proposed author was is the same
-one.
-However due to the small amount of that associated with each author in the PAN
-2015 data, this approach wasn't feasible, as it lacks generalization
-capabilties. \cite{pacheco2015} offers a way to achieve this generalization
-using \gls{UBM}. A model describing the general text characteristics of the
-entire data set is created, this serves as our \gls{UBM}. Using our \gls{UBM},
-and a author-specific text, we can compute a match score for an introduced
-author-less text by comparing it to the \gls{UBM}, and the author-specific test.
+\subsection{Generalising Random Forest}
+In addition to the delta method we chose to use the Random Forest approach
+suggested by \cite{pacheco2015}. In our implementation we use different
+features than in the their proposal. The idea of the method is to learn a
+general difference between feature vectors of texts written by the same author
+and feature vectors written by the different authors. The generalization is
+obtained by combining the vectors of known texts with vectors of unknown
+text and training on that combination instead of on the raw vectors. In
+\cite{pacheco2015} the combining function is,
 
-The match score in our case is computed as follows:
 \begin{equation}
     \left\langle
         \dfrac{(A_i-U_i)^2+1}{(B-U_i)^2+1}|i \in [0,\dots, N)
     \right\rangle,
 \end{equation}
-Where $A_i$ is the i'th author-specific feature vector. $B$ is the \gls{UBM}
-computed by taking concatenating out set of author-specific texts, and then
-performing the same set of feature extractions on that set of texts, as we do on
-each individual author-specific text, and our unknown text. Finally there $U_i$
-which is the i'th unknown author text feature vector.
 
-The addition of of 1 serves, to prevent division by zero, and squaring by two,
-prevent negative values. As such, each value in the resulting encoded feature
-vector is in the range $[0,\dots, 1)$ if it's closer to the \gls{UBM} in terms
-of value, and in range $[0,\dots, \inf^+)$ if it's closer to the author-specific
-text. Thus describing the three way relation between the unknown text, the
-author-specific text, and the \gls{UBM}.
+where $A_i$ is the $i$'th author-specific feature vector, $B$ is a \gls{UBM}
+describing a general author independent text and $U_i$ is the feature vector of
+the $i$'th unknown text.
 
-It's with this generalized encoded feature matrix, that we train our random
-forest.
+The \gls{UBM} is meant to represent the features of an author independent text.
+It is computed by concatenating all texts in the training dataset and computing
+features from that resulting text. Since multiple authors is then part of the
+text we are computing features from, the assumption is that the author specific
+features will be averaged out and the \gls{UBM} will represent the features of
+an author independent text. The addition of 1 in the model prevent division
+by zero. Since 1 is added both in the numerator and the denominator it does
+not otherwise change the result. The squaring of $(A_i - U_i)$ and $(B - U_i)$
+prevents negative values. Therefore each value in the resulting encoded feature
+vector is in the range $[0; \inf[$.
+
+Let's examine what the above equation describes. Fix any specific $i$ and let
+$A$ be $A_i$ and $U$ be $U_i$ then for each feature $k$ we compute,
+
+\begin{equation}
+    R_k = \frac{(A_k-U_k)^2+1}{(B_k-U_k)^2+1},
+\end{equation}
+
+The $k$'th feature in each of the vectors is the same feature just extracted
+from different texts. When the feature of the unknown text $U_k$ is closer to
+$A_k$ than $B_k$ the numerator in the fraction will be greater than the
+denominator giving us something in the range $[0; 1]$. When the feature of the
+unknown text $U_k$ is closer to $B_k$ than $A_k$ the numerator will be lesser
+than the denominator and we will therefore get a value in the interval
+$[1; \infty[$. That results in $R$ being a vector containing values from 0 to
+$\infty$ where it is between 0 and 1 whenever a feature is closer to the author
+specific text than the universal text and greater than 1 otherwise.
+
+The random forest algorithm is then trained on these encoded feature vectors
+where it is supposed to learn a general difference between feature vectors of
+the same authors and feature vectors of different authors.
 
 \subsection{Extended Delta}
 % TODO write.
@@ -92,6 +109,8 @@ only a single known text for each author and a single unknown text. There is
 therefore much less known data available for each author which makes the
 verification harder. In the 2015 dataset there is 100 \textit{problems} in which
 some of the known texts are the same (i.e. there is not 100 authors).
+
+% TODO: Describe brown.
 
 \subsubsection{Delta Method}
 In the delta method we work only with word frequencies as originally proposed.
@@ -167,7 +186,7 @@ opposing authors.
 
 % TODO: Describe number of trees and other parameters.
 % TODO: Tables of tests.
-\subsubsection{Random Forest}
+\subsubsection{Generalising Random Forest}
 TBA
 
 
