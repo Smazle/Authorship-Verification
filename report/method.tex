@@ -31,15 +31,16 @@ find frequencies for has to be chosen (it was originally chosen at 150 words
 usual transformation is a normalization to zero mean unit variance. And finally
 the distance metric can be chosen.
 
-\subsection{Generalising Random Forest}
-\label{subsec:Generalising Random Forest}
+\subsection{Generalising Random Forest} \label{subsec:Generalising Random Forest}
 In addition to the delta method we chose to use the Random Forest approach
-suggested by \cite{pacheco2015}. In our implementation we use different
-features than in the their proposal. The idea of the method is to learn a
-general difference between feature vectors of texts written by the same author
-and feature vectors written by the different authors. The generalization is
-obtained by combining the vectors of known texts with vectors of unknown
-text and training on that combination instead of on the raw vectors. Rewriting the encoding function used in \cite{pacheco2015}, we get the following combining function,
+suggested by \cite{pacheco2015}. In our implementation we use different features
+than in the their proposal. The idea of the method is to learn a general
+difference between feature vectors of texts written by the same author and
+feature vectors written by the different authors. The generalization is obtained
+by combining the vectors of known texts with vectors of unknown text and
+training on that combination instead of on the raw vectors. Rewriting the
+encoding function used in \cite{pacheco2015}, we get the following combining
+function,
 
 \begin{equation}
         R_{i_k} = \frac{(A_{i_k}-U_{i_k})^2+1}{(B_k-U_{i_k})^2+1}
