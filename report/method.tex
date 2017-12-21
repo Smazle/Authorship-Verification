@@ -98,7 +98,7 @@ sense to train an \gls{SVM} since there is simply to little data.
 
 \subsection{Author Specific Random Forest}
 We implemented an approach using Random Forests trained to recognise a single
-authors text. The approach is exactly the same as
+authors texts. The approach is exactly the same as
 \ref{subsec:author_specific_svm} except that it uses a random forest instead of
 an \gls{SVM}.
 
@@ -145,36 +145,125 @@ question we classify it as being written by the author.
 
 We chose the number of most frequent words $n$ and number of opposing
 authors $m$ by trying different configurations in a grid and choosing the
-best values. On the training dataset we obtained the results shown in
+best values. Each configuration is tried 100 times since random authors are
+chosen in each run. On the training dataset we obtained the results shown in
 Figure \ref{fig:delta_pan_2013_res} for the PAN 2013 data and in Figure
 \ref{fig:delta_pan_2015_res} for the PAN 2015 data. For PAN 2013 the results are
 generally better since there is more text available and the best accuracy were
-obtained when using the 300 most frequent words and 3 opposing authors. For PAN
+obtained when using the 300 most frequent words and 4 opposing authors. For PAN
 2015 the best result is obtained when using the 200 most frequent words and 1
 opposing authors.
 
 \begin{figure}
     \centering
-    \begin{tabular}{c|ccccc}
-               & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
+    \begin{tabular}{c|lccccc}
+               &                   & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
         \hline
-        $m=1$  & 0.61062 & 0.64718 & 0.65875 & 0.65906 & 0.65718 \\
-        $m=2$  & 0.64593 & 0.68781 & 0.70281 & 0.68906 & 0.69593 \\
-        $m=3$  & 0.65625 & 0.68187 & \textbf{0.71156} & 0.70125 & 0.68718 \\
-        $m=4$  & 0.66156 & 0.69875 & 0.70281 & 0.67781 & 0.68187 \\
-        $m=5$  & 0.64843 & 0.68406 & 0.70625 & 0.68218 & 0.67750 \\
-        $m=6$  & 0.65125 & 0.68906 & 0.70156 & 0.67500 & 0.67000 \\
-        $m=7$  & 0.65093 & 0.68375 & 0.70125 & 0.67062 & 0.66812 \\
-        $m=8$  & 0.62593 & 0.67125 & 0.68812 & 0.66468 & 0.67187 \\
-        $m=9$  & 0.62968 & 0.68125 & 0.69125 & 0.67218 & 0.67593 \\
-        $m=10$ & 0.62593 & 0.68685 & 0.69625 & 0.66906 & 0.66156
+        $m=1$  & \textbf{Accuracy} & 0.62093 & 0.64437 & 0.65062 & 0.66718 & 0.66281 \\
+               & \textbf{TPR}      & 0.75812 & 0.79562 & \textbf{0.80812} & 0.79750 & 0.77500 \\
+               & \textbf{TNR}      & 0.48375 & 0.49312 & 0.49312 & 0.53687 & 0.55062 \\
+        \hline
+        $m=2$  & \textbf{Accuracy} & 0.65375 & 0.68562 & 0.69593 & 0.68968 & 0.68250 \\
+               & \textbf{TPR}      & 0.63250 & 0.71875 & 0.74000 & 0.70062 & 0.67125 \\
+               & \textbf{TNR}      & 0.67500 & 0.65250 & 0.65187 & 0.67875 & 0.69375 \\
+        \hline
+        $m=3$  & \textbf{Accuracy} & 0.66250 & 0.68187 & 0.69687 & 0.69250 & 0.69843 \\
+               & \textbf{TPR}      & 0.55937 & 0.64125 & 0.68375 & 0.65437 & 0.63375 \\
+               & \textbf{TNR}      & 0.76562 & 0.72250 & 0.71000 & 0.73062 & 0.76312 \\
+        \hline
+        $m=4$  & \textbf{Accuracy} & 0.66312 & 0.68656 & \textbf{0.70062} & 0.68062 & 0.68281 \\
+               & \textbf{TPR}      & 0.49875 & 0.61125 & 0.65125 & 0.61875 & 0.57562 \\
+               & \textbf{TNR}      & 0.82750 & 0.76187 & 0.75000 & 0.74250 & 0.79000 \\
+        \hline
+        $m=5$  & \textbf{Accuracy} & 0.66343 & 0.69468 & 0.69250 & 0.66937 & 0.68437 \\
+               & \textbf{TPR}      & 0.46687 & 0.59375 & 0.61812 & 0.57500 & 0.54937 \\
+               & \textbf{TNR}      & 0.86000 & 0.79562 & 0.76687 & 0.76375 & 0.81937 \\
+        \hline
+        $m=6$  & \textbf{Accuracy} & 0.63531 & 0.67437 & 0.69406 & 0.67312 & 0.66718 \\
+               & \textbf{TPR}      & 0.39937 & 0.55125 & 0.59750 & 0.56750 & 0.50312 \\
+               & \textbf{TNR}      & 0.87125 & 0.79750 & 0.79062 & 0.77875 & 0.83125 \\
+        \hline
+        $m=7$  & \textbf{Accuracy} & 0.63843 & 0.67906 & 0.68437 & 0.67000 & 0.66562 \\
+               & \textbf{TPR}      & 0.37875 & 0.53812 & 0.58500 & 0.54687 & 0.49625 \\
+               & \textbf{TNR}      & 0.89812 & 0.82000 & 0.78375 & 0.79312 & 0.83500 \\
+        \hline
+        $m=8$  & \textbf{Accuracy} & 0.63406 & 0.69281 & 0.68156 & 0.65218 & 0.67156 \\
+               & \textbf{TPR}      & 0.36937 & 0.55062 & 0.56250 & 0.52250 & 0.50000 \\
+               & \textbf{TNR}      & 0.89875 & 0.83500 & 0.80062 & 0.78187 & 0.84312 \\
+        \hline
+        $m=9$  & \textbf{Accuracy} & 0.63781 & 0.68031 & 0.66437 & 0.66656 & 0.67031 \\
+               & \textbf{TPR}      & 0.36625 & 0.51937 & 0.53000 & 0.52562 & 0.47375 \\
+               & \textbf{TNR}      & \textbf{0.90937} & 0.84125 & 0.79875 & 0.80750 & 0.86687 \\
+        \hline
+        $m=10$ & \textbf{Accuracy} & 0.62562 & 0.68781 & 0.68343 & 0.67687 & 0.66000 \\
+               & \textbf{TPR}      & 0.34625 & 0.51375 & 0.54937 & 0.53125 & 0.46312 \\
+               & \textbf{TNR}      & 0.90500 & 0.86187 & 0.81750 & 0.82250 & 0.85687
     \end{tabular}
-    \caption{Accuracy on different number of most frequent words $n$ and
-        different number of opposing authors $m$ for the Delta Method. Each
-        number is an average of 100 runs since there is randomness involved when
-        picking the opposing authors. The test is run on the PAN 2013 dataset.}
+    \caption{Accuracy, \gls{TPR} and \gls{TNR} on different number of most
+        frequent words $n$ and different number of opposing authors $m$ for the
+        Delta Method. Each number is an average of 100 runs since there is
+        randomness involved when picking the opposing authors. The test is run
+        on the PAN 2013 dataset. Maximum values for both Accuracy, \gls{TPR} and
+        \gls{TNR} is shown in bold.}
     \label{fig:delta_pan_2013_res}
 \end{figure}
+
+
+
+
+
+
+%../../data/pan_2015   100   1   Brown   (0.5695000000000001,0.5874,0.5516)
+%../../data/pan_2015   100   2   Brown   (0.5681,0.42219999999999996,0.7140000000000001)
+%../../data/pan_2015   100   3   Brown   (0.5539999999999999,0.3248,0.7831999999999999)
+%../../data/pan_2015   100   4   Brown   (0.5458999999999999,0.25920000000000004,0.8326)
+%../../data/pan_2015   100   5   Brown   (0.5352,0.21,0.8604)
+%../../data/pan_2015   100   6   Brown   (0.5274999999999999,0.17980000000000002,0.8752)
+%../../data/pan_2015   100   7   Brown   (0.5279000000000003,0.1624,0.8934000000000001)
+%../../data/pan_2015   100   8   Brown   (0.5234000000000002,0.1482,0.8986)
+%../../data/pan_2015   100   9   Brown   (0.5193,0.1304,0.9081999999999999)
+%../../data/pan_2015   100   10   Brown   (0.5178,0.1186,0.917)
+%../../data/pan_2015   200   1   Brown   (0.6023999999999999,0.6466,0.5582)
+%../../data/pan_2015   200   2   Brown   (0.5897000000000001,0.46740000000000004,0.7120000000000001)
+%../../data/pan_2015   200   3   Brown   (0.5751000000000001,0.3688,0.7814)
+%../../data/pan_2015   200   4   Brown   (0.5639,0.2994,0.8284)
+%../../data/pan_2015   200   5   Brown   (0.5543,0.2492,0.8593999999999999)
+%../../data/pan_2015   200   6   Brown   (0.5482000000000001,0.2184,0.878)
+%../../data/pan_2015   200   7   Brown   (0.5418999999999998,0.1916,0.8922)
+%../../data/pan_2015   200   8   Brown   (0.5357000000000003,0.1744,0.897)
+%../../data/pan_2015   200   9   Brown   (0.5334000000000002,0.1522,0.9146)
+%../../data/pan_2015   200   10   Brown   (0.5255000000000004,0.1376,0.9134)
+%../../data/pan_2015   300   1   Brown   (0.5621,0.6175999999999999,0.5065999999999999)
+%../../data/pan_2015   300   2   Brown   (0.5647000000000001,0.4572,0.6722)
+%../../data/pan_2015   300   3   Brown   (0.5622000000000004,0.36060000000000003,0.7637999999999999)
+%../../data/pan_2015   300   4   Brown   (0.5456000000000002,0.29460000000000003,0.7966)
+%../../data/pan_2015   300   5   Brown   (0.5415000000000001,0.24420000000000003,0.8388)
+%../../data/pan_2015   300   6   Brown   (0.5370999999999999,0.218,0.8562000000000001)
+%../../data/pan_2015   300   7   Brown   (0.5324000000000001,0.19440000000000002,0.8704000000000001)
+%../../data/pan_2015   300   8   Brown   (0.5245999999999998,0.1618,0.8874)
+%../../data/pan_2015   300   9   Brown   (0.5206,0.152,0.8892)
+%../../data/pan_2015   300   10   Brown   (0.5226,0.1396,0.9056000000000001)
+%../../data/pan_2015   400   1   Brown   (0.5726999999999999,0.622,0.5234000000000001)
+%../../data/pan_2015   400   2   Brown   (0.5729000000000001,0.4534,0.6923999999999999)
+%../../data/pan_2015   400   3   Brown   (0.5685000000000002,0.3666,0.7704000000000001)
+%../../data/pan_2015   400   4   Brown   (0.5558,0.29,0.8216)
+%../../data/pan_2015   400   5   Brown   (0.5629,0.2586,0.8672)
+%../../data/pan_2015   400   6   Brown   (0.5553,0.231,0.8795999999999999)
+%../../data/pan_2015   400   7   Brown   (0.5455000000000002,0.1866,0.9044)
+%../../data/pan_2015   400   8   Brown   (0.5489999999999999,0.1776,0.9204000000000001)
+%../../data/pan_2015   400   9   Brown   (0.5422999999999999,0.157,0.9276000000000001)
+%../../data/pan_2015   400   10   Brown   (0.5408000000000001,0.1366,0.945)
+%../../data/pan_2015   500   1   Brown   (0.5617000000000002,0.6102000000000001,0.5132)
+%../../data/pan_2015   500   2   Brown   (0.5603000000000001,0.4464,0.6742)
+%../../data/pan_2015   500   3   Brown   (0.5538000000000001,0.3382,0.7694)
+%../../data/pan_2015   500   4   Brown   (0.5471,0.278,0.8162)
+%../../data/pan_2015   500   5   Brown   (0.5496000000000002,0.2422,0.857)
+%../../data/pan_2015   500   6   Brown   (0.5426000000000001,0.20739999999999997,0.8778)
+%../../data/pan_2015   500   7   Brown   (0.5453000000000001,0.1902,0.9004000000000001)
+%../../data/pan_2015   500   8   Brown   (0.5341999999999999,0.15560000000000002,0.9128000000000001)
+%../../data/pan_2015   500   9   Brown   (0.5346000000000001,0.1506,0.9186)
+%../../data/pan_2015   500   10   Brown   (0.5315000000000001,0.1294,0.9336)
+
 
 \begin{figure}
     \centering
