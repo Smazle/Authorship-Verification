@@ -208,14 +208,57 @@ opposing authors.
     \label{fig:delta_pan_2013_res}
 \end{figure}
 
-
-
-
-
-
-%../../data/pan_2015   100   1   Brown   (0.5695000000000001,0.5874,0.5516)
-%../../data/pan_2015   100   2   Brown   (0.5681,0.42219999999999996,0.7140000000000001)
-%../../data/pan_2015   100   3   Brown   (0.5539999999999999,0.3248,0.7831999999999999)
+\begin{figure}
+    \centering
+    \begin{tabular}{c|ccccc}
+               & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
+        \hline
+        $m=1$  & \textbf{Accuracy} &0.5695000000000001,0.5874,0.5516
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+        \hline
+        $m=2$  & \textbf{Accuracy} &0.5681,0.42219999999999996,0.7140000000000001
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+        \hline
+        $m=3$  & \textbf{Accuracy} &0.5539999999999999,0.3248,0.7831999999999999
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+        \hline
+        $m=4$  & \textbf{Accuracy} &
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+        \hline
+        $m=5$  & \textbf{Accuracy} &
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+        \hline
+        $m=6$  & \textbf{Accuracy} &
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+        \hline
+        $m=7$  & \textbf{Accuracy} &
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+        \hline
+        $m=8$  & \textbf{Accuracy} &
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+        \hline
+        $m=9$  & \textbf{Accuracy} &
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+        \hline
+        $m=10$ & \textbf{Accuracy} &
+               & \textbf{TPR}      &
+               & \textbf{TNR}      &
+    \end{tabular}
+    \caption{Accuracy on different number of most frequent words $n$ and
+        different number of opposing authors $m$ for the Delta Method. Each
+        number is an average of 100 runs since there is randomness involved when
+        picking the opposing authors. The test is run on the PAN 2015 dataset.}
+    \label{fig:delta_pan_2015_res}
+\end{figure}
 %../../data/pan_2015   100   4   Brown   (0.5458999999999999,0.25920000000000004,0.8326)
 %../../data/pan_2015   100   5   Brown   (0.5352,0.21,0.8604)
 %../../data/pan_2015   100   6   Brown   (0.5274999999999999,0.17980000000000002,0.8752)
@@ -265,28 +308,28 @@ opposing authors.
 %../../data/pan_2015   500   10   Brown   (0.5315000000000001,0.1294,0.9336)
 
 
-\begin{figure}
-    \centering
-    \begin{tabular}{c|ccccc}
-               & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
-        \hline
-        $m=1$  & 0.57370 & \textbf{0.59350} & 0.56730 & 0.56470 & 0.55650 \\
-        $m=2$  & 0.56800 & 0.58400 & 0.56530 & 0.56960 & 0.55190 \\
-        $m=3$  & 0.55369 & 0.57580 & 0.55540 & 0.56010 & 0.54990 \\
-        $m=4$  & 0.54259 & 0.56360 & 0.55140 & 0.56590 & 0.54599 \\
-        $m=5$  & 0.53650 & 0.55890 & 0.54089 & 0.55950 & 0.54450 \\
-        $m=6$  & 0.52900 & 0.54680 & 0.53280 & 0.55170 & 0.53770 \\
-        $m=7$  & 0.52599 & 0.53750 & 0.52879 & 0.54850 & 0.53629 \\
-        $m=8$  & 0.52169 & 0.53450 & 0.52950 & 0.54560 & 0.53740 \\
-        $m=9$  & 0.51999 & 0.53420 & 0.52490 & 0.54829 & 0.53620 \\
-        $m=10$ & 0.51960 & 0.52660 & 0.51979 & 0.54470 & 0.53510
-    \end{tabular}
-    \caption{Accuracy on different number of most frequent words $n$ and
-        different number of opposing authors $m$ for the Delta Method. Each
-        number is an average of 100 runs since there is randomness involved when
-        picking the opposing authors. The test is run on the PAN 2015 dataset.}
-    \label{fig:delta_pan_2015_res}
-\end{figure}
+%\begin{figure}
+    %\centering
+    %\begin{tabular}{c|ccccc}
+               %& $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
+        %\hline
+        %$m=1$  & 0.57370 & \textbf{0.59350} & 0.56730 & 0.56470 & 0.55650 \\
+        %$m=2$  & 0.56800 & 0.58400 & 0.56530 & 0.56960 & 0.55190 \\
+        %$m=3$  & 0.55369 & 0.57580 & 0.55540 & 0.56010 & 0.54990 \\
+        %$m=4$  & 0.54259 & 0.56360 & 0.55140 & 0.56590 & 0.54599 \\
+        %$m=5$  & 0.53650 & 0.55890 & 0.54089 & 0.55950 & 0.54450 \\
+        %$m=6$  & 0.52900 & 0.54680 & 0.53280 & 0.55170 & 0.53770 \\
+        %$m=7$  & 0.52599 & 0.53750 & 0.52879 & 0.54850 & 0.53629 \\
+        %$m=8$  & 0.52169 & 0.53450 & 0.52950 & 0.54560 & 0.53740 \\
+        %$m=9$  & 0.51999 & 0.53420 & 0.52490 & 0.54829 & 0.53620 \\
+        %$m=10$ & 0.51960 & 0.52660 & 0.51979 & 0.54470 & 0.53510
+    %\end{tabular}
+    %\caption{Accuracy on different number of most frequent words $n$ and
+        %different number of opposing authors $m$ for the Delta Method. Each
+        %number is an average of 100 runs since there is randomness involved when
+        %picking the opposing authors. The test is run on the PAN 2015 dataset.}
+    %\label{fig:delta_pan_2015_res}
+%\end{figure}
 
 % TODO: Describe number of trees and other parameters.
 % TODO: Tables of tests.
