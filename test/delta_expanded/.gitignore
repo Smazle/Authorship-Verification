@@ -1,3 +1,4 @@
-Delta.hi
-Delta.o
-Delta
+*.hi
+*.o
+Mean
+*/*/*.txt
