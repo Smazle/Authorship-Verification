@@ -18,7 +18,8 @@ parser.add_argument(
 
 parser.add_argument(
     '--method', type=str, nargs='?',
-    help='The encoding method used on the dataset')
+    help='The encoding method used on the dataset',
+    default='pancho')
 
 args = parser.parse_args()
 datafiles = args.file
@@ -65,27 +66,43 @@ if len(datafiles) > 1:
 
 
 # Get training and test set split - Randomly
-# predictions = []
-boundary = int(np.floor(len(X) * args.split))
-np.random.shuffle(X)
+feature_importance = []
 
-XTrain = X[:boundary]
-yTrain = y[:boundary]
 
-if(args.split == 1.0):
-    XTest = XTrain
-    yTest = yTrain
-else:
-    XTest = X[boundary:]
-    yTest = y[boundary:]
+predictions = []
+for i in range(100):
+    boundary = int(np.floor(len(X) * args.split))
+    np.random.shuffle(X)
 
-# Create model
-model = RandomForestClassifier(
-    n_estimators=args.trees, n_jobs=-1, max_features='auto')
-model.fit(XTrain, yTrain)
+    XTrain = X[:boundary]
+    yTrain = y[:boundary]
 
-p = model.predict(XTest) == yTest
-print(p)
-print(np.sum(p) / float(len(p)))
+    if(args.split == 1.0):
+        XTest = XTrain
+        yTest = yTrain
+    else:
+        XTest = X[boundary:]
+        yTest = y[boundary:]
 
-# print(np.mean(predictions))
+    # Create model
+    model = RandomForestClassifier(
+        n_estimators=args.trees, n_jobs=-1, max_features=None)
+    model.fit(XTrain, yTrain)
+    feature_importance.append(model.feature_importances_)
+
+    p = model.predict(XTest) == yTest
+    predictions.append(np.sum(p) / float(len(p)))
+
+print(np.mean(predictions))
+
+
+feature_importance = np.mean(feature_importance, 0)
+
+f = open('../feature_extraction/headers', 'r').read().split(' ')
+feature_importance = zip(f, feature_importance)
+
+feature_importance = sorted(
+    feature_importance, key=lambda x: x[1], reverse=True)
+
+for i in feature_importance:
+    print(i)

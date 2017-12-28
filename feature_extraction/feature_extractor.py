@@ -14,52 +14,65 @@ class FeatureExtractor:
     def __init__(
         self, authors, character_grams=[], special_character_grams=[],
             word_frequencies=0, postag_grams=[], word_grams=[], corpus='all',
-            normalize=True):
+            normalize=True, feature_header=None):
 
         self.authors = authors
-
         self.normalize = normalize
+        self.feature_header = feature_header
 
         # If the type is Normal only unique files are used. If it is pancho
         # all files are concatenated.
-        self.fulltext = gen_full_text(self.authors, corpus)
+        self.corpus = gen_corpus(self.authors, corpus)
+        self.fulltext = gen_corpus(self.authors, 'all')
 
         # Create feature extractors for the types of features requested.
         self.extractors = []
+        self.featureNames = []
+
+        def feat_name(x, y, n): return [x.format(
+            n, size + 1) for size in range(y)]
+
         # Handle character n-grams.
         for (n, size) in character_grams:
             extractor = CharacterNGramFeatureExtractor(n, size)
-            extractor.fit(self.fulltext)
+            extractor.fit(self.corpus)
 
             self.extractors.append(extractor)
+            self.featureNames += feat_name('character_grams-{}-{}', size, n)
 
         # Handle special character n-grams.
         for (n, size) in special_character_grams:
             extractor = SpecialCharacterNGramFeatureExtractor(n, size)
-            extractor.fit(self.fulltext)
+            extractor.fit(self.corpus)
 
             self.extractors.append(extractor)
+            self.featureNames += feat_name(
+                'special_character_grams-{}-{}', size, n)
 
         # Handle word frequencies.
         if word_frequencies != 0:
             extractor = WordFrequencyExtractor(word_frequencies)
-            extractor.fit(self.fulltext)
+            extractor.fit(self.corpus)
 
             self.extractors.append(extractor)
+            self.featureNames += feat_name('word_frequencies-{}{}',
+                                           word_frequencies, '')
 
         # Handle POS tagging n-grams.
         for (n, size) in postag_grams:
             extractor = PosTagNGramsExtractor(n, size)
-            extractor.fit(self.fulltext)
+            extractor.fit(self.corpus)
 
             self.extractors.append(extractor)
+            self.featureNames += feat_name('postag_grams-{}-{}', size, n)
 
         # Handle word n-grams.
         for (n, size) in word_grams:
             extractor = WordNGramsFeatureExtractor(n, size)
-            extractor.fit(self.fulltext)
+            extractor.fit(self.corpus)
 
             self.extractors.append(extractor)
+            self.featureNames += feat_name('word_grams-{}-{}', size, n)
 
     def extract(self, outfile, master_file=None):
         # Generate features for each author.
@@ -84,6 +97,9 @@ class FeatureExtractor:
         if master_file is not None:
             master_features = self.extract_features(self.fulltext)
             np.savetxt(master_file, np.array([master_features]))
+
+        if self.feature_header is not None:
+            open(self.feature_header, 'w').write(' '.join(self.featureNames))
 
     def extract_features(self, text):
         features = []
@@ -137,7 +153,7 @@ def analyse_input_folder(data_folder):
     return authors
 
 
-def gen_full_text(authors, corpus):
+def gen_corpus(authors, corpus):
     if corpus == 'all':
         all_texts = sum([x.known for x in authors], [])
 
