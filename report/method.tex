@@ -276,19 +276,19 @@ efficiency of the method. There will however be expanded on this in the future.
 
 The \texttt{sklearn}
 \footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html} offers a wide variety of configurations with regards to
-how our forest is built. Each configuration was set to its' default value, with
-the exception of \texttt{n\_estimators}. This denotes how many decision trees
+how our forest is built. Most configuration was set to its' default value, with
+the exception of \texttt{n\_estimators}, and \texttt{max\features}. \texttt{n\_estimators} denotes how many decision trees
 are in our forest, and due to ensemble nature of the algorithm, we can increase
 this parameter to create an average classification prediction based on a larger
 set of individual predictions, thus decreasing the overall variance our model.
 This also removes the need for us to compute the average ourselves, as was done
 in \ref{subsec: Delta Method}. In the following tests, \texttt{n\_estimators} is
-set to 10000.
+set to 100. 
 
 The dataset in these experiments were split into a test and a validation set.
 The selection was done by randomly shuffling the entire data set and taking
 the first 80\% of the dataset as the training set, and the last 20\% as the
-validation set.
+validation set. As such we need a another layer of averaging, to combat the variance introduced by the random shuffling. In the following cases, this is done over 100 iterations of random forest predictions. 
 
 In the following, we created our \gls{UBM} using the concatenation of all
 author-specific texts, from our training data set. Results describe number of
