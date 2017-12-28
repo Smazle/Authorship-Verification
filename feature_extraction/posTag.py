@@ -19,7 +19,6 @@ class PosTagNGramsExtractor:
             n (int): What number of gram should be extracted
             grams (list): A list of most frequent n-grams
     """
-        
 
     def __init__(self, n, size):
         """
@@ -34,7 +33,7 @@ class PosTagNGramsExtractor:
 
     def fit(self, text):
         """
-            Fit the extractor to a text, thus computing the set of 
+            Fit the extractor to a text, thus computing the set of
             grams used for frequency computation on newly introduced texts
 
             Args:
@@ -43,6 +42,10 @@ class PosTagNGramsExtractor:
         grams = nGramCount(text, self.n)
         most_common = grams.most_common(self.size)
         most_common = [key for (key, value) in most_common]
+
+        if len(most_common) != self.size:
+            raise RuntimeError(
+                'Could not find ' + str(self.size) + ' different grams.')
 
         self.grams = most_common
 
