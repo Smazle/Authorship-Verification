@@ -27,6 +27,12 @@ parser.add_argument(
     'distance and 2 it is the Euclidean distance',
     type=int,
     default=1)
+parser.add_argument(
+    '--with-PN',
+    help='Whether or not to also print True Positive, False Positive, True ' +
+    'Negative and False Negative.',
+    action='store_true',
+    default=False)
 args = parser.parse_args()
 
 # Import data ([features...], truth, author).
@@ -87,5 +93,9 @@ for i in range(0, problem_number):
 
 predictions = np.array(predictions)
 results = predictions == authors
-print(np.sum(results == y) / X_known.shape[0], true_positives, true_negatives,
-      false_positives, false_negatives)
+
+if args.with_PN:
+    print(np.sum(results == y) / X_known.shape[0], true_positives,
+          true_negatives, false_positives, false_negatives)
+else:
+    print(np.sum(results == y) / X_known.shape[0])
