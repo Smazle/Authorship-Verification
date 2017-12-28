@@ -158,6 +158,26 @@ def gen_full_text(authors, corpus):
 
         return ''.join(set(all_texts))
     elif corpus == 'brown':
-        return ' '.join(brown.words())
+        paragraphs = brown.paras()
+
+        paragraph_txt = ''
+        for paragraph in paragraphs:
+
+            sentence_txt = ''
+            for sentence in paragraph:
+
+                word_txt = ''
+                for word in sentence:
+                    if word == '.' or word == ',' or word == '!'\
+                            or word == '?':
+                        word_txt = word_txt[:-1] + word + ' '
+                    else:
+                        word_txt += word + ' '
+
+                sentence_txt += word_txt
+
+            paragraph_txt += sentence_txt + '\n\n'
+
+        return paragraph_txt
     else:
         raise Exception('UNKNOWN CORPUS')

@@ -1,6 +1,6 @@
 from collections import Counter
-import string
 import nltk
+import string
 
 
 class WordFrequencyExtractor:
@@ -53,6 +53,10 @@ class WordFrequencyExtractor:
         words = find_word_count(text)
         most_common = words.most_common(self.size)
         most_common = [key for (key, value) in most_common]
+
+        if len(most_common) != self.size:
+            raise RuntimeError(
+                'Could not find ' + str(self.size) + ' different grams.')
 
         self.words = most_common
 
@@ -132,6 +136,10 @@ class WordNGramsFeatureExtractor:
         grams = find_word_n_grams(text, self.n)
         most_common = grams.most_common(self.size)
         most_common = [key for (key, value) in most_common]
+
+        if len(most_common) != self.size:
+            raise RuntimeError(
+                'Could not find ' + str(self.size) + ' different grams.')
 
         self.grams = most_common
 

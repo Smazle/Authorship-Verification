@@ -4,6 +4,16 @@ import argparse
 import numpy as np
 from numpy.random import choice
 from sklearn.svm import SVC
+from sklearn.model_selection import LeaveOneOut
+from sklearn.model_selection import GridSearchCV
+
+class Hashable:
+
+    def __init__(self, d):
+        self.d = d
+
+    def __hash__(self):
+        return hash(str(self.d))
 
 # Set up arguments
 parser = argparse.ArgumentParser(
@@ -34,8 +44,9 @@ if args.with_normalization:
 
     X = (X - mean) / std_var
 
-final_results = []
+configurations = {}
 for author in np.unique(authors):
+    # print('author', author)
     result = results[authors == author][0]
     same_author = X[authors == author, 0:int(X.shape[1] / 2)]
     different_author = X[authors != author, 0:int(X.shape[1] / 2)]
@@ -50,7 +61,43 @@ for author in np.unique(authors):
     X_train = np.vstack([same_author, random])
     y_train = np.array([1] * same_author_n + [0] * same_author_n)
 
-    model = SVC(C=1.0, kernel='rbf', gamma='auto')
+    # Cross validation over all C and gamma.
+    C_range = np.logspace(-2, 10, 7)
+    gamma_range = np.logspace(-9, 3, 7)
+    param_grid = dict(gamma=gamma_range, C=C_range)
+    cv = LeaveOneOut()
+    grid = GridSearchCV(SVC(kernel='rbf'), param_grid=param_grid, cv=cv)
+    grid.fit(X_train, y_train)
+
+    # print('\tBest %s with a score of %0.2f'
+          # % (grid.best_params_, grid.best_score_))
+
+    try:
+        configurations[Hashable(grid.best_params_)] += 1
+    except KeyError:
+        configurations[Hashable(grid.best_params_)] = 1
+
+# Extract best configuration from the above search.
+best_conf = max(configurations, key=configurations.get).d
+
+final_results = []
+for author in np.unique(authors):
+    # print('author', author)
+    result = results[authors == author][0]
+    same_author = X[authors == author, 0:int(X.shape[1] / 2)]
+    different_author = X[authors != author, 0:int(X.shape[1] / 2)]
+    X_unknown = X[authors == author, int(X.shape[1] / 2):][0]
+
+    # Draw random opposition.
+    same_author_n = same_author.shape[0]
+    random = different_author[choice(different_author.shape[0], same_author_n,
+                              replace=False), :]
+
+    # Stack author specific and random.
+    X_train = np.vstack([same_author, random])
+    y_train = np.array([1] * same_author_n + [0] * same_author_n)
+
+    model = SVC(C=best_conf['C'], kernel='rbf', gamma=best_conf['gamma'])
     model.fit(X_train, y_train)
 
     prediction = model.predict(X_unknown.reshape(1, -1))[0]
