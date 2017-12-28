@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import argparse
 from feature_extractor import analyse_input_folder, FeatureExtractor
 
@@ -65,6 +64,10 @@ parser.add_argument(
     '--normalize', type=bool, nargs='?', default=True,
     help='Determines if the data should be normalized')
 
+parser.add_argument(
+    '--feature-header', type=str, nargs='?',
+    default=None, help='Write out the features created')
+
 args = parser.parse_args()
 
 # Convert arguments to description of features.
@@ -93,6 +96,7 @@ feature_extractor = FeatureExtractor(
     postag_grams=postag_grams,
     word_grams=word_grams,
     corpus=args.corpus,
-    normalize=args.normalize)
+    normalize=args.normalize,
+    feature_header=args.feature_header)
 
 feature_extractor.extract(args.outfile, args.master_file)
