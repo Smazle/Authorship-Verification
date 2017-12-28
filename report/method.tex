@@ -46,8 +46,11 @@ function,
         R_{i_k} = \frac{(A_{i_k}-U_{i_k})^2+1}{(B_k-U_{i_k})^2+1}
 \end{equation}
 
-Where $A$ is an author-specific text, $U$ is an author-unknown text, $B$ is a \gls{UBM}
-describing a general author independent text. $i$ denotes from which datapoint we get our author-specific and non-specific texts, and $k$ denotes a specific feature of a given text. As such $R_{i_k}$ describes the encoding of a specific feature for a specific data point.
+Where $A$ is an author-specific text, $U$ is an author-unknown text, $B$ is a
+\gls{UBM} describing a general author independent text. $i$ denotes from which
+datapoint we get our author-specific and non-specific texts, and $k$ denotes a
+specific feature of a given text. As such $R_{i_k}$ describes the encoding of a
+specific feature for a specific data point.
 
 The \gls{UBM} is meant to represent the features of an author independent text.
 It is computed by concatenating all texts in the training dataset and computing
@@ -376,6 +379,70 @@ selection of parameters, wont accurately depict the efficiency of the
 
 \subsection{Extended Delta}
 TODO: Experiment with different features.
+
+\begin{landscape}
+\subsubsection{Extended Delta Method}
+\begin{figure}
+    \small
+    \centering
+    \begin{tabular}{llll|ll}
+        % Header.
+        \textbf{Character n-grams} & \textbf{Word n-grams} &
+        \textbf{Postag n-grams} & \textbf{Special character n-grams} &
+        \textbf{PAN 2015 result} & \textbf{PAN 2013 result} \\
+        \hline
+        % Test 1.
+        100 2-, 3-, 4-, 5-grams & 5 1-, 2-, 3-, 4-grams &
+        10 1-, 2-, 3-, 4-grams & 5 1-, 2-, 3-grams & 0.54680, 3 & 0.68031, 3 \\
+        % Test 2.
+        100 2-, 3-, 4-grams & 300 1-grams & NONE & NONE & 0.56340, 2 &
+        \textbf{0.73718, 5} \\
+        % Test 3.
+        100 2-, 3-, 4-grams & NONE & NONE & 20 2-, 3-, 4-grams &
+        0.56980, 2 & 0.68500, 3 \\
+        % Test 4.
+        100 2-, 3-, 4-grams & NONE & 15 1-, 2-, 3-grams & 20 2-, 3-, 4-grams &
+        0.58029, 3 & 0.67718, 8 \\
+        % Test 5.
+        NONE & NONE & 15 1-, 2-, 3-grams & NONE & 0.51470, 10 & 0.62062, 8 \\
+        % Test 6.
+        20 2-, 3-, 4-, 5-, 6-grams & NONE & NONE & NONE & 0.54640, 4 &
+        0.69000, 8 \\
+        % Test 7.
+        150 2-, 3-grams & NONE & NONE & NONE & 0.56370, 4 &
+        \textbf{0.70531, 4} \\
+        % Test 8.
+        NONE & 50 2-, 3-grams & NONE & NONE & 0.52120, 9 & 0.60812, 3 \\
+        % Test 9.
+        NONE & 20 2-, 3-grams & NONE & NONE & 0.48409, 10 & 0.58187, 4 \\
+        % Test 10.
+        500 4-grams & NONE & NONE & NONE & 0.57400, 3 & \textbf{0.72125, 3} \\
+        % Test 11.
+        300 4-grams & NONE & NONE & NONE & 0.55450, 4 & \textbf{0.72937, 3} \\
+        % Test 12.
+        150 4-grams & NONE & NONE & NONE & 0.52630, 9 & 0.65093, 4 \\
+        % Test 13.
+        500 3-grams & 300 1-grams & NONE & NONE & 0.59750, 2 & 0.70031, 4 \\
+        % Test 14.
+        300 3-grams & 300 1-grams & NONE & NONE & 0.57139, 1 & 0.69218, 2 \\
+        % Test 15.
+        1000 3-grams & NONE & NONE & NONE & 0.59390, 2 & \textbf{0.70812, 10} \\
+        % Test 16.
+        1000 4-grams & NONE & NONE & NONE & 0.57480, 3 & \textbf{0.72125, 5} \\
+        % Test 17.
+        1000 3-, 4-, 5-grams & NONE & NONE & NONE & 0.56220, 2 & 0.69625, 3 \\
+        % Test 18.
+        NONE & NONE & NONE & 20 1-, 2-, 3-grams & \textbf{0.62780, 2} &
+        0.64312, 10 \\
+        % Test 19.
+        NONE & NONE & NONE & 10 1-, 2-, 3-grams & \textbf{0.61879, 3} &
+        0.549375, 8 \\
+        % Test 20.
+        10 2-, 3-, 4-grams & NONE & NONE & 10 1-, 2-, 3-grams & 0.58980, 3 &
+        0.69406, 8
+    \end{tabular}
+\end{figure}
+\end{landscape}
 
 \subsection{Author Specific SVM} \label{subsec:author_specific_svm_impl}
 In this approach we work with a mixture of different features. We use the 500
