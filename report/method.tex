@@ -86,7 +86,9 @@ where it is supposed to learn a general difference between feature vectors of
 the same authors and feature vectors of different authors.
 
 \subsection{Extended Delta}
-TODO: Experiment with different features.
+There are many ways to extend the delta method described above. The most obvious
+is to change which features it uses. We have experimented with different
+configuration of features.
 
 \subsection{Author Specific SVM} \label{subsec:author_specific_svm}
 We implemented an approach using \gls{SVM}'s inspired by \cite{hansen2014}. The
@@ -363,7 +365,8 @@ text, and yielded a accuracy of 0.5045 on the PAN 2015 dataset, and a accuracy o
 
 
 \subsubsection{Extended Delta}
-TODO: Experiment with different features.
+We tried a lot of different feature configurations. Our results and feature
+configurations are shown in Figure \ref{fig:extended_delta_result}.
 
 \begin{landscape}
 \begin{figure}
@@ -425,6 +428,12 @@ TODO: Experiment with different features.
         10 2-, 3-, 4-grams & NONE & NONE & 10 1-, 2-, 3-grams & 0.58980, 3 &
         0.69406, 8
     \end{tabular}
+    \caption{Results of different feature combinations with the Delta method.
+    The result consist of 2 numbers in the format $a, b$. $a$ corresponds to the
+    accuracy obtained with the configuration and $b$ is the number of opponents
+    that obtained that accuracy. Results that beat our baseline results are
+    shown in bold.}
+    \label{fig:extended_delta_result}
 \end{figure}
 \end{landscape}
 
