@@ -96,13 +96,13 @@ for i in range(100):
 print(np.mean(predictions))
 
 
-feature_importance = np.mean(feature_importance, 0)
-
-f = open('../feature_extraction/headers', 'r').read().split(' ')
-feature_importance = zip(f, feature_importance)
-
-feature_importance = sorted(
-    feature_importance, key=lambda x: x[1], reverse=True)
-
-for i in feature_importance:
-    print(i)
+# feature_importance = np.mean(feature_importance, 0)
+#
+# f = open('../feature_extraction/headers', 'r').read().split(' ')
+# feature_importance = zip(f, feature_importance)
+#
+# feature_importance = sorted(
+#    feature_importance, key=lambda x: x[1], reverse=True)
+#
+# for i in feature_importance:
+#    print(i)

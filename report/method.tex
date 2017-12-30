@@ -284,56 +284,70 @@ only some preliminary tests have been perform, to get a general idea of the
 efficiency of the method. There will however be expanded on this in the future.
 
 The \texttt{sklearn}
-\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html} offers a wide variety of configurations with regards to
-how our forest is built. Most configuration was set to its' default value, with
-the exception of \texttt{n\_estimators}, and \texttt{max\_features}. \texttt{n\_estimators} denotes how many decision trees
-are in our forest, and due to ensemble nature of the algorithm, we can increase
-this parameter to create an average classification prediction based on a larger
-set of individual predictions, thus decreasing the overall variance our model.
-This also removes the need for us to compute the average ourselves, as was done
-in \ref{subsec: Delta Method}. In the following tests, \texttt{n\_estimators} is
-set to 100. 
+\footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.Rand
+omForestClassifier.html} offers a wide variety of configurations with regards
+to how our forest is built. Most configuration was set to its' default value,
+with the exception of \texttt{n\_estimators}, and \texttt{max\_features}.
+\texttt{n\_estimators} denotes how many decision trees are in our forest, and
+due to ensemble nature of the algorithm, we can increase this parameter to
+create an average classification prediction based on a larger set of individual
+predictions, thus decreasing the overall variance our model. In the following
+tests, \texttt{n\_estimators} is set to 100. The payoff when increasing
+the number of trees used, is the runtime. Having 1000 trees in your forest
+results in a slower runtime, compared to 100. The increase in trees also have
+diminishing returns on the decrease of variance, so at some point increasing
+the trees doesn't make a lot of sense, as the variance is only altered very
+little with each tree. 100 Trees was the amount we deemed to adequately decrease
+the variance of the forest, while still running at an acceptable speed. The
+\texttt{max\_features} determines the number of features that are considered
+when looking for the best split. In our case this was set to \texttt{None},
+which results in all features being considered, at the cost of some runtime.
+However this did yield better results in the end.
 
 The dataset in these experiments were split into a test and a validation set.
 The selection was done by randomly shuffling the entire data set and taking
 the first 80\% of the dataset as the training set, and the last 20\% as the
-validation set. As such we need a another layer of averaging, to combat the variance introduced by the random shuffling. In the following cases, this is done over 100 iterations of random forest predictions. 
+validation set. 
+As such we need a another layer of averaging, 
+to combat the variance introduced by the random shuffling. 
+In the following cases, this is done over 100 iterations 
+of random forest predictions.\\\\
 
 In the following, we created our \gls{UBM} using the concatenation of all
-author-specific texts, from our training data set. Results describe number of
-correct predictions over total number of training points, and was run on the PAN
-2015 dataset.
+author-specific texts, from our training data set.
 
-$$
-\left.
-                \begin{array}{ll}
-                  \text{60 Most Frequent Char 2 and 3-grams}\\
-                  \text{60 Most Frequent Special Char 2 and 3-grams}\\
-                  \text{20 Most Frequent Pos Tag 2 and 3-grams}
-                \end{array}
-              \right\rbrace = 0.5
-$$
+In terms of features, we chose to feed our random forest algorithm a large set of 
+features with different focuses. The algorithm is going to pick and chose features, 
+based on their impact on the actual classification. The low-impact features aren't 
+adding any noise, so we might as well feed the algorithm as many features as possible, 
+and then let it make the decision based on their individual impact.
+We chose to use the following features:\\\\
+50 Most Frequent $[2,...,5]$ Word-N-Grams\\
+50 Most Frequent $[2,...,5]$ Character-N-Grams\\ 
+50 Most Frequent $[2,...,5]$ PosTag-N-Grams\\
+5 Most Frequent 2 and 3 Special-Character-N-Grams\\
+50 Most Frequent Words\\\\
 
-$$
-\left.
-                \begin{array}{ll}
-                  \text{20 Most Frequent Word 2 and 3-grams}\\
-                  \text{150 Highest word frequencies}
-                \end{array}
-              \right\rbrace = 0.6
-$$
 
-$$
-\left.
-                \begin{array}{ll}
-                  \text{60 Most Frequent Char 2 and 3-grams}\\
-                  \text{60 Most Frequent Special Char 2 and 3-grams}\\
-                  \text{20 Most Frequent Pos Tag 2 and 3-grams}\\
-                  \text{20 Most Frequent Word 2 and 3-grams}\\
-                  \text{150 Highest word frequencies}
-                \end{array}
-              \right\rbrace = 0.55
-$$
+Applying the algorithm on the PAN 2015 dataset, gave a accuracy of 0.5185,
+where looking at the impact of the different features seen in \ref{Random Forest, Pan 
+2015, Pancho, Self Corpus}, we can see that it is the pos-tag n-grams and character n-
+grams that are dominating the decision making when applying the random forest on the 
+PAN 2015 dataset. This feature-impact is provided by the trained model, and extracted 
+by fetching the \texttt{feature\_importances\_} attribute of the sklearn random forst 
+model.
+
+
+Using that same encoding \ref{eq:rf-encode}, and applying it to the PAN 2013 dataset, 
+results in an accuracy of 0.31286. Which this accuracy is determined most by the pos-
+tag n-gram as seen in the extracted feature importance \ref{Random Forest, Pan 2013, 
+Minus, Self Corpus}. This result was somewhat expected, due to lower author count of 
+the PAN 2013 data set. As stated by pancheco et Al \cite{pacheco2015}, the encoding 
+used, remove the need for large amounts of text per author, but does however increase 
+in accuracy as the number of authors increase as the \gls{UBM} will be a more general 
+representation of the entire set of authors. 
+
+
 
 In addition to using the encoding method presented by \cite{pacheco2015}, we
 also attempted an alternate way of encoding the features, replacing equation
@@ -343,45 +357,10 @@ $$
 R_k = A_k - U_k
 $$
 
-As such, the features we train our random forest on, is simply the difference in
-value between the features for the known and the unknown text. Using the same
-parameters as above but changing out encoding approach, we get the following:
+This would allow for learning based on the differences between the known and unknown 
+text, and yielded a accuracy of 0.5045 on the PAN 2015 dataset, and a accuracy of 
+0.3829 on the PAN 2013 data set.
 
-$$
-\left.
-                \begin{array}{ll}
-                  \text{60 Most Frequent Char 2 and 3-grams}\\
-                  \text{60 Most Frequent Special Char 2 and 3-grams}\\
-                  \text{20 Most Frequent Pos Tag 2 and 3-grams}
-                \end{array}
-              \right\rbrace = 0.45
-$$
-
-$$
-\left.
-                \begin{array}{ll}
-                  \text{20 Most Frequent Word 2 and 3-grams}\\
-                  \text{150 Highest word frequencies}
-                \end{array}
-              \right\rbrace = 0.5
-$$
-
-$$
-\left.
-                \begin{array}{ll}
-                  \text{60 Most Frequent Char 2 and 3-grams}\\
-                  \text{60 Most Frequent Special Char 2 and 3-grams}\\
-                  \text{20 Most Frequent Pos Tag 2 and 3-grams}\\
-                  \text{20 Most Frequent Word 2 and 3-grams}\\
-                  \text{150 Highest word frequencies}
-                \end{array}
-              \right\rbrace = 0.55
-$$
-
-In the future, we well need to do a more extensive systematic search
-for the ideal forest and feature configuration. This somewhat random
-selection of parameters, wont accurately depict the efficiency of the
-\nameref{subsec:Generalising Random Forest} approach as a whole.
 
 \subsubsection{Extended Delta}
 TODO: Experiment with different features.
