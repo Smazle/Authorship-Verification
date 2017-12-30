@@ -60,8 +60,8 @@ features will be averaged out and the \gls{UBM} will represent the features of
 an author independent text. The addition of 1 in the model prevent division
 by zero. Since 1 is added both in the numerator and the denominator it does
 not otherwise change the result. The squaring of $(A_i - U_i)$ and $(B - U_i)$
-prevents negative values. Therefore each value in the resulting encoded feature
-vector is in the range $[0; \inf[$.
+both prevent negative values and punishes values that are far away. Therefore
+each value in the resulting encoded feature vector is in the range $[0; \inf[$.
 
 Let's examine what the above equation describes. Fix any specific $i$ and let
 $A$ be $A_i$ and $U$ be $U_i$ then for each feature $k$ we compute,
@@ -99,23 +99,18 @@ belonging to the same author or as belonging to a different author.
 If there is only a single known text available for an author it does not make
 sense to train an \gls{SVM} since there is simply to little data.
 
-\subsection{Author Specific Random Forest}
-We implemented an approach using Random Forests trained to recognise a single
-authors texts. The approach is exactly the same as
-\ref{subsec:author_specific_svm} except that it uses a random forest instead of
-an \gls{SVM}.
-
 \subsection{Experiments}
 In this section we describe the different experiments we have performed.
 We have tested the different methods we have implemented with different
 features and on different datasets. In our experiments we use data from PAN
 2013 \footnote{http://pan.webis.de/clef13/pan13-web/index.html} and PAN 2015
-\footnote{http://pan.webis.de/clef15/pan15-web/index.html}. The PAN 2013 data
-consist of texts from English, Greek and Spanish authors. We work only on the
-English texts which consist of texts from 10 authors. There is a number (between
-1 and 10) known texts from each author and a single unknown text. The task is
-given the known texts of an author to determine whether or not the unknown text
-is written by the same author or not.
+\footnote{http://pan.webis.de/clef15/pan15-web/index.html}.
+
+The PAN 2013 data consist of texts from English, Greek and Spanish authors. We
+work only on the English texts which consists of texts from 10 authors. For
+each author there is (between 1 and 10) known texts and a single unknown text.
+The task is given the known texts of an author to determine whether or not the
+unknown text is written by the same author or not.
 
 The PAN 2015 data consist of texts by authors in English, Dutch, Greek and
 Spanish. Again we only work with English texts. Unlike the 2013 dataset there is
@@ -132,7 +127,18 @@ the most frequently used n-grams (of all kinds). If we were to use our training
 data to generate that we would risk having a bias towards our specific training
 dataset.
 
-% TODO Change delta to brown.
+We will evaluate the performance of the different algorithms on the training
+data with the accuracy of the algorithms. The accuracy is computed as the number
+of correct answers divided by the total number of problems. For some methods we
+will also report the \gls{TPR} and \gls{TNR}. The \gls{TPR} and \gls{TNR} are
+defined as,
+
+% TODO: Consider explaining TP and FN.
+\begin{align}
+    TPR &= \frac{TP}{TP + FN} \\
+    TNR &= \frac{TN}{TN + FP}
+\end{align}
+
 \subsubsection{Delta Method}
 In the delta method we work only with word frequencies as originally proposed.
 As the linear function we normalize to 0 mean and unit variance and as features
@@ -280,7 +286,7 @@ efficiency of the method. There will however be expanded on this in the future.
 The \texttt{sklearn}
 \footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html} offers a wide variety of configurations with regards to
 how our forest is built. Most configuration was set to its' default value, with
-the exception of \texttt{n\_estimators}, and \texttt{max\features}. \texttt{n\_estimators} denotes how many decision trees
+the exception of \texttt{n\_estimators}, and \texttt{max\_features}. \texttt{n\_estimators} denotes how many decision trees
 are in our forest, and due to ensemble nature of the algorithm, we can increase
 this parameter to create an average classification prediction based on a larger
 set of individual predictions, thus decreasing the overall variance our model.
@@ -377,11 +383,10 @@ for the ideal forest and feature configuration. This somewhat random
 selection of parameters, wont accurately depict the efficiency of the
 \nameref{subsec:Generalising Random Forest} approach as a whole.
 
-\subsection{Extended Delta}
+\subsubsection{Extended Delta}
 TODO: Experiment with different features.
 
 \begin{landscape}
-\subsubsection{Extended Delta Method}
 \begin{figure}
     \small
     \centering
@@ -444,26 +449,29 @@ TODO: Experiment with different features.
 \end{figure}
 \end{landscape}
 
-\subsection{Author Specific SVM} \label{subsec:author_specific_svm_impl}
-In this approach we work with a mixture of different features. We use the 500
-most frequent 3-, 4- and 5-character-grams, the 100 most frequent 3- an
-4-word-grams, the 20 most frequent 2-, 3- and 4-postag-grams. The most frequent
-grams is found in the brown text corpus. We run only on the PAN 2013 dataset
-since 2015 contains only a single known text per author and it would therefore
-not make sense to use this method. We use the \textit{sklearn} implementation of
+\subsubsection{Author Specific SVM} \label{subsec:author_specific_svm_impl}
+In this approach we have experimented with a couple of different feature
+configurations. Configuration (A) consists of the 500 most frequent 3-, 4-
+and 5-character-grams, the 100 most frequent 3- an 4-word-grams, the 20
+most frequent 2-, 3- and 4-postag-grams. Configuration (B) consists of the
+frequencies of the 300 most frequent words. The most frequent n-grams is found
+in the brown text corpus. We run only on the PAN 2013 dataset since the PAN 2015
+dataset contains only a single known text per author and it would therefore not
+make sense to use this method. We use the \textit{sklearn} implementation of
 \gls{SVM}'s which internally use \textit{libsvm}.
 
-For each author $a$ in the 2013 dataset we compute features for all known texts
-$k$ and give them the class 1. Then we choose the $|k|$ number of random texts
-written by other authors and give them the class 0. We then train an \gls{SVM}
-classifier on the features and classes generated and use it to predict either 0
-or 1 for the unknown text. The \gls{SVM} use a rbf kernel with $C=1$ and
-$\gamma = \frac{1}{(2|k|)}$. Using that approach we get an average accuracy over
-100 runs of 0.736.
+We use the RBF kernel and we choose hyperparameters by cross validation. Each
+configuration of features will use different hyperparameters. The cross
+validation is performed by looping through the list of authors. For each author
+we performing a grid search for value of $C \in \{1 \cdot 10^{-2}, 1 \cdot
+10^{0}, \dots, 1 \cdot 10^{10}\}$ and $\gamma \in \{1 \cdot 10^{-9}, 1 \cdot
+10^{-7}, \dots, 1 \cdot 10^{3}\}$. The best values for each author are found via
+leave one out cross validation. The final $C$ and $\gamma$ values are chosen as
+the configurations used most often by the authors. After we have found the best
+hyperparameters we run the classifier over all authors 100 times with those
+hyperparameters. The mean accuracy over the 100 runs is then computed.
 
-\subsection{Author Specific Random Forest}
-In this approach we use the same features as in
-\ref{subsec:author_specific_svm_impl}. The only difference is that we train a random
-forest instead of an \gls{SVM} on the data. The forest has 7 decision trees and
-we use the \textit{sklearn} implementation. Using that approach we get an
-accurate accuracy over 100 runs of 0.607.
+Configuration (A) use the hyperparameters $C = 100$ and $\gamma = 0.00001$
+and obtained an average accuracy of 0.84599. Configuration (B) use the
+hyperparameters $C = 100$ and $\gamma = 0.001$ and obtained an average accuracy
+of 0.84799.

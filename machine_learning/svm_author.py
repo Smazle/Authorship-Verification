@@ -27,6 +27,18 @@ parser.add_argument(
     action='store_true',
     default=False)
 
+parser.add_argument(
+    '--c',
+    help='Hyperparameter for SVM',
+    type=float,
+    default=None)
+
+parser.add_argument(
+    '--gamma',
+    help='Hyperparamter for SVM',
+    type=float,
+    default=None)
+
 args = parser.parse_args()
 
 # Remove author number
@@ -44,41 +56,40 @@ if args.with_normalization:
 
     X = (X - mean) / std_var
 
-configurations = {}
-for author in np.unique(authors):
-    # print('author', author)
-    result = results[authors == author][0]
-    same_author = X[authors == author, 0:int(X.shape[1] / 2)]
-    different_author = X[authors != author, 0:int(X.shape[1] / 2)]
-    X_unknown = X[authors == author, int(X.shape[1] / 2):][0]
+if args.c is None or args.gamma is None:
+    configurations = {}
+    for author in np.unique(authors):
+        result = results[authors == author][0]
+        same_author = X[authors == author, 0:int(X.shape[1] / 2)]
+        different_author = X[authors != author, 0:int(X.shape[1] / 2)]
+        X_unknown = X[authors == author, int(X.shape[1] / 2):][0]
 
-    # Draw random opposition.
-    same_author_n = same_author.shape[0]
-    random = different_author[choice(different_author.shape[0], same_author_n,
-                              replace=False), :]
+        # Draw random opposition.
+        same_author_n = same_author.shape[0]
+        random = different_author[choice(different_author.shape[0],
+                                  same_author_n, replace=False), :]
 
-    # Stack author specific and random.
-    X_train = np.vstack([same_author, random])
-    y_train = np.array([1] * same_author_n + [0] * same_author_n)
+        # Stack author specific and random.
+        X_train = np.vstack([same_author, random])
+        y_train = np.array([1] * same_author_n + [0] * same_author_n)
 
-    # Cross validation over all C and gamma.
-    C_range = np.logspace(-2, 10, 7)
-    gamma_range = np.logspace(-9, 3, 7)
-    param_grid = dict(gamma=gamma_range, C=C_range)
-    cv = LeaveOneOut()
-    grid = GridSearchCV(SVC(kernel='rbf'), param_grid=param_grid, cv=cv)
-    grid.fit(X_train, y_train)
+        # Cross validation over all C and gamma.
+        C_range = np.logspace(-2, 10, 7)
+        gamma_range = np.logspace(-9, 3, 7)
+        param_grid = dict(gamma=gamma_range, C=C_range)
+        cv = LeaveOneOut()
+        grid = GridSearchCV(SVC(kernel='rbf'), param_grid=param_grid, cv=cv)
+        grid.fit(X_train, y_train)
 
-    # print('\tBest %s with a score of %0.2f'
-          # % (grid.best_params_, grid.best_score_))
+        try:
+            configurations[Hashable(grid.best_params_)] += 1
+        except KeyError:
+            configurations[Hashable(grid.best_params_)] = 1
 
-    try:
-        configurations[Hashable(grid.best_params_)] += 1
-    except KeyError:
-        configurations[Hashable(grid.best_params_)] = 1
-
-# Extract best configuration from the above search.
-best_conf = max(configurations, key=configurations.get).d
+    # Extract best configuration from the above search.
+    best_conf = max(configurations, key=configurations.get).d
+else:
+    best_conf = {'C': args.c, 'gamma': args.gamma}
 
 final_results = []
 for author in np.unique(authors):
