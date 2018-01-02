@@ -7,6 +7,7 @@ from sklearn.svm import SVC
 from sklearn.model_selection import LeaveOneOut
 from sklearn.model_selection import GridSearchCV
 
+
 class Hashable:
 
     def __init__(self, d):
@@ -14,6 +15,7 @@ class Hashable:
 
     def __hash__(self):
         return hash(str(self.d))
+
 
 # Set up arguments
 parser = argparse.ArgumentParser(
