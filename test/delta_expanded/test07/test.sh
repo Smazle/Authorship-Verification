@@ -3,16 +3,14 @@
 if [ ! -f ./13.txt ]; then
     echo "13 not found, generating..."
     ../../../feature_extraction/main.py ../../../data/pan_2013/ ./13.txt \
-        --char-n-gram 3 --char-n-gram-size 300 \
-        --word-frequencies 300 \
+        --char-n-gram 2 3 --char-n-gram-size 150 \
         --normalize false --corpus brown
 fi
 
 if [ ! -f ./15.txt ]; then
     echo "15 not found, generating..."
-    ../../../feature_extraction/main.py ../../../data/pan_2015/ ./15.txt \
-        --char-n-gram 3 --char-n-gram-size 300 \
-        --word-frequencies 300 \
+    ../../../feature_extraction/main.py ../../data/pan_2015/ ./15.txt \
+        --char-n-gram 2 3 --char-n-gram-size 150 \
         --normalize false --corpus brown
 fi
 

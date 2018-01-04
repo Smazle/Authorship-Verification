@@ -19,7 +19,7 @@ class Hashable:
 
 # Set up arguments
 parser = argparse.ArgumentParser(
-    description="TODO descript")
+    description="Run author specific SVM classifier on input data given.")
 
 parser.add_argument('file', type=str, help='Data File Location')
 
@@ -95,7 +95,6 @@ else:
 
 final_results = []
 for author in np.unique(authors):
-    # print('author', author)
     result = results[authors == author][0]
     same_author = X[authors == author, 0:int(X.shape[1] / 2)]
     different_author = X[authors != author, 0:int(X.shape[1] / 2)]
