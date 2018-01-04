@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import argparse
 import numpy as np
+import pickle
 from sklearn.ensemble import RandomForestClassifier
 
 # Set up arguments
@@ -22,6 +23,12 @@ parser.add_argument(
     help='The encoding method used on the dataset',
     default='pancho')
 
+parser.add_argument(
+    '--importance', type=str, nargs='?',
+    help='Determines if the feature feature_importance should \
+                be printed as well, provide path to header file',
+    default=None)
+
 args = parser.parse_args()
 datafiles = args.file
 
@@ -37,7 +44,6 @@ y = X[:, -1].astype(np.int)
 
 feature_n = X.shape[1] - 1
 feature_n_half = int(feature_n / 2)
-
 X_known = X[:, 0:feature_n_half]
 X_unknown = X[:, feature_n_half:-1]
 
@@ -64,7 +70,7 @@ if len(datafiles) > 1:
 
 
 # Run test 100 times.
-# feature_importance = []
+feature_importance = []
 predictions = []
 for i in range(100):
     # Shuffle such that we use random data in train and test.
@@ -87,20 +93,25 @@ for i in range(100):
     model = RandomForestClassifier(
         n_estimators=args.trees, n_jobs=-1, max_features=None)
     model.fit(XTrain, yTrain)
-    # feature_importance.append(model.feature_importances_)
+
+    if args.importance is not None:
+        feature_importance.append(model.feature_importances_)
 
     p = model.predict(XTest) == yTest
     predictions.append(np.sum(p) / float(len(p)))
 
-print(np.mean(predictions))
+pickle.dump(model, open('forest.pickle', 'wb'))
 
-# feature_importance = np.mean(feature_importance, 0)
-#
-# f = open('../feature_extraction/headers', 'r').read().split(' ')
-# feature_importance = zip(f, feature_importance)
-#
-# feature_importance = sorted(
-#    feature_importance, key=lambda x: x[1], reverse=True)
-#
-# for i in feature_importance:
-#    print(i)
+# print(np.mean(predictions))
+
+if args.importance is not None:
+    feature_importance = np.mean(feature_importance, 0)
+
+    f = open(args.importance, 'r').read().split(' ')
+    feature_importance = zip(f, feature_importance)
+
+    feature_importance = sorted(
+        feature_importance, key=lambda x: x[1], reverse=True)
+
+    for i in feature_importance:
+        print(i)

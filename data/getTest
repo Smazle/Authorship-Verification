@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# Get 2013 Pan test set
+# 1
+mkdir pan_2013_test_1
+cd pan_2013_test_1
+wget http://www.uni-weimar.de/medien/webis/corpora/corpus-pan-labs-09-today/pan-13/pan13-data/pan13-authorship-verification-test-corpus1-2013-02-28.zip
+
+unzip pan13-authorship-verification-test-corpus1-2013-02-28.zip
+cd pan13-authorship-verification-test-corpus1-2013-02-28
+
+rm -R GR*
+rm -R SP*
+mv * ../
+cd ../
+rm *.zip
+rm -R pan13-authorship-verification-test-corpus1-2013-02-28
+
+
+# Cleanup Truth File
+tr -d '\r' < truth.txt > tmp.file
+awk 'NF' tmp.file > truth.txt
+grep "EN" < truth.txt > tmp.file
+mv tmp.file truth.txt
+rm tmp.file
+
+cd ../
+
+# 2
+mkdir pan_2013_test_2
+cd pan_2013_test_2
+wget http://www.uni-weimar.de/medien/webis/corpora/corpus-pan-labs-09-today/pan-13/pan13-data/pan13-authorship-verification-test-corpus2-2013-05-29.zip
+
+unzip pan13-authorship-verification-test-corpus2-2013-05-29.zip
+cd pan13-authorship-verification-test-corpus2-2013-05-29 
+
+rm -R GR*
+rm -R SP*
+mv * ../
+cd ../
+rm *.zip
+rm -R pan13-authorship-verification-test-corpus2-2013-05-29
+
+tr -d '\r' < truth.txt > tmp.file
+awk 'NF' tmp.file > truth.txt
+grep "EN" < truth.txt > tmp.file
+mv tmp.file truth.txt
+rm tmp.file
+
+cd ../
+
+
+# Get 2015 test data
+
+mkdir pan_2015_test
+cd pan_2015_test
+wget http://www.uni-weimar.de/medien/webis/corpora/corpus-pan-labs-09-today/pan-15/pan15-data/pan15-authorship-verification-test-dataset2-2015-04-19.zip
+
+unzip pan15-authorship-verification-test-dataset2-2015-04-19.zip
+cd pan15-authorship-verification-test-dataset2-2015-04-19/
+
+unzip pan15-authorship-verification-test-dataset2-english-2015-04-19.zip
+rm pan15-authorship-verification-test-dataset2-english-2015-04-19.zip
+cd pan15-authorship-verification-test-dataset2-english-2015-04-19/
+
+mv * ../../
+cd ../../
+rm -R pan15-authorship-verification-test-dataset2-2015-04-19/ 
+rm contents.json
+
+
+
+
+
