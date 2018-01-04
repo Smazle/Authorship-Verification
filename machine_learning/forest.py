@@ -64,7 +64,7 @@ if len(datafiles) > 1:
 
 
 # Run test 100 times.
-# feature_importance = []
+feature_importance = []
 predictions = []
 for i in range(100):
     # Shuffle such that we use random data in train and test.
@@ -87,20 +87,20 @@ for i in range(100):
     model = RandomForestClassifier(
         n_estimators=args.trees, n_jobs=-1, max_features=None)
     model.fit(XTrain, yTrain)
-    # feature_importance.append(model.feature_importances_)
+    feature_importance.append(model.feature_importances_)
 
     p = model.predict(XTest) == yTest
     predictions.append(np.sum(p) / float(len(p)))
 
 print(np.mean(predictions))
 
-# feature_importance = np.mean(feature_importance, 0)
-#
-# f = open('../feature_extraction/headers', 'r').read().split(' ')
-# feature_importance = zip(f, feature_importance)
-#
-# feature_importance = sorted(
-#    feature_importance, key=lambda x: x[1], reverse=True)
-#
-# for i in feature_importance:
-#    print(i)
+feature_importance = np.mean(feature_importance, 0)
+
+f = open('../feature_extraction/headers', 'r').read().split(' ')
+feature_importance = zip(f, feature_importance)
+
+feature_importance = sorted(
+    feature_importance, key=lambda x: x[1], reverse=True)
+
+for i in feature_importance:
+    print(i)
