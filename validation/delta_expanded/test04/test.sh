@@ -3,6 +3,8 @@
 if [ ! -f ./13.txt ]; then
     echo "13 not found, generating..."
     ../../../feature_extraction/main.py ../../../data/pan_2013/ ./13.txt \
+        --char-n-gram 2 3 4 --char-n-gram-size 100 \
+        --special-n-gram 2 3 4 --special-n-gram-size 20 \
         --postag-n-gram 1 2 3 --postag-n-gram-size 15 \
         --normalize false --corpus brown
 fi
@@ -10,8 +12,11 @@ fi
 if [ ! -f ./15.txt ]; then
     echo "15 not found, generating..."
     ../../../feature_extraction/main.py ../../../data/pan_2015/ ./15.txt \
+        --char-n-gram 2 3 4 --char-n-gram-size 100 \
+        --special-n-gram 2 3 4 --special-n-gram-size 20 \
         --postag-n-gram 1 2 3 --postag-n-gram-size 15 \
         --normalize false --corpus brown
+fi
 
 for dataset in 13 15
 do
