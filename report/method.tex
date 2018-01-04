@@ -448,15 +448,15 @@ dataset contains only a single known text per author and it would therefore not
 make sense to use this method. We use the \textit{sklearn} implementation of
 \gls{SVM}'s which internally use \textit{libsvm}.
 
-We use the RBF kernel and we choose hyperparameters by cross validation. Each
-configuration of features will use different hyperparameters. The cross
+We use the RBF kernel and we choose hyperparameters via cross validation.
+Each configuration of features will use different hyperparameters. The cross
 validation is performed by looping through the list of authors. For each author
 we performing a grid search for value of $C \in \{1 \cdot 10^{-2}, 1 \cdot
 10^{0}, \dots, 1 \cdot 10^{10}\}$ and $\gamma \in \{1 \cdot 10^{-9}, 1 \cdot
 10^{-7}, \dots, 1 \cdot 10^{3}\}$. The best values for each author are found via
-leave one out cross validation. The final $C$ and $\gamma$ values are chosen as
-the configurations used most often by the authors. After we have found the best
-hyperparameters we run the classifier over all authors 100 times with those
+leave one out cross validation. The final $C$ and $\gamma$ values are chosen
+as the configurations used most often by the authors. After we have found the
+best hyperparameters we run the classifier over all authors 100 times with those
 hyperparameters. The mean accuracy over the 100 runs is then computed.
 
 Configuration (A) use the hyperparameters $C = 100$ and $\gamma = 0.00001$
