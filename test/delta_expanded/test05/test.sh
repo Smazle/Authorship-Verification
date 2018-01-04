@@ -12,6 +12,7 @@ if [ ! -f ./15.txt ]; then
     ../../../feature_extraction/main.py ../../../data/pan_2015/ ./15.txt \
         --postag-n-gram 1 2 3 --postag-n-gram-size 15 \
         --normalize false --corpus brown
+fi
 
 for dataset in 13 15
 do

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ ! -f ./13.txt ];
+if [ ! -f ./13.txt ]; then
     echo "13 not found, generating..."
     ../../../feature_extraction/main.py ../../../data/pan_2013/ ./13.txt \
         --char-n-gram 2 3 4 --char-n-gram-size 100 \
@@ -9,7 +9,7 @@ if [ ! -f ./13.txt ];
         --normalize false --corpus brown
 fi
 
-if [ ! -f ./15.txt ];
+if [ ! -f ./15.txt ]; then
     echo "15 not found, generating..."
     ../../../feature_extraction/main.py ../../../data/pan_2015/ ./15.txt \
         --char-n-gram 2 3 4 --char-n-gram-size 100 \
