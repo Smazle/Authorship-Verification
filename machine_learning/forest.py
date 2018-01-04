@@ -10,7 +10,8 @@ parser = argparse.ArgumentParser(
 parser.add_argument('file', type=str, help='Data File Location', nargs='+')
 parser.add_argument(
     '--split', type=float, nargs='?',
-    help='The percentage of the data used for training')
+    help='The percentage of the data used for training',
+    default=0.5)
 parser.add_argument(
     '--trees', type=int, nargs='?',
     help='The number of trees to use in random forest',
@@ -24,9 +25,6 @@ parser.add_argument(
 args = parser.parse_args()
 datafiles = args.file
 
-if args.split is None:
-    args.split = .5
-
 
 def encode(allText, known, unknown):
     return (np.power(known - unknown, 2) + 1) /\
@@ -35,7 +33,7 @@ def encode(allText, known, unknown):
 
 # Remove author number
 X = np.loadtxt(datafiles[0], dtype=np.float)[:, :-1]
-y = [int(i) for i in X[:, -1]]
+y = X[:, -1].astype(np.int)
 
 feature_n = X.shape[1] - 1
 feature_n_half = int(feature_n / 2)
@@ -65,19 +63,20 @@ if len(datafiles) > 1:
             X = np.array(newX)
 
 
-# Get training and test set split - Randomly
-feature_importance = []
-
-
+# Run test 100 times.
+# feature_importance = []
 predictions = []
 for i in range(100):
+    # Shuffle such that we use random data in train and test.
     boundary = int(np.floor(len(X) * args.split))
-    np.random.shuffle(X)
+    permutation = np.random.permutation(len(X))
+    X = X[permutation]
+    y = y[permutation]
 
     XTrain = X[:boundary]
     yTrain = y[:boundary]
 
-    if(args.split == 1.0):
+    if args.split == 1.0:
         XTest = XTrain
         yTest = yTrain
     else:
@@ -88,13 +87,12 @@ for i in range(100):
     model = RandomForestClassifier(
         n_estimators=args.trees, n_jobs=-1, max_features=None)
     model.fit(XTrain, yTrain)
-    feature_importance.append(model.feature_importances_)
+    # feature_importance.append(model.feature_importances_)
 
     p = model.predict(XTest) == yTest
     predictions.append(np.sum(p) / float(len(p)))
 
 print(np.mean(predictions))
-
 
 # feature_importance = np.mean(feature_importance, 0)
 #
