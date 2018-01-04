@@ -1,26 +1,35 @@
 #!/usr/bin/env bash
 
-../../feature_extraction/main.py ../../data/pan_2013/ ./13.txt \
-    --char-n-gram 3 4 5 --char-n-gram-size 1000 \
-    --normalize false --corpus brown
+if [ ! -f ./13.txt ]; then
+    echo "13 not found, generating..."
+    ../../../feature_extraction/main.py ../../../data/pan_2013/ ./13.txt \
+        --char-n-gram 3 4 5 --char-n-gram-size 1000 \
+        --normalize false --corpus brown
+fi
 
-../../feature_extraction/main.py ../../data/pan_2015/ ./15.txt \
-    --char-n-gram 3 4 5 --char-n-gram-size 1000 \
-    --normalize false --corpus brown
+if [ ! -f ./15.txt ]; then
+    echo "15 not found, generating..."
+    ../../../feature_extraction/main.py ../../../data/pan_2015/ ./15.txt \
+        --char-n-gram 3 4 5 --char-n-gram-size 1000 \
+        --normalize false --corpus brown
+fi
 
-mkdir 13
-mkdir 15
-
-for i in {1..10};
+for dataset in 13 15
 do
-    echo $i
-    for j in {1..100};
+    for metric in 1 2
     do
-        ../../machine_learning/delta.py 13.txt --with-normalization --opposing-set-size $i
-    done | ../Mean > ./13/$i.txt
-
-    for j in {1..100};
-    do
-        ../../machine_learning/delta.py 15.txt --with-normalization --opposing-set-size $i
-    done | ../Mean > ./15/$i.txt
+        echo "PAN 20$dataset $metric (opposing authors, mean accuracy 100 runs)"
+        for i in {1..10};
+        do
+            echo -n $i
+            echo -n " "
+            for j in {1..100};
+            do
+                ../../../machine_learning/delta.py $dataset.txt\
+                    --with-normalization \
+                    --opposing-set-size $i \
+                    --metric $metric
+            done | ../Mean
+        done | sort -k2 -n --reverse | head -n 1
+    done
 done

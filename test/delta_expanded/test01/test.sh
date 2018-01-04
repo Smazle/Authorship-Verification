@@ -38,6 +38,6 @@ do
                     --opposing-set-size $i \
                     --metric $metric
             done | ../Mean
-        done | sort -k2 -n --reverse | head
+        done | sort -k2 -n --reverse | head -n 1
     done
 done
