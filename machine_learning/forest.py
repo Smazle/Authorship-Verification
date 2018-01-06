@@ -98,7 +98,7 @@ for i in range(100):
 
     # Create model
     model = RandomForestClassifier(
-        n_estimators=args.trees, n_jobs=-1, max_features=None)
+        n_estimators=args.trees, n_jobs=-1)
     model.fit(XTrain, yTrain)
 
     if args.importance is not None:
@@ -112,20 +112,23 @@ for i in range(100):
 
 pickle.dump(model, open('forest.pickle', 'wb'))
 
-# print(np.mean(predictions))
+print(np.mean(predictions))
 
 if args.importance is not None:
     feature_importance = np.mean(feature_importance, 0)
 
-    f = open(args.importance, 'r').read().split(' ')
+    f = open('headers', 'r').read().split(' ')
     feature_importance = zip(f, feature_importance)
 
     feature_importance = sorted(
         feature_importance, key=lambda x: x[1], reverse=True)
 
-    for i in feature_importance:
-        print(i)
+    with open(args.importance, 'w') as f:
+        for i in feature_importance:
+            f.write(str(i) + '\n')
 
 if args.probability is not None:
     probability = np.mean(np.array(probability), 0)
-    np.savetxt(args.probability, probability)
+    with open(args.probability, 'w') as f:
+        for i in probability:
+            f.write(str(i) + '\n')
