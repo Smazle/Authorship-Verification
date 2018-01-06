@@ -30,6 +30,11 @@ parser.add_argument(
                 be printed as well, provide path to header file',
     default=None)
 
+parser.add_argument(
+    '--probability', type=str, nargs='?',
+    help='Should the prediction probability be saved',
+    default=None)
+
 args = parser.parse_args()
 datafiles = args.file
 
@@ -72,6 +77,7 @@ if len(datafiles) > 1:
 
 # Run test 100 times.
 feature_importance = []
+probability = []
 predictions = []
 for i in range(100):
     # Shuffle such that we use random data in train and test.
@@ -98,6 +104,9 @@ for i in range(100):
     if args.importance is not None:
         feature_importance.append(model.feature_importances_)
 
+    if args.probability is not None:
+        probability.append(model.predict_proba(XTest))
+
     p = model.predict(XTest) == yTest
     predictions.append(np.sum(p) / float(len(p)))
 
@@ -116,3 +125,7 @@ if args.importance is not None:
 
     for i in feature_importance:
         print(i)
+
+if args.probability is not None:
+    probability = np.mean(np.array(probability), 0)
+    np.savetxt(args.probability, probability)

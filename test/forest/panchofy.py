@@ -34,3 +34,6 @@ X = np.array(newX)
 
 res = model.predict(X) == y
 print('Precision: ', np.sum(res) / float(len(res)))
+
+np.savetxt(model.predict_proba(X), 'Probabilities.data')
+print('Probabilities output to Probabilities.data')
