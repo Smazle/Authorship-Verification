@@ -9,7 +9,7 @@ fi
 
 if [ ! -f ./15.txt ]; then
     echo "15 not found, generating..."
-    ../../../feature_extraction/main.py ../../data/pan_2015/ ./15.txt \
+    ../../../feature_extraction/main.py ../../../data/pan_2015/ ./15.txt \
         --word-n-gram 2 3 --word-n-gram-size 20 \
         --normalize false --corpus brown
 fi

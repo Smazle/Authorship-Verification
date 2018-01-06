@@ -366,10 +366,10 @@ text, and yielded a accuracy of 0.5045 on the PAN 2015 dataset, and a accuracy o
 
 \subsubsection{Extended Delta}
 We tried a lot of different feature configurations. Our results and feature
-configurations are shown in Figure \ref{fig:extended_delta_result}.
+configurations are shown in Figure \ref{fig:extended_delta_method_manhattan_result}.
 
 \begin{landscape}
-\begin{figure}
+\begin{table}
     \small
     \centering
     \begin{tabular}{llll|ll}
@@ -428,13 +428,82 @@ configurations are shown in Figure \ref{fig:extended_delta_result}.
         10 2-, 3-, 4-grams & NONE & NONE & 10 1-, 2-, 3-grams & 0.58980, 3 &
         0.69406, 8
     \end{tabular}
-    \caption{Results of different feature combinations with the Delta method.
-    The result consist of 2 numbers in the format $a, b$. $a$ corresponds to the
-    accuracy obtained with the configuration and $b$ is the number of opponents
-    that obtained that accuracy. Results that beat our baseline results are
-    shown in bold.}
-    \label{fig:extended_delta_result}
-\end{figure}
+    \caption{Results of different feature combinations with the Delta method
+    using the Manhattan distance. The result consist of 2 numbers in the format
+    $a, b$. $a$ corresponds to the accuracy obtained with the configuration and
+    $b$ is the number of opponents that obtained that accuracy. Results that
+    beat our baseline results are shown in bold.}
+    \label{fig:extended_delta_method_manhattan_result}
+\end{table}
+\end{landscape}
+
+\begin{landscape}
+\begin{table}
+    \small
+    \centering
+    \begin{tabular}{llll|ll}
+        % Header.
+        \textbf{Character n-grams} & \textbf{Word n-grams} &
+        \textbf{Postag n-grams} & \textbf{Special character n-grams} &
+        \textbf{PAN 2015 result} & \textbf{PAN 2013 result} \\
+        \hline
+        % Test 1.
+        100 2-, 3-, 4-, 5-grams & 5 1-, 2-, 3-, 4-grams &
+        10 1-, 2-, 3-, 4-grams & 5 1-, 2-, 3-grams & 0.54570, 7 & 0.67750, 5 \\
+        % Test 2.
+        100 2-, 3-, 4-grams & 300 1-grams & NONE & NONE & 0.54080, 2 &
+        0.72125, 4 \\
+        % Test 3.
+        100 2-, 3-, 4-grams & NONE & NONE & 20 2-, 3-, 4-grams &
+        0.5618, 3 & 0.65812, 5 \\
+        % Test 4.
+        100 2-, 3-, 4-grams & NONE & 15 1-, 2-, 3-grams & 20 2-, 3-, 4-grams &
+        0.56500, 6 & 0.68031, 4 \\
+        % Test 5.
+        NONE & NONE & 15 1-, 2-, 3-grams & NONE & 0.52110, 10 & 0.61156, 3 \\
+        % Test 6.
+        20 2-, 3-, 4-, 5-, 6-grams & NONE & NONE & NONE & 0.555, 3 &
+        0.66656, 2 \\
+        % Test 7.
+        150 2-, 3-grams & NONE & NONE & NONE & 0.55460, 3 &
+        0.70343, 9 \\
+        % Test 8.
+        NONE & 50 2-, 3-grams & NONE & NONE & 0.52200, 9 & 0.56687, 3 \\
+        % Test 9.
+        NONE & 20 2-, 3-grams & NONE & NONE & 0.48530, 9 & 0.58718, 3 \\
+        % Test 10.
+        500 4-grams & NONE & NONE & NONE & 0.55830, 3 & 0.70468, 8 \\
+        % Test 11.
+        300 4-grams & NONE & NONE & NONE & 0.52680, 3 & 0.71875, 6 \\
+        % Test 12.
+        150 4-grams & NONE & NONE & NONE & 0.53669, 6 & 0.64281, 7 \\
+        % Test 13.
+        500 3-grams & 300 1-grams & NONE & NONE & 0.5538, 2 & 0.69343, 6 \\
+        % Test 14.
+        300 3-grams & 300 1-grams & NONE & NONE & 0.53400, 2 & 0.71437, 6 \\
+        % Test 15.
+        1000 3-grams & NONE & NONE & NONE & 0.54910, 2 & 0.72156, 4 \\
+        % Test 16.
+        1000 4-grams & NONE & NONE & NONE & 0.57100, 2 & 0.72125, 3 \\
+        %% Test 17.
+        %1000 3-, 4-, 5-grams & NONE & NONE & NONE & 0.56220, 2 & 0.69625, 3 \\
+        %% Test 18.
+        %NONE & NONE & NONE & 20 1-, 2-, 3-grams & \textbf{0.62780, 2} &
+        %0.64312, 10 \\
+        %% Test 19.
+        %NONE & NONE & NONE & 10 1-, 2-, 3-grams & \textbf{0.61879, 3} &
+        %0.549375, 8 \\
+        %% Test 20.
+        %10 2-, 3-, 4-grams & NONE & NONE & 10 1-, 2-, 3-grams & 0.58980, 3 &
+        %0.69406, 8
+    \end{tabular}
+    \caption{Results of different feature combinations with the Delta method
+    using the Euclidean distance.  The result consist of 2 numbers in the format
+    $a, b$. $a$ corresponds to the accuracy obtained with the configuration and
+    $b$ is the number of opponents that obtained that accuracy. Results that
+    beat our baseline results are shown in bold.}
+    \label{fig:extended_delta_method_euclidean_result}
+\end{table}
 \end{landscape}
 
 \subsubsection{Author Specific SVM} \label{subsec:author_specific_svm_impl}
@@ -451,15 +520,28 @@ make sense to use this method. We use the \textit{sklearn} implementation of
 We use the RBF kernel and we choose hyperparameters via cross validation.
 Each configuration of features will use different hyperparameters. The cross
 validation is performed by looping through the list of authors. For each author
-we performing a grid search for value of $C \in \{1 \cdot 10^{-2}, 1 \cdot
-10^{0}, \dots, 1 \cdot 10^{10}\}$ and $\gamma \in \{1 \cdot 10^{-9}, 1 \cdot
-10^{-7}, \dots, 1 \cdot 10^{3}\}$. The best values for each author are found via
-leave one out cross validation. The final $C$ and $\gamma$ values are chosen
-as the configurations used most often by the authors. After we have found the
-best hyperparameters we run the classifier over all authors 100 times with those
-hyperparameters. The mean accuracy over the 100 runs is then computed.
+we performing a grid search for value of $C \in \{10^{-2}, 10^{0}, \dots,
+10^{10}\}$ and $\gamma \in \{10^{-9}, 10^{-7}, \dots, 10^{3}\}$. The best values
+for each author are found via leave one out cross validation. The final $C$ and
+$\gamma$ values are chosen as the configurations used most often by the authors.
+After we have found the best hyperparameters we run the classifier over all
+authors 100 times with those hyperparameters. The mean accuracy over the 100
+runs is then computed.
 
 Configuration (A) use the hyperparameters $C = 100$ and $\gamma = 0.00001$
 and obtained an average accuracy of 0.84599. Configuration (B) use the
 hyperparameters $C = 100$ and $\gamma = 0.001$ and obtained an average accuracy
 of 0.84799.
+
+% TODO: Add TPR and TNR using below data.
+% For configuration A)
+%     TP = 4.75
+%     TN = 3.17
+%     FP = 1.83
+%     FN = 0.25
+%
+% For configuration B)
+%     TP = 4.95
+%     TN = 3.16
+%     FP = 1.84
+%     FN = 5.0e-2

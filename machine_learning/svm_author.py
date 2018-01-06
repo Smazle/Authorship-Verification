@@ -41,6 +41,13 @@ parser.add_argument(
     type=float,
     default=None)
 
+parser.add_argument(
+    '--with-PN',
+    help='Whether or not to also print True Positive, False Positive, True ' +
+    'Negative and False Negative.',
+    action='store_true',
+    default=False)
+
 args = parser.parse_args()
 
 # Remove author number
@@ -94,6 +101,10 @@ else:
     best_conf = {'C': args.c, 'gamma': args.gamma}
 
 final_results = []
+true_positives = 0
+true_negatives = 0
+false_positives = 0
+false_negatives = 0
 for author in np.unique(authors):
     result = results[authors == author][0]
     same_author = X[authors == author, 0:int(X.shape[1] / 2)]
@@ -116,4 +127,17 @@ for author in np.unique(authors):
 
     final_results.append(prediction == result)
 
+    if prediction == result and result == 1:
+        true_positives += 1
+    elif prediction == result and result == 0:
+        true_negatives += 1
+    elif prediction != result and result == 1:
+        false_negatives += 1
+    else:
+        false_positives += 1
+
+
 print(np.sum(final_results) / float(len(final_results)))
+if args.with_PN:
+    print('TP', true_positives, 'TN', true_negatives, 'FP', false_positives,
+          'FN', false_negatives)
