@@ -84,6 +84,15 @@ results,
 \end{align}
 
 \subsection{Extended Delta}
+The Extended Delta Method is tested by generating features according to the best
+configurations found in the training phase. Then the same procedure used to test
+the regular delta method is employed. The best configuration for the PAN 2013
+data were the 100 most frequent 2-, 3-, and 4-char-grams and the 300 most
+frequent words. The best configuration for the PAN 2015 data were the 20 most
+frequent 1-, 2-, and 3-special-char-grams. The accuracy obtained on the PAN 2013
+test datasets were 0.73213 and 0.67173.
+
+% TODO Add results for 2015.
 
 \subsection{Author Specific SVM}
 The Author Specific SVM is tested by generating features for the training and
