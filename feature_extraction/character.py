@@ -49,8 +49,9 @@ class CharacterNGramFeatureExtractor:
         """
 
         grams = find_ngrams(corpus, self.n)
-        most_common = grams.most_common(self.size)
-        most_common = [key for (key, val) in most_common]
+        most_common = grams.most_common()
+        most_common.sort(key=lambda x: (x[1], x[0]), reverse=True)
+        most_common = [key for (key, val) in most_common[0:self.size]]
 
         if len(most_common) != self.size:
             raise RuntimeError(
@@ -73,6 +74,13 @@ class CharacterNGramFeatureExtractor:
         """
 
         return find_frequencies(text, self.grams, self.n)
+
+    def chosen_features(self):
+        human_readable = []
+        for feature in self.grams:
+            human_readable.append('char-' + str(self.n) + '-gram ' +
+                                  repr(feature))
+        return human_readable
 
 
 class SpecialCharacterNGramFeatureExtractor:
@@ -124,8 +132,9 @@ class SpecialCharacterNGramFeatureExtractor:
         """
 
         grams = special_character_n_grams(full_text, self.n)
-        most_common = grams.most_common(self.size)
-        most_common = [key for (key, val) in most_common]
+        most_common = grams.most_common()
+        most_common.sort(key=lambda x: (x[1], x[0]), reverse=True)
+        most_common = [key for (key, val) in most_common[0:self.size]]
 
         if len(most_common) != self.size:
             raise RuntimeError(
@@ -148,6 +157,13 @@ class SpecialCharacterNGramFeatureExtractor:
         """
 
         return special_character_n_gram_frequencies(text, self.grams, self.n)
+
+    def chosen_features(self):
+        human_readable = []
+        for feature in self.grams:
+            human_readable.append('special-char-' + str(self.n) + '-gram ' +
+                                  repr(feature))
+        return human_readable
 
 
 def n_gram_number(string_length, n):

@@ -29,50 +29,45 @@ class FeatureExtractor:
         self.extractors = []
         self.featureNames = []
 
-        def feat_name(x, y, n): return [x.format(
-            n, size + 1) for size in range(y)]
-
         # Handle character n-grams.
         for (n, size) in character_grams:
             extractor = CharacterNGramFeatureExtractor(n, size)
             extractor.fit(self.corpus)
+            self.featureNames += extractor.chosen_features()
 
             self.extractors.append(extractor)
-            self.featureNames += feat_name('character_grams-{}-{}', size, n)
 
         # Handle special character n-grams.
         for (n, size) in special_character_grams:
             extractor = SpecialCharacterNGramFeatureExtractor(n, size)
             extractor.fit(self.corpus)
+            self.featureNames += extractor.chosen_features()
 
             self.extractors.append(extractor)
-            self.featureNames += feat_name(
-                'special_character_grams-{}-{}', size, n)
 
         # Handle word frequencies.
         if word_frequencies != 0:
             extractor = WordFrequencyExtractor(word_frequencies)
             extractor.fit(self.corpus)
+            self.featureNames += extractor.chosen_features()
 
             self.extractors.append(extractor)
-            self.featureNames += feat_name('word_frequencies-{}{}',
-                                           word_frequencies, '')
 
         # Handle POS tagging n-grams.
         for (n, size) in postag_grams:
             extractor = PosTagNGramsExtractor(n, size)
             extractor.fit(self.corpus)
+            self.featureNames += extractor.chosen_features()
 
             self.extractors.append(extractor)
-            self.featureNames += feat_name('postag_grams-{}-{}', size, n)
 
         # Handle word n-grams.
         for (n, size) in word_grams:
             extractor = WordNGramsFeatureExtractor(n, size)
             extractor.fit(self.corpus)
+            self.featureNames += extractor.chosen_features()
 
             self.extractors.append(extractor)
-            self.featureNames += feat_name('word_grams-{}-{}', size, n)
 
     def extract(self, outfile, master_file=None):
         # Generate features for each author.
@@ -99,7 +94,7 @@ class FeatureExtractor:
             np.savetxt(master_file, np.array([master_features]))
 
         if self.feature_header is not None:
-            open(self.feature_header, 'w').write(' '.join(self.featureNames))
+            open(self.feature_header, 'w').write(','.join(self.featureNames))
 
     def extract_features(self, text):
         features = []

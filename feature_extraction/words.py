@@ -51,8 +51,9 @@ class WordFrequencyExtractor:
                 or c in string.digits else '' for c in text])
 
         words = find_word_count(text)
-        most_common = words.most_common(self.size)
-        most_common = [key for (key, value) in most_common]
+        most_common = words.most_common()
+        most_common.sort(key=lambda x: (x[1], x[0]), reverse=True)
+        most_common = [key for (key, value) in most_common[0:self.size]]
 
         if len(most_common) != self.size:
             raise RuntimeError(
@@ -81,6 +82,12 @@ class WordFrequencyExtractor:
                 or c in string.digits else '' for c in text])
 
         return find_word_frequencies(text, self.words)
+
+    def chosen_features(self):
+        human_readable = []
+        for feature in self.words:
+            human_readable.append('word-1-gram "' + feature + '"')
+        return human_readable
 
 
 class WordNGramsFeatureExtractor:
@@ -134,8 +141,9 @@ class WordNGramsFeatureExtractor:
                 or c in string.digits else '' for c in text])
 
         grams = find_word_n_grams(text, self.n)
-        most_common = grams.most_common(self.size)
-        most_common = [key for (key, value) in most_common]
+        most_common = grams.most_common()
+        most_common.sort(key=lambda x: (x[1], x[0]), reverse=True)
+        most_common = [key for (key, value) in most_common[0:self.size]]
 
         if len(most_common) != self.size:
             raise RuntimeError(
@@ -164,6 +172,13 @@ class WordNGramsFeatureExtractor:
                 or c in string.digits else '' for c in text])
 
         return find_word_n_gram_frequencies(text, self.n, self.grams)
+
+    def chosen_features(self):
+        human_readable = []
+        for feature in self.grams:
+            human_readable.append('word-' + str(self.n) + '-gram "' +
+                                  str(feature) + '"')
+        return human_readable
 
 
 def find_words(text):

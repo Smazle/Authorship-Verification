@@ -40,8 +40,9 @@ class PosTagNGramsExtractor:
                 text (str): Text to generate out n-grams from
         """
         grams = nGramCount(text, self.n)
-        most_common = grams.most_common(self.size)
-        most_common = [key for (key, value) in most_common]
+        most_common = grams.most_common()
+        most_common.sort(key=lambda x: (x[1], x[0]), reverse=True)
+        most_common = [key for (key, value) in most_common[0:self.size]]
 
         if len(most_common) != self.size:
             raise RuntimeError(
@@ -61,6 +62,13 @@ class PosTagNGramsExtractor:
         """
 
         return frequency(text, self.n, self.grams)
+
+    def chosen_features(self):
+        human_readable = []
+        for feature in self.grams:
+            human_readable.append('postag-' + str(self.n) + '-gram "' +
+                                  str(feature) + '"')
+        return human_readable
 
 
 def nGramCount(text, n):
