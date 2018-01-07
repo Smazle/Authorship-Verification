@@ -8,11 +8,11 @@ measure is defined using \textit{precision} and \textit{recall} which in this
 case is defined as,
 
 \begin{align}
-    precision &=  #correct_answers / #answers \\
-    recall &= #correct_answers / #problems
+    precision &=  correct\_answers / answers \\
+    recall &= correct\_answers / problems
 \end{align}
 
-Since we answer all problems $#problems$ and $#answers$ are the same in our case
+Since we answer all problems $problems$ and $answers$ are the same in our case
 and we therefore get the F1 is the same as an accuracy.
 
 \begin{equation}
@@ -43,6 +43,7 @@ Method is shown in Figure \ref{fig:delta_method_roc}. It is created by computing
 the \gls{TPR} and \gls{FPR} for the differing number of opposing authors.
 
 \begin{table}
+    \centering
     \begin{tabular}{l|lll}
         \textbf{Opponents} & \textbf{PAN 2013 Test 1} & \textbf{PAN 2013 Test 2}
         & \textbf{PAN 2015 Test} \\ \hline
@@ -57,7 +58,9 @@ the \gls{TPR} and \gls{FPR} for the differing number of opposing authors.
         9  & \textbf{0.64438} & 0.63173 & 0.51320 \\
         10 & 0.64235 & \textbf{0.63291} & 0.50840
     \end{tabular}
-    \caption{Result of running}
+    \caption{Result of running the delta method on two test sets included in PAN
+    2013 and single test set included in PAN 2015 with different number of
+    authors. The best score obtained on each dataset is highlighted.}
     \label{tab:delta_method_final_results}
 \end{table}
 
@@ -71,8 +74,9 @@ the \gls{TPR} and \gls{FPR} for the differing number of opposing authors.
 \end{figure}
 
 \subsection{Generalizing Random Forest}
-After creating our \gls{UBM} based on the training data, we got the following results on the test 
-data, after training our random forest using the two different encondings presented.
+After creting our \gls{UBM} based on the training data and training our random
+forest using the two different encodings presented, we got the following
+results,
 
 \begin{align}
 \text{UBM Enconding Accuracy}:&\qquad 0.616\\
@@ -82,12 +86,12 @@ data, after training our random forest using the two different encondings presen
 \subsection{Extended Delta}
 
 \subsection{Author Specific SVM}
-% SVM performs well on binary authorship problems Abbasi & Chen, 2008; Zheng et al., 2006
-% from https://pdfs.semanticscholar.org/5c2b/6876df693e096c6c150a5b0d2a2c05043003.pdf
+The Author Specific SVM is tested by generating features for the training and
+test datasets for the PAN 2013 texts. For each different author in the test
+dataset we extract features for all their known texts and their single unknown
+text. We then draw random texts from the training dataset which will serve as
+opponents to the texts written by the author. Then we train an SVM using the
+texts known to be written by the author and the texts from the training dataset
+and predict the unknown text using that SVM.
 
-Results for SVM on the two datasets over 100 runs,
-
-TESTING PAN2013 1
-0.8505000000000001
-TESTING PAN2013 2
-0.8446666666666305
+The accuracy for the two test sets of the PAN 2013 was, 0.85050 and 0.84466.
