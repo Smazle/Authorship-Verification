@@ -94,7 +94,7 @@ class FeatureExtractor:
             np.savetxt(master_file, np.array([master_features]))
 
         if self.feature_header is not None:
-            open(self.feature_header, 'w').write(','.join(self.featureNames))
+            open(self.feature_header, 'w').write('ø'.join(self.featureNames))
 
     def extract_features(self, text):
         features = []
