@@ -34,6 +34,10 @@ parser.add_argument(
     help='Should the prediction probability be saved',
     default=None)
 
+parser.add_argument(
+    '--iterations', type=int, nargs='?',
+    help='Help number of iterations to average over',
+    default=100)
 args = parser.parse_args()
 datafiles = args.file
 
@@ -78,7 +82,7 @@ if len(datafiles) > 1:
 feature_importance = []
 probability = []
 predictions = []
-for i in range(100):
+for i in range(args.iterations):
     # Shuffle such that we use random data in train and test.
     boundary = int(np.floor(len(X) * args.split))
     permutation = np.random.permutation(len(X))
