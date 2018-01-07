@@ -88,11 +88,20 @@ The Extended Delta Method is tested by generating features according to the best
 configurations found in the training phase. Then the same procedure used to test
 the regular delta method is employed. The best configuration for the PAN 2013
 data were the 100 most frequent 2-, 3-, and 4-char-grams and the 300 most
-frequent words. The best configuration for the PAN 2015 data were the 20 most
-frequent 1-, 2-, and 3-special-char-grams. The accuracy obtained on the PAN 2013
-test datasets were 0.73213 and 0.67173.
+frequent words for 5 opposing authors. The best configuration for the PAN 2015
+data were the 20 most frequent 1-, 2-, and 3-special-char-grams for 2 opposing
+authors. The accuracy obtained on the PAN 2013 test datasets were 0.73213 and
+0.67173. The accuracy obtained on the PAN 2015 dataset were 0.62189. Since the
+2015 dataset depends on the AUROC it is shown in Figure
+\ref{fig:extended_delta_method_roc}.
 
-% TODO Add results for 2015.
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{./pictures/extended_delta_method_roc.png}
+    \caption{The ROC curve of the Extended Delta Method with number of opposing
+    authors varying from 0 to 10 using the test dataset for for PAN2015.}
+    \label{fig:extended_delta_method_roc}
+\end{figure}
 
 \subsection{Author Specific SVM}
 The Author Specific SVM is tested by generating features for the training and
