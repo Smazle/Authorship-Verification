@@ -27,7 +27,7 @@ echo 'Generating Testing Features...'
 echo 'Generating Model...'
 
 ../../machine_learning/forest.py trainingFeatures trainingMaster --split 1.0 \
-    --trees 100
+    --trees 1000 --method pancho --iterations 1
 
 echo 'Making Predictions'
 
