@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-echo 'Generating Training Features...'
-
+echo "Generating Training Features"
 ../../feature_extraction/main.py ../../data/pan_2015 trainingFeatures \
     --corpus brown \
     --master-file trainingMaster  \
@@ -24,11 +23,3 @@ echo 'Generating Testing Features...'
     --special-n-gram 2 3 --special-n-gram-size 5 \
     --word-frequencies 50
 
-echo 'Generating Model...'
-
-../../machine_learning/forest.py trainingFeatures trainingMaster --split 1.0 \
-    --trees 1000 --method pancho --iterations 1
-
-echo 'Making Predictions'
-
-./panchofy.py testFeatures trainingMaster

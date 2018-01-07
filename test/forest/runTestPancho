@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+echo "Generating Features"
+./genFeatures
+
+echo 'Generating Model...'
+
+../../machine_learning/forest.py trainingFeatures trainingMaster --split 1.0 \
+    --trees 1000 --method pancho --iterations 1
+
+echo 'Making Predictions'
+
+./panchofy.py testFeatures trainingMaster
