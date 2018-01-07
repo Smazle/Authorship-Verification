@@ -69,16 +69,16 @@ if len(datafiles) > 1:
             newX.append(encode(allText, known, unknown))
 
         X = np.array(newX)
-    else:
-        if args.method == 'minus':
-            newX = []
-            for known, unknown in zip(X_known, X_unknown):
-                newX.append(known - unknown)
+else:
+    if args.method == 'minus':
+        print('Im Here')
+        newX = []
+        for known, unknown in zip(X_known, X_unknown):
+            newX.append(known - unknown)
 
-            X = np.array(newX)
+        X = np.array(newX)
 
-
-# Run test 100 times.
+# Run test args.iterations times.
 feature_importance = []
 probability = []
 predictions = []
