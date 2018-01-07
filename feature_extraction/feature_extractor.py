@@ -129,7 +129,7 @@ class Author:
 # TODO: description.
 # Return [Author]
 def analyse_input_folder(data_folder):
-    all_fnames = os.listdir(data_folder)
+    all_fnames = sorted(os.listdir(data_folder))
     author_folders = filter(lambda x: x.startswith('EN'), all_fnames)
     truth_f = open(data_folder + '/truth.txt', 'r', encoding='utf-8-sig')\
         .read()
@@ -137,6 +137,7 @@ def analyse_input_folder(data_folder):
     authors = []
     for folder in author_folders:
         all_fnames = os.listdir(data_folder + '/' + folder)
+        all_fnames = sorted(all_fnames)
 
         known = filter(lambda x: x.startswith('known'), all_fnames)
         known = map(lambda x: data_folder + '/' + folder + '/' + x, known)
@@ -157,7 +158,7 @@ def gen_corpus(authors, corpus):
     if corpus == 'all':
         all_texts = sum([x.known for x in authors], [])
 
-        return ''.join(set(all_texts))
+        return ''.join(sorted(set(all_texts)))
     elif corpus == 'brown':
         paragraphs = brown.paras()
 
