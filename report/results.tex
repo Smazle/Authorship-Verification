@@ -1,7 +1,48 @@
 \section{Results}
+As described earlier the PAN2013 results are ranked using the F1 measure and the
+PAN 2015 results are ranked using the c@1 and AUROC measures. In our case both
+F1 and c@1 corresponds to an accuracy. That can be seen from the definitions,
+
+As described earlier the PAN 2013 results are ranked using the F1 measure. The
+measure is defined using \textit{precision} and \textit{recall} which in this
+case is defined as,
+
+\begin{align}
+    precision &=  #correct_answers / #answers \\
+    recall &= #correct_answers / #problems
+\end{align}
+
+Since we answer all problems $#problems$ and $#answers$ are the same in our case
+and we therefore get the F1 is the same as an accuracy.
+
+\begin{equation}
+    F1 = 2 \frac{precision \cdot recall}{precision + recall}
+        = 2 \frac{accuracy^2}{2accuracy}
+        = \frac{2accuracy^2}{2accuracy}
+        = \frac{accuracy^2}{accuracy}
+        = accuracy.
+\end{equation}
+
+Similarly as described earlier the PAN2015 results are ranked using the product
+of AUROC and c@1. Like F1 in PAN 2015 the c@1 also corresponds to an accuracy in
+our case since we answer all questions. % TODO Maybe move definition of c@1here.
+
+In this section we will describe how we have tested our solutions on the test
+datasets and give the results of those tests.
 
 % TODO: Formatting.
 \subsection{Delta Method}
+The Delta method was tested by creating the same features for both the training
+dataset and the test datasets. We then computed the mean and standard variance
+of the training set and used that to normalize both the training and test
+dataset. For each text in the test dataset we then drew differing numbers of
+opposing texts from the training dataset. Those opposing texts were used as the
+opposition in the Delta Method. The results for running the delta method on the
+two test sets included in PAN 2013 and one dataset included in PAN 2015 is shown
+in Table \ref{tab:delta_method_final_results}. The AUROC curve for the Delta
+Method is shown in Figure \ref{fig:delta_method_roc}. It is created by computing
+the \gls{TPR} and \gls{FPR} for the differing number of opposing authors.
+
 \begin{table}
     \begin{tabular}{l|lll}
         \textbf{Opponents} & \textbf{PAN 2013 Test 1} & \textbf{PAN 2013 Test 2}
@@ -37,3 +78,10 @@
 \subsection{Author Specific SVM}
 % SVM performs well on binary authorship problems Abbasi & Chen, 2008; Zheng et al., 2006
 % from https://pdfs.semanticscholar.org/5c2b/6876df693e096c6c150a5b0d2a2c05043003.pdf
+
+Results for SVM on the two datasets over 100 runs,
+
+TESTING PAN2013 1
+0.8505000000000001
+TESTING PAN2013 2
+0.8446666666666305
