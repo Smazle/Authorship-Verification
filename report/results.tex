@@ -2,47 +2,24 @@
 
 % TODO: Formatting.
 \subsection{Delta Method}
-Accuracy from 0 opponents to 10 opponents on PAN2013 dataset 1.
-
-0.44943
-0.58685
-0.62235
-0.63348
-0.63741
-0.63483
-0.63876
-0.64337
-0.64123
-0.64438
-0.64235
-
-Accuracy from 0 opponents to 10 opponents on PAN2013 dataset 2.
-
-0.49606
-0.58283
-0.60125
-0.60771
-0.62173
-0.61897
-0.62787
-0.63188
-0.63488
-0.63173
-0.63291
-
-Accuracy from 0 opponents to 10 opponents on PAN2015 dataset.
-
-0.50000
-0.55870
-0.56550
-0.53969
-0.52880
-0.52269
-0.52080
-0.51399
-0.51270
-0.51320
-0.50840
+\begin{table}
+    \begin{tabular}{l|lll}
+        \textbf{Opponents} & \textbf{PAN 2013 Test 1} & \textbf{PAN 2013 Test 2}
+        & \textbf{PAN 2015 Test} \\ \hline
+        1  & 0.58685 & 0.58283 & 0.55870 \\
+        2  & 0.62235 & 0.60125 & \textbf{0.56550} \\
+        3  & 0.63348 & 0.60771 & 0.53969 \\
+        4  & 0.63741 & 0.62173 & 0.52880 \\
+        5  & 0.63483 & 0.61897 & 0.52269 \\
+        6  & 0.63876 & 0.62787 & 0.52080 \\
+        7  & 0.64337 & 0.63188 & 0.51399 \\
+        8  & 0.64123 & 0.63488 & 0.51270 \\
+        9  & \textbf{0.64438} & 0.63173 & 0.51320 \\
+        10 & 0.64235 & \textbf{0.63291} & 0.50840
+    \end{tabular}
+    \caption{Result of running}
+    \label{tab:delta_method_final_results}
+\end{table}
 
 \begin{figure}
     \centering
