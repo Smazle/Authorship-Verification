@@ -85,9 +85,19 @@ where it is supposed to learn a general difference between feature vectors of
 the same authors and feature vectors of different authors.
 
 \subsection{Extended Delta}
-There are many ways to extend the delta method described above. The most obvious
-is to change which features it uses. We have experimented with different
-configuration of features.
+As described earlier there are many ways to extend and change the delta method.
+We tried both using different features and different distance measures to obtain
+better results than the original delta method. The different feature
+combinations were tried experimentally one after the other. If a feature
+combination did well on a dataset we tried adding or removing features from that
+feature set to maybe obtain something better. The features we tried were
+different combinations of character n-grams, word n-grams and \gls{POS}-tag
+n-grams.
+
+The different distance measures we tried were the Manhattan distance and the
+Euclidean distance.
+
+% TODO: Justify choices of distances.
 
 \subsection{Author Specific SVM} \label{subsec:author_specific_svm}
 We implemented an approach using \gls{SVM}'s inspired by \cite{hansen2014}. The
@@ -134,10 +144,11 @@ of correct answers divided by the total number of problems. For some methods we
 will also report the \gls{TPR} and \gls{TNR}. The \gls{TPR} and \gls{TNR} are
 defined as,
 
-% TODO: Consider explaining TP and FN.
 \begin{align}
-    TPR &= \frac{TP}{TP + FN} \\
-    TNR &= \frac{TN}{TN + FP}
+    TPR &= \frac{\text{true positives}}{\text{true positives} +
+        \text{false negatives}} \\
+    TNR &= \frac{\text{true negatives}}{\text{true negatives} +
+        \text{false positives}}
 \end{align}
 
 \subsubsection{Delta Method}
@@ -158,14 +169,14 @@ We chose the number of most frequent words $n$ and number of opposing
 authors $m$ by trying different configurations in a grid and choosing the
 best values. Each configuration is tried 100 times since random authors are
 chosen in each run. On the training dataset we obtained the results shown in
-Figure \ref{fig:delta_pan_2013_res} for the PAN 2013 data and in Figure
+Table \ref{fig:delta_pan_2013_res} for the PAN 2013 data and in Table
 \ref{fig:delta_pan_2015_res} for the PAN 2015 data. For PAN 2013 the results are
 generally better since there is more text available and the best accuracy were
 obtained when using the 300 most frequent words and 4 opposing authors. For PAN
 2015 the best result is obtained when using the 200 most frequent words and 1
 opposing authors.
 
-\begin{figure}
+\begin{table}
     \centering
     \begin{tabular}{c|lccccc}
                &                   & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
@@ -217,9 +228,9 @@ opposing authors.
         on the PAN 2013 dataset. Maximum values for both Accuracy, \gls{TPR} and
         \gls{TNR} is shown in bold.}
     \label{fig:delta_pan_2013_res}
-\end{figure}
+\end{table}
 
-\begin{figure}
+\begin{table}
     \centering
     \begin{tabular}{c|lccccc}
                &                   & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
@@ -271,10 +282,8 @@ opposing authors.
         on the PAN 2015 dataset. Maximum values for both Accuracy, \gls{TPR} and
         \gls{TNR} is shown in bold.}
     \label{fig:delta_pan_2015_res}
-\end{figure}
+\end{table}
 
-% TODO: Describe number of trees and other parameters.
-% TODO: Tables of tests.
 \subsubsection{Generalising Random Forest}
 In the \nameref{subsec:Generalising Random Forest}, we have the possibility
 to use of a wide variety of features. It's a random subset of these features
@@ -344,10 +353,12 @@ $$
 This yielded an accuracy of 0.5675. This was again dominated by character features, when looking 
 at the final feature importance. However pos-tags had slightly more impact.
 
-
 \subsubsection{Extended Delta}
-We tried a lot of different feature configurations. Our results and feature
-configurations are shown in Figure \ref{fig:extended_delta_method_manhattan_result}.
+We tried different feature combinations and distances. The results of running on
+the training data is shown in Table
+\ref{fig:extended_delta_method_manhattan_result} for the Manhattan distance and
+in Table \ref{fig:extended_delta_method_euclidean_result} for the Euclidean
+distance.
 
 \begin{landscape}
 \begin{table}
