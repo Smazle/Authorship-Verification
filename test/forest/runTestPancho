@@ -10,4 +10,4 @@ echo 'Generating Model...'
 
 echo 'Making Predictions'
 
-./panchofy.py testFeatures trainingMaster
+./predict.py testFeatures trainingMaster

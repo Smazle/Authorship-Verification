@@ -23,17 +23,22 @@ feature_n_half = int(feature_n / 2)
 X_known = X[:, 0:feature_n_half]
 X_unknown = X[:, feature_n_half:-1]
 
-master = np.loadtxt(datafiles[1], dtype=np.float)
-
 newX = []
 
-for known, unknown in zip(X_known, X_unknown):
-    newX.append(encode(master, known, unknown))
+if len(datafiles) > 1:
+    master = np.loadtxt(datafiles[1], dtype=np.float)
+    print('Pancho Encoding')
+    for known, unknown in zip(X_known, X_unknown):
+        newX.append(encode(master, known, unknown))
+else:
+    print('Minus Encoding')
+    for known, unknown in zip(X_known, X_unknown):
+        newX.append(known - unknown)
 
 X = np.array(newX)
 
 res = model.predict(X) == y
 print('Precision: ', np.sum(res) / float(len(res)))
 
-# np.savetxt(model.predict_proba(X), 'Probabilities.data')
-# print('Probabilities output to Probabilities.data')
+np.savetxt('Probabilities.data', model.predict_proba(X))
+print('Probabilities output to Probabilities.data')
