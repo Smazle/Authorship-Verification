@@ -23,9 +23,6 @@ feature_n_half = int(feature_n / 2)
 X_known = X[:, 0:feature_n_half]
 X_unknown = X[:, feature_n_half:-1]
 
-print(X.shape)
-print(y.shape)
-
 newX = []
 
 if len(datafiles) > 1:
@@ -39,9 +36,6 @@ else:
         newX.append(known - unknown)
 
 X = np.array(newX)
-
-print(X.shape)
-print(y.shape)
 
 res = model.predict(X) == y
 print('Precision: ', np.sum(res) / float(len(res)))
