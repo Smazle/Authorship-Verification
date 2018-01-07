@@ -8,7 +8,6 @@ from sklearn.ensemble import RandomForestClassifier
 # Set up arguments
 parser = argparse.ArgumentParser(
     description='Run Random Forest on extracted features')
-
 parser.add_argument('file', type=str, help='Data File Location', nargs='+')
 parser.add_argument(
     '--split', type=float, nargs='?',
@@ -117,7 +116,7 @@ print(np.mean(predictions))
 if args.importance is not None:
     feature_importance = np.mean(feature_importance, 0)
 
-    f = open('headers', 'r').read().split(' ')
+    f = np.loadtxt('headers', dtype=str, delimiter='ø')
     feature_importance = zip(f, feature_importance)
 
     feature_importance = sorted(
