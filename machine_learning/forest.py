@@ -71,7 +71,6 @@ if len(datafiles) > 1:
         X = np.array(newX)
 else:
     if args.method == 'minus':
-        print('Im Here')
         newX = []
         for known, unknown in zip(X_known, X_unknown):
             newX.append(known - unknown)

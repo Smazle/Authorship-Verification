@@ -37,8 +37,12 @@ else:
 
 X = np.array(newX)
 
-res = model.predict(X) == y
+
+predictions = model.predict(X)
+
+res = predictions == y
 print('Precision: ', np.sum(res) / float(len(res)))
 
-np.savetxt('Probabilities.data', model.predict_proba(X))
+proba = model.predict_proba(X)
+np.savetxt('Probabilities.data', np.column_stack((proba[:, -1], predictions)))
 print('Probabilities output to Probabilities.data')
