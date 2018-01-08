@@ -85,6 +85,7 @@ by computing the \gls{TPR} and \gls{FPR} for the differing number of opposing au
     \label{fig:delta_method_roc}
 \end{figure}
 
+% TODO: Write how ROC curve were generated.
 \subsection{Generalizing Random Forest}
 In order to test the universal background approach, proposed by 
 \cite{pacheco2015}, a bash script was created which initially
@@ -97,6 +98,13 @@ results,
 \text{UBM Enconding Accuracy}:&\qquad 0.604\\
 \text{Subtraction Enconding Accuracy}:& \qquad 0.584
 \end{align}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{./pictures/forest_roc.png}
+    \caption{The ROC curve of the two Generalizing Random Forest approaches.}
+    \label{fig:forest_roc}
+\end{figure}
 
 \subsection{Extended Delta}
 The Extended Delta Method is tested by generating features according to the best
