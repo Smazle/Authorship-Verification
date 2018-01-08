@@ -87,6 +87,7 @@ authors.
     \label{fig:delta_method_roc}
 \end{figure}
 
+% TODO: Write how ROC curve were generated.
 \subsection{Generalizing Random Forest}
 After creating our \gls{UBM} based on the training data and training our random
 forest using the two different encodings presented, we got the following
@@ -96,6 +97,13 @@ results,
 \text{UBM Enconding Accuracy}:&\qquad 0.604\\
 \text{Subtraction Enconding Accuracy}:& \qquad 0.584
 \end{align}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{./pictures/forest_roc.png}
+    \caption{The ROC curve of the two Generalizing Random Forest approaches.}
+    \label{fig:forest_roc}
+\end{figure}
 
 \subsection{Extended Delta}
 The Extended Delta Method is tested by generating features according to the best
