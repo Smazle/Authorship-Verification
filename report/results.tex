@@ -53,9 +53,7 @@ opposition in the Delta Method. The results for running the delta method on
 the two test sets included in PAN 2013 and one dataset included in PAN 2015 is
 shown in Table \ref{tab:delta_method_final_results}. The \gls{AUROC} curve for
 the Delta Method is shown in Figure \ref{fig:delta_method_roc}. It is created
-by computing the \gls{TPR} and \gls{FPR} for the differing number of opposing
-authors.
-
+by computing the \gls{TPR} and \gls{FPR} for the differing number of opposing authors.  
 \begin{table}
     \centering
     \begin{tabular}{l|lll}
@@ -88,6 +86,9 @@ authors.
 \end{figure}
 
 \subsection{Generalizing Random Forest}
+In order to test the universal background approach, proposed by 
+\cite{pacheco2015}, a bash script was created which initially
+
 After creating our \gls{UBM} based on the training data and training our random
 forest using the two different encodings presented, we got the following
 results,
