@@ -56,7 +56,7 @@ m_fprs = m_fprs[p]
 m_tprs = m_tprs[p]
 
 # Plot graph.
-plt.plot(p_fprs, p_tprs, marker='o', c='r', label='PANCHO')
+plt.plot(p_fprs, p_tprs, marker='o', c='r', label='PANCHECO')
 plt.plot(m_fprs, m_tprs, marker='o', c='b', label='MINUS')
 plt.plot([0.0, 1.0], linestyle='--', c='tab:gray', label='Baseline x=x')
 plt.grid(True)
