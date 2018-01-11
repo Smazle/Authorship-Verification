@@ -112,9 +112,6 @@ different thresholds for when a answer is considered "same author" can be tried
 and the \gls{TPR} and \gls{FPR} can be computed for all thresholds. In our case
 we tried the thresholds $\{0.0, 0.01, \dots, 1.0\}$.
 
-%Then those
-%probabilities can be used with different thresholds to 
-
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{./pictures/forest_roc.png}
@@ -155,7 +152,3 @@ and predict the unknown text using that SVM.
 The best configuration on the training set were configuration B using the
 frequencies of the 300 most frequent words. On the two test datasets it obtained
 accuracies of 0.78650 and 0.78000.
-
-%In the training we tried two different sets of features to train the SVM. They
-%both performed about as well as the other and we will therefore
-%The accuracy for the two test sets of the PAN 2013 was, 0.85050 and 0.84466.
