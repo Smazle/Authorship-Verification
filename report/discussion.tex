@@ -46,13 +46,20 @@ also have to analyzed in order to determine the viability of the Generalized RF
 method.
 By only considering $\log(N)$ features in our case, 
 where N is the total number of features, we are able to handle large amount of data. 
-The time complexity of the method can be broken down into three parts.
-The creating of a tree, the number of features considered, and the number of trees.
+The time complexity of the method can be broken down into two parts.
+The creating of a tree, and number of features considered.
 The time complexity of a single decision tree, is $O(n \log{n})$, where n is the
 total number of leafs on the tree. In our case,
-each tree considers $\log{N}$ features, and this is done over 1000 different
-trees giving us a final time complexity of $O(1000 * \log{N} * n \log{n})$.\cite{RFTime}
+each tree considers $\log{N}$ features. This gives us a final time 
+complexity of $O(\log{N} \cdot n \log{n})$.\cite{RFTime}
 
+While the method didn't provide any impressive results, the generalized approach
+might very well be useful the future, in case one comes across another data
+sparse set. An improvement that could be done however, was the increase of 
+features fed to the random forest. Since it by its' very nature
+selects the best features for classification, we can at the cost of 
+some run time, train on a much larger feature-set and we suspect
+some better results might be produced.
 
 
 
@@ -60,14 +67,11 @@ trees giving us a final time complexity of $O(1000 * \log{N} * n \log{n})$.\cite
 
 \begin{itemize}
     \item Why did the delta method perform so much better on the training data?
-    \item What did the difference in text amount between PAN 2013 and PAN 2015
-        mean for performance of our methods?
     \item Comparison of our test results to the best ones in PAN 2013 and PAN
         2015.
     \item How does different methods scale to huge amounts of data?
     \item Discuss potential usage in future project based on TPR and TNR.
-    \item What improvements could be made to any of the method used.
-    \item Discuss the weighing of features by the random forest.
+    \item What improvements could be made to any of the method used. RF Done
     \item Why did SVM's perform so well (https://link.springer.com/article/10.1023/A:1023824908771).
         \begin{itemize}
             \item SVM's can handle many thousands of features.
