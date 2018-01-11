@@ -15,7 +15,6 @@ might give some perspective as well. The data MaCom has, closely resembles the
 data from the PAN 2013 task. However, with a lot more authors and no unknown
 text.
 
-
 Starting off with the Generalized Random Forest \ref{subsec:Generalising Random
 Forest}. This method was off to a bad start, as the paper it was based on
 \cite{pacheco2015} only manged to get a 6'th place in the PAN2015 authorship
@@ -51,11 +50,12 @@ $\log{N}$ features. This gives us a final time complexity of $O(\log{N} \cdot n
 
 While the method didn't provide any impressive results, the generalized approach
 might very well be useful the future, in case one comes across another data
-sparse set. An improvement that could be done however, was the increase of 
-features fed to the random forest. Since it by its' very nature
-selects the best features for classification, we can at the cost of 
-some run time, train on a much larger feature-set and we suspect better results
-some might be produced.
+sparse set. An improvement that could be done however, was to increase the
+number of features fed to the random forest. Not only quantity, but also
+different types of features than the ones used in this paper. This would
+work since Random Forest by its' very nature selects the best features for
+classification, we can at the cost of some run time, train on a much larger
+feature-set and we suspect better results some might be produced.
 
 
 \begin{itemize}
