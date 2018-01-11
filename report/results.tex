@@ -1,7 +1,7 @@
 \section{Results} \label{sec:results}
 As described earlier the PAN 2013 results are ranked using the F1 measure. The
-measure is defined using \textit{precision} and \textit{recall} which in this
-case is defined as,
+measure is defined using \textit{precision} and \textit{recall} which in PAN 2013
+is defined as,
 
 \begin{align}
     precision &=  correct\_answers / answers \\
@@ -9,7 +9,7 @@ case is defined as,
 \end{align}
 
 Since we answer all problems $problems$ and $answers$ are the same in our case
-and therefore we get that the F1 measure is the same as an accuracy, 
+and therefore we get that the F1 measure is the same as an accuracy,
 
 \begin{equation}
     F1 = 2 \frac{precision \cdot recall}{precision + recall}
@@ -20,8 +20,22 @@ and therefore we get that the F1 measure is the same as an accuracy,
 \end{equation}
 
 Similarly as described earlier the PAN2015 results are ranked using the product
-of \gls{AUROC} and c@1. Like F1 in PAN 2015 the c@1 also corresponds to an
-accuracy in our case since we answer all questions. The definition of c@1 were,
+of \gls{AUROC} and c@1. The \gls{AUROC} is a measure of discrimination. That
+is, it measures the ability of a solution to distinguish between texts written
+by the same author and texts written by another author. An \gls{AUROC} score is
+generally considered excellent when between 0.9 and 1, good when between 0.8
+and 0.9, fair when between 0.7 and 0.8, poor when between 0.6 and 0.7 and a
+failure when between 0.5 and 0.6. The c@1 measure is chosen since it measures
+performance in the binary case. The c@1 measure does not use probabilities but
+classifies everything above 0.5 as a yes everything below as a no and a 0.5 as a
+don't know. Like F1 in PAN 2015 the c@1 also corresponds to an accuracy in our
+case since we answer all questions. The definition of c@1 is,
+
+%In this section when we speak about performance we mean the product
+%of the two measures for a specific method. Since we only use the English texts
+%in the PAN 2015 dataset we will also only report the performance on English
+%texts.
+
 
 \begin{equation}
     c@1 = \frac{1}{n} \left(n_c + \frac{n_u \cdot n_c}{n}\right)
