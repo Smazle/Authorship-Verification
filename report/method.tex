@@ -40,14 +40,25 @@ describes.
         written by different authors.
 \end{description}
 
-\gls{TPR}, \gls{FPR}, \gls{TNR} and \gls{FNR} is computed as,
+And they can be computed as,
 
 \begin{align}
-    TPR &= \frac{TP}{TP + FN} \\
-    FPR &= \frac{FP}{FP + TN} \\
-    TNR &= \frac{TN}{TN + FP} \\
-    FNR &= \frac{FN}{FN + TP}
+    TPR &= \frac{TP}{TP + FN}, \\
+    FPR &= \frac{FP}{FP + TN}, \\
+    TNR &= \frac{TN}{TN + FP}, \\
+    FNR &= \frac{FN}{FN + TP}.
 \end{align}
+
+\cite{stamatos2009} describes instance based and profile based approaches for
+authorship attribution/verification. The instance based approach uses several
+texts from an author to create multiple different feature vectors representing
+the authors writing style while the profile based approach concatenates all
+texts to a single text and creates only a single vector representing that text.
+The instance based approach corresponds to the PAN 2013 problem. In that problem
+we are given multiple texts to train from and the methods we have implemented to
+solve that problem will reflect that property. The profile based approach
+corresponds to the PAN 2015 dataset here we are given only a single known text
+per author which we can use to construct a profile of the author.
 
 \subsection{Text Features}
 Feature extraction from a text is the process of finding a vector that
