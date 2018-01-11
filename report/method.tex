@@ -1,5 +1,53 @@
-% TODO: Define stopwords.
 \section{Method}
+In this section we will describe the methods we have implemented to solve the
+PAN 2013 and PAN 2015 problems. The problems are both known as authorship
+verification problems. \cite{stamatos2009} describes the problem in a machine
+learning sense as a two class classification problem. Either the unknown texts
+are written by the same author or they are written by different authors. All
+our implemented methods solve that classification problem by answering either
+\textit{True} (unknown text is written by the same author as the known texts) or
+\textit{False} (unknown text is \textbf{not} written by the same author as the
+known texts). Since both PAN 2013 and PAN 2015 is a binary decision problem we
+can compute the \gls{TP}, \gls{TN}, \gls{FP} and \gls{FN}. In these problems we
+get.
+
+\begin{itemize}
+    \item A \gls{TP} whenever we answer \textit{True} and the texts are written
+        by the same authors.
+    \item A \gls{TN} whenever we answer \textit{False} and the texts are
+        \textbf{not} written by the same author.
+    \item A \gls{FP} whenever we answer \textit{True} and the texts are
+        \textbf{not} written by the same author.
+    \item A \gls{FN} whenever we answer \textit{False} and the texts are written
+        by the same author.
+\end{itemize}
+
+Given those definitions the \gls{TPR}, \gls{FPR}, \gls{TNR} and \gls{FNR}
+describes.
+
+\begin{description}
+    \item[\gls{TPR}: ] The fraction of positives that we reported \textit{True}
+        on i.e. the fraction of texts written by the same author that we say are
+        written by the same author.
+    \item[\gls{FPR}: ] The fraction of negatives that we reported \textit{True}
+        on i.e. the fraction of texts written by different authors that we say
+        are written by the same author.
+    \item[\gls{TNR}: ] The fraction of negatives that we reported \textit{False}
+        on i.e. the fraction of texts written by different authors that we say
+        are written by different authors.
+    \item[\gls{FNR}: ] The fraction of positives that we reported \textit{False}
+        on i.e. the fraction of texts written by the same author that we say are
+        written by different authors.
+\end{description}
+
+\gls{TPR}, \gls{FPR}, \gls{TNR} and \gls{FNR} is computed as,
+
+\begin{align}
+    TPR &= \frac{TP}{TP + FN} \\
+    FPR &= \frac{FP}{FP + TN} \\
+    TNR &= \frac{TN}{TN + FP} \\
+    FNR &= \frac{FN}{FN + TP}
+\end{align}
 
 \subsection{Text Features}
 Feature extraction from a text is the process of finding a vector that
@@ -143,15 +191,7 @@ dataset.
 We will evaluate the performance of the different algorithms on the training
 data with the accuracy of the algorithms. The accuracy is computed as the number
 of correct answers divided by the total number of problems. For some methods we
-will also report the \gls{TPR} and \gls{TNR}. The \gls{TPR} and \gls{TNR} are
-defined as,
-
-\begin{align}
-    TPR &= \frac{\text{true positives}}{\text{true positives} +
-        \text{false negatives}} \\
-    TNR &= \frac{\text{true negatives}}{\text{true negatives} +
-        \text{false positives}}
-\end{align}
+will also report the \gls{TPR} and \gls{TNR}.
 
 \subsubsection{Delta Method}
 In the delta method we work only with word frequencies as originally proposed.
