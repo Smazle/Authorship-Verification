@@ -1,14 +1,16 @@
-\section{Results}
+\section{Results} \label{sec:results}
 As described earlier the PAN 2013 results are ranked using the F1 measure. The
-measure is defined using \textit{precision} and \textit{recall} which in this
-case is defined as,
+measure is defined using \textit{precision} and \textit{recall} which in PAN 2013
+is defined as,
 
 \begin{align}
     precision &=  correct\_answers / answers \\
     recall &= correct\_answers / problems.
 \end{align}
 
-Since we answer all problems $problems$ and $answers$ are the same in our case and we therefore get that the F1 measure is the same as an accuracy, 
+Since we answer all problems $problems$ and $answers$ are the same in our case
+and therefore we get that the F1 measure is the same as an accuracy,
+
 \begin{equation}
     F1 = 2 \frac{precision \cdot recall}{precision + recall}
         = 2 \frac{accuracy^2}{2accuracy}
@@ -18,8 +20,16 @@ Since we answer all problems $problems$ and $answers$ are the same in our case a
 \end{equation}
 
 Similarly as described earlier the PAN2015 results are ranked using the product
-of \gls{AUROC} and c@1. Like F1 in PAN 2015 the c@1 also corresponds to an
-accuracy in our case since we answer all questions. The definition of c@1 were,
+of \gls{AUROC} and c@1. The \gls{AUROC} is a measure of discrimination. That
+is, it measures the ability of a solution to distinguish between texts written
+by the same author and texts written by another author. An \gls{AUROC} score is
+generally considered excellent when between 0.9 and 1, good when between 0.8
+and 0.9, fair when between 0.7 and 0.8, poor when between 0.6 and 0.7 and a
+failure when between 0.5 and 0.6. The c@1 measure is chosen since it measures
+performance in the binary case. The c@1 measure does not use probabilities but
+classifies everything above 0.5 as a yes everything below as a no and a 0.5 as a
+don't know. Like F1 in PAN 2015 the c@1 also corresponds to an accuracy in our
+case since we answer all questions. The definition of c@1 is,
 
 \begin{equation}
     c@1 = \frac{1}{n} \left(n_c + \frac{n_u \cdot n_c}{n}\right)
@@ -51,7 +61,9 @@ opposition in the Delta Method. The results for running the delta method on
 the two test sets included in PAN 2013 and one dataset included in PAN 2015 is
 shown in Table \ref{tab:delta_method_final_results}. The \gls{AUROC} curve for
 the Delta Method is shown in Figure \ref{fig:delta_method_roc}. It is created
-by computing the \gls{TPR} and \gls{FPR} for the differing number of opposing authors.  
+by computing the \gls{TPR} and \gls{FPR} for the differing number of opposing
+authors.
+
 \begin{table}
     \centering
     \begin{tabular}{l|lll}
@@ -83,38 +95,36 @@ by computing the \gls{TPR} and \gls{FPR} for the differing number of opposing au
     \label{fig:delta_method_roc}
 \end{figure}
 
-% TODO: Write how ROC curve were generated.
 \subsection{Generalizing Random Forest}
-In order to test the universal background approach, proposed by 
-\cite{pacheco2015}, we start by computing our feature set, where the
-features used match the ones used in out experiments. More specifically,\\
-50 Most Frequent $[2,...,5]$ Word-N-Grams\\
-50 Most Frequent $[2,...,5]$ Character-N-Grams\\
-50 Most Frequent $[2,...,5]$ PosTag-N-Grams\\
-5 Most Frequent 2 and 3 Special-Character-N-Grams\\
-50 Most Frequent Words\\\\
-These features was also created to make a \gls{UBM} as described in the section
-\nameref{subsec:Generalising Random Forest}.
-These two data sets, are then encoded using according to equation 
-\eqref{eq:rf-encode}, and are then used to train a random forest with parameters
-matching the ones used in experiments. That is, all parameters being set to their
-fault, with \texttt{n\_estimators} being the exception, as it is set to 1000, 
-to combat the variance.
+In order to test the universal background approach proposed by
+\cite{pacheco2015}, we start by computing our feature set, where the features
+used are the same as in the training phase described in Section
+\ref{subsec:Generalising Random Forest}.
 
-At this point we encode the feature set created from the test data, against the
-\gls{UBM}, which is then fed to our trained random forest to get a set our
-set of prediction.
-This resulted in an accuracy of 0.604, on the pan 2015 dataset.
+These features were also created to make a \gls{UBM} as described in Section
+\ref{subsec:Generalising Random Forest}. These two data sets, are then encoded
+according to Equation \eqref{eq:rf-encode}, and are then used to train a random
+forest with parameters matching the ones used in experiments. That is all
+parameters being set to their default except \texttt{n\_estimators} that is set
+to 1000. At this point we encode the feature set created from the test data,
+against the \gls{UBM}, which is then fed to our trained random forest to get the
+predictions. This resulted in an accuracy of 0.604, on the pan 2015 dataset. On
+the other hand, we also chose to train our model using the alternate subtraction
+encoding, which doesn't make use of the \gls{UBM}. The subtraction encoding
+under-performed relative to the \gls{UBM} approach, with an accuracy of 0.584.
 
-On the other hand, we also chose to train our model using the alternate 
-subtraction encoding, which doesn't make use of the \gls{UBM}. This however
-under-performed relative to the \gls{UBM} approach, with an accuracy of 
-0.584, as can be seen in figure \ref{fig:forest_roc}.
+We have generated the \gls{AUROC} curve for both random forest tests. The curve
+is shown in Figure \ref{fig:forest_roc}. The curve was generated by computing
+the probability for each problem of the answer being "same author". Then
+different thresholds for when a answer is considered "same author" can be tried
+and the \gls{TPR} and \gls{FPR} can be computed for all thresholds. In our case
+we tried the thresholds $\{0.0, 0.01, \dots, 1.0\}$.
 
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{./pictures/forest_roc.png}
-    \caption{The ROC curve of the two Generalizing Random Forest approaches.}
+    \caption{The \gls{AUROC} curve of the two Generalizing Random Forest
+    approaches.}
     \label{fig:forest_roc}
 \end{figure}
 
@@ -150,7 +160,3 @@ and predict the unknown text using that SVM.
 The best configuration on the training set were configuration B using the
 frequencies of the 300 most frequent words. On the two test datasets it obtained
 accuracies of 0.78650 and 0.78000.
-
-%In the training we tried two different sets of features to train the SVM. They
-%both performed about as well as the other and we will therefore
-%The accuracy for the two test sets of the PAN 2013 was, 0.85050 and 0.84466.
