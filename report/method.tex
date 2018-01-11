@@ -1,3 +1,4 @@
+% TODO: Define stopwords.
 \section{Method}
 
 \subsection{Text Features}
@@ -6,18 +7,19 @@ represents the text. There are a lot of different features that can be extracted
 and we use several of them. Specifically we use some character level features,
 some word level features and some \gls{POS} tagging features. In this section
 we will define the different features we use. The specific features used in
-different experiments will be described under those experiments.
+different experiments will be described at length under those experiments.
 
-N-grams are subsequences extracted from a sequence of tokens. For example
-3-grams is all subsequences of length three of a given sequence. Using
-individual characters as tokens all \textit{character 3-grams} of the string
-"hello" is "hel", "ell" and "llo". We use several different types of n-grams
+N-grams are subsequences extracted from a sequence of tokens. For example,
+3-grams are all subsequences of length three of a given sequence. Using
+individual characters as tokens, all \textit{character 3-grams} of the string
+"hello" are "hel", "ell" and "llo". We use several different types of n-grams
 in different experiments including character n-grams, word n-grams, special
-character n-grams and \gls{POS} tagging n-grams. Word n-grams are subsequences
+character n-grams and \gls{POS}-tagging n-grams. Word n-grams are subsequences
 of words, special character n-grams are subsequences of characters with
-alphanumeric characters removed, \gls{POS} tagging n-grams are subsequences of
-\gls{POS} tags. A special case of n-grams is 1-grams which is just a count of
-the different tokens in a sequence. We will refer to 1-grams as frequencies.
+alphanumeric and space characters removed and \gls{POS} tagging n-grams are
+subsequences of \gls{POS} tags which are word classes such as noun, verbs and
+adjectives. A special case of n-grams is 1-grams which is just a count of the
+different tokens in a sequence. We will refer to 1-grams as frequencies.
 
 \subsection{Delta Method} \label{subsec: Delta Method}
 We have chosen to use the Delta method as a baseline method for our other
@@ -56,11 +58,11 @@ It is computed by concatenating all texts in the training dataset and computing
 features from that resulting text. Since multiple authors is then part of the
 text we are computing features from, the assumption is that the author specific
 features will be averaged out and the \gls{UBM} will represent the features of
-an author independent text. The addition of 1 in the model prevent division
-by zero. Since 1 is added both in the numerator and the denominator it does
-not otherwise change the result. The squaring of $(A_i - U_i)$ and $(B - U_i)$
-both prevent negative values and punishes values that are far away. Therefore
-each value in the resulting encoded feature vector is in the range $[0; \inf[$.
+an author independent text. The addition of 1 in the model prevent division by
+zero. Since 1 is added both in the numerator and the denominator it does not
+otherwise change the result. The squaring of $(A_i - U_i)$ and $(B - U_i)$ both
+prevent negative values and punishes values that are far away. Therefore each
+value in the resulting encoded feature vector is in the range $[0; \infty[$.
 
 Let's examine what the above equation describes. Fix any specific $i$ and let
 $A$ be $A_i$ and $U$ be $U_i$ then for each feature $k$ we compute,
@@ -82,17 +84,17 @@ specific text than the universal text and greater than 1 otherwise.
 
 The random forest algorithm is then trained on these encoded feature vectors
 where it is supposed to learn a general difference between feature vectors of
-the same authors and feature vectors of different authors.
+the same author and feature vectors of different authors.
 
 \subsection{Extended Delta}
 As described earlier there are many ways to extend and change the delta method.
 We tried both using different features and different distance measures to obtain
-better results than the original delta method. The different feature
-combinations were tried experimentally one after the other. If a feature
-combination did well on a dataset we tried adding or removing features from that
-feature set to maybe obtain something better. The features we tried were
-different combinations of character n-grams, word n-grams and \gls{POS}-tag
-n-grams.
+better results than the Delta Method described in Section \ref{subsec: Delta
+Method}. The different feature combinations were tried experimentally one after
+the other. If a feature combination did well on a dataset we tried adding or
+removing features from that feature set to maybe obtain something better. The
+features we tried were different combinations of character n-grams, word n-grams
+and \gls{POS}-tag n-grams.
 
 The different distance measures we tried were the Manhattan distance and the
 Euclidean distance.
@@ -108,7 +110,7 @@ Then the unknown text is given to the \gls{SVM} and is classified either as
 belonging to the same author or as belonging to a different author.
 
 If there is only a single known text available for an author it does not make
-sense to train an \gls{SVM} since there is simply to little data.
+sense to train an \gls{SVM} since there is simply too little data.
 
 \subsection{Experiments}
 In this section we describe the different experiments we have performed.
@@ -118,17 +120,17 @@ features and on different datasets. In our experiments we use data from PAN
 \footnote{http://pan.webis.de/clef15/pan15-web/index.html}.
 
 The PAN 2013 data consist of texts from English, Greek and Spanish authors. We
-work only on the English texts which consists of texts from 10 authors. For
-each author there is (between 1 and 10) known texts and a single unknown text.
-The task is given the known texts of an author to determine whether or not the
-unknown text is written by the same author or not.
+work only on the English texts which consists of texts from 10 authors. For each
+author there is (between 1 and 10) known texts and a single unknown text. The
+task is given the known texts of an author to determine whether the unknown text
+is written by the same author.
 
 The PAN 2015 data consist of texts by authors in English, Dutch, Greek and
-Spanish. Again we only work with English texts. Unlike the 2013 dataset there is
-only a single known text for each author and a single unknown text. There is
-therefore much less known data available for each author which makes the
-verification harder. In the 2015 dataset there is 100 \textit{problems} in which
-some of the known texts are the same (i.e. there is not 100 authors).
+Spanish. Again we only work with English texts. Unlike the 2013 dataset there
+is only a single known text for each author and a single unknown text. There
+is therefore much less known data available for each author which makes the
+verification harder. In the 2015 dataset there are 100 \textit{problems} in
+which some of the known texts are the same (i.e. there are not 100 authors).
 
 To generate metadata about English texts we use the Brown dataset
 \footnote{http://clu.uni.no/icame/brown/bcm-los.html}. The brown dataset
@@ -178,6 +180,7 @@ opposing authors.
 
 \begin{table}
     \centering
+    \textbf{PAN 2013 Delta Method Accuracies}\par\medskip
     \begin{tabular}{c|lccccc}
                &                   & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
         \hline
@@ -232,6 +235,7 @@ opposing authors.
 
 \begin{table}
     \centering
+    \textbf{PAN 2015 Delta Method Accuracies}\par\medskip
     \begin{tabular}{c|lccccc}
                &                   & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
         \hline
@@ -287,87 +291,95 @@ opposing authors.
 \subsubsection{Generalising Random Forest}
 In the \nameref{subsec:Generalising Random Forest}, we have the possibility
 to use of a wide variety of features. It's a random subset of these features
-which are then used to train each of trees trees in our random forest. There are
+which are then used to train each of the trees in our random forest. There are
 no limit to how many and what features can be used, thus the task of finding
-a good/perfect input to train out forest on is quite comprehensive. As such
+a good/perfect input to train our forest on is quite comprehensive. As such
 only some preliminary tests have been perform, to get a general idea of the
 efficiency of the method. There will however be expanded on this in the future.
 
-The \texttt{sklearn}
+The \texttt{sklearn} library
 \footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.Rand
-omForestClassifier.html} offers a wide variety of configurations with regards
-to how our forest is built. Most configuration was set to its' default value,
-with the exception of \texttt{n\_estimators}.
-\texttt{n\_estimators} denotes how many decision trees are in our forest, and
-due to ensemble nature of the algorithm, we can increase this parameter to
-create an average classification prediction based on a larger set of individual
-predictions, thus decreasing the overall variance our model. In the following
-tests, \texttt{n\_estimators} is set to 100. The payoff when increasing
-the number of trees used, is the runtime. Having 1000 trees in your forest
-results in a slower runtime, compared to 100. The increase in trees also have
-diminishing returns on the decrease of variance, so at some point increasing
-the trees doesn't make a lot of sense, as the variance is only altered very
-little with each tree. 1000 Trees was the amount we deemed to adequately decrease
-the variance of the forest, while still running at an acceptable speed. 
+omForestClassifier.html} offers a wide variety of configurations with regards to
+how our forest is built. Most configuration was set to its default value, with
+the exception of \texttt{n\_estimators}. \texttt{n\_estimators} denotes how many
+decision trees are in our forest, and due to ensemble nature of the algorithm,
+we can increase this parameter to create an average classification prediction
+based on a larger set of individual predictions, thus decreasing the overall
+variance our model. In the following tests, \texttt{n\_estimators} is set to
+1000. The payoff when increasing the number of trees used, is the runtime.
+Having 1000 trees in your forest results in a slower runtime, compared to 100.
+The increase in trees also have diminishing returns on the decrease of variance,
+so at some point increasing the trees don't make a lot of sense, as the
+variance is only altered very little with each tree. 1000 trees were the amount
+we deemed to adequately decrease the variance of the forest, while still running
+at an acceptable speed.
 
 The dataset in these experiments were split into a test and a validation set.
 The selection was done by randomly shuffling the entire data set and taking
 the first 80\% of the dataset as the training set, and the last 20\% as the
-validation set. 
-As such we need a another layer of averaging, 
-to combat the variance introduced by the random shuffling. 
-In the following cases, this is done over 100 iterations 
-of random forest predictions.\\\\
+validation set. As such we need a another layer of averaging, to combat the
+variance introduced by the random shuffling. In the following cases, this is
+done over 100 iterations of random forest predictions.
 
 In the following, we created our \gls{UBM} using the concatenation of all
 author-specific texts, from our training data set.
 
-In terms of features, we chose to feed our random forest algorithm a large set of 
-features with different focuses. The algorithm is going to pick and chose features, 
-based on their impact on the actual classification. The low-impact features aren't 
-adding any noise, so we might as well feed the algorithm as many features as possible, 
-and then let it make the decision based on their individual impact.
-We chose to use the following features:\\\\
-50 Most Frequent $[2,...,5]$ Word-N-Grams\\
-50 Most Frequent $[2,...,5]$ Character-N-Grams\\ 
-50 Most Frequent $[2,...,5]$ PosTag-N-Grams\\
-5 Most Frequent 2 and 3 Special-Character-N-Grams\\
-50 Most Frequent Words\\\\
+In terms of features, we chose to feed our random forest algorithm a large set
+of features with different focuses. The algorithm is going to pick and chose
+features, based on their impact on the actual classification. The low-impact
+features aren't adding any noise, so we might as well feed the algorithm as
+many features as possible, and then let it make the decision based on their
+individual impact. We chose to use the following features:
 
-In order to achieve better generalization, the brown corpus was used as the bases for the generation of the features.\\\\
+\begin{itemize}
+    \item The 50 most frequent word-n-grams for $n \in \{1, \dots, 5\}$.
+    \item The 50 most frequent character-n-grams for $n \in \{2, \dots, 5\}$.
+    \item The 50 most frequent \gls{POS}-tag-n-grams for $n \in \{2, \dots, 5\}$.
+    \item The 5 most frequent special-character-n-grams for $n \in \{2, 3\}$.
+\end{itemize}
 
-When applying the algorithm to the 2015, and using the \gls{UBM} style encoding, we got an 
-accuracy of 0.6015, or 60.15\%.
-Looking the feature influences averaged over all 100 model iterations, we can see that the top 
-features are mostly dominated by the ones who are character based. While the word-n-grams have 
-little to no influence on the outcome of the predictions. The suspected reason for this is the 
-small amount of words in each text of the 2015 data set. This means that the sequences of words 
-that are present, are very rare, and thus has little influence. This point is backed up by that 
-fact that word-1-grams does actually have an influence, as the capture the use of stop words, 
-such as "for" and "has in this case, regardless of the subject of the text.\\\\
-In addition to using the \gls{UBM} based encoding, another one was used used as well, simply 
-replacing equation \eqref{eq:rf-encode}.
-$$
-R_k = A_k - U_k
-$$
-This yielded an accuracy of 0.5675. This was again dominated by character features, when looking 
-at the final feature importance. However pos-tags had slightly more impact.
+In order to achieve better generalization, the brown corpus was used as the
+bases for the generation of the features.
+
+When applying the algorithm to the 2015, and using the \gls{UBM} style encoding,
+we got an accuracy of 0.6015, or 60.15\%. Looking at the feature influences
+averaged over all 100 model iterations, we can see that the top features are
+mostly dominated by the ones who are character based. While the word-n-grams
+have little to no influence on the outcome of the predictions. The suspected
+reason for this is the small amount of words in each text of the 2015 data set.
+This means that the sequences of words that are present, are very rare, and thus
+has little influence. This point is backed up by that fact that word-1-grams
+does actually have an influence, as the capture the use of stop words, such as
+"for" and "has".
+
+In addition to the \gls{UBM} based encoding we also tried another encoding. The
+method is exactly the same as described above except Equation
+\eqref{eq:rf-encode} was replaced with
+
+\begin{equation}
+    R_k = A_k - U_k.
+\end{equation}
+
+That yielded an accuracy of 0.5675. This was again dominated by character
+features, when looking at the final feature importance. However \gls{POS}-tags
+had slightly more impact.
 
 \subsubsection{Extended Delta}
-We tried different feature combinations and distances. The results of running on
-the training data is shown in Table
+We tried different feature combinations and distances. The
+results of running on the training data is shown in Table
 \ref{fig:extended_delta_method_manhattan_result} for the Manhattan distance and
 in Table \ref{fig:extended_delta_method_euclidean_result} for the Euclidean
 distance.
 
 \begin{landscape}
 \begin{table}
-    \small
     \centering
+    \textbf{Manhattan Distance Extended Delta Method}\par\medskip
+    \small
     \begin{tabular}{llll|ll}
         % Header.
         \textbf{Character n-grams} & \textbf{Word n-grams} &
-        \textbf{Pos-tag n-grams} & \textbf{Special character n-grams} &
+        \textbf{POS-tag n-grams} & \textbf{Special character n-grams} &
         \textbf{PAN 2015 result} & \textbf{PAN 2013 result} \\
         \hline
         % Test 1.
@@ -431,12 +443,13 @@ distance.
 
 \begin{landscape}
 \begin{table}
-    \small
     \centering
+    \textbf{Euclidean Distance Extended Delta Method}\par\medskip
+    \small
     \begin{tabular}{llll|ll}
         % Header.
         \textbf{Character n-grams} & \textbf{Word n-grams} &
-        \textbf{Pos-tag n-grams} & \textbf{Special character n-grams} &
+        \textbf{POS-tag n-grams} & \textbf{Special character n-grams} &
         \textbf{PAN 2015 result} & \textbf{PAN 2013 result} \\
         \hline
         % Test 1.
