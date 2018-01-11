@@ -66,3 +66,21 @@ plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
 plt.legend()
 plt.savefig('../pictures/forest_roc.png')
+
+p_area = 0.0
+m_area = 0.0
+for x in range(0, p_tprs.shape[0] - 1):
+    p_x1 = p_fprs[x]
+    p_x2 = p_fprs[x + 1]
+    p_y1 = p_tprs[x]
+    p_y2 = p_tprs[x + 1]
+    m_x1 = m_fprs[x]
+    m_x2 = m_fprs[x + 1]
+    m_y1 = m_tprs[x]
+    m_y2 = m_tprs[x + 1]
+
+    p_area += p_y1 * (p_x2 - p_x1) + ((p_x2 - p_x1) * (p_y2 - p_y1) * (1 / 2))
+    m_area += m_y1 * (m_x2 - m_x1) + ((m_x2 - m_x1) * (m_y2 - m_y1) * (1 / 2))
+
+print('AUROC Pancho', p_area)
+print('AUROC Minus', m_area)
