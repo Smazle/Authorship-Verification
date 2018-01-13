@@ -1,4 +1,4 @@
-\section{Method}
+\section{Method} \label{sec:method}
 In this section we will describe the methods we have implemented to solve the
 PAN 2013 and PAN 2015 problems. The problems are both known as authorship
 verification problems. \cite{stamatos2009} describes the problem in a machine
@@ -60,7 +60,7 @@ solve that problem will reflect that property. The profile based approach
 corresponds to the PAN 2015 dataset here we are given only a single known text
 per author which we can use to construct a profile of the author.
 
-\subsection{Text Features}
+\subsection{Text Features} \label{subsec:method:text_features}
 Feature extraction from a text is the process of finding a vector that
 represents the text. There are a lot of different features that can be extracted
 and we use several of them. Specifically we use some character level features,
@@ -80,7 +80,7 @@ subsequences of \gls{POS} tags which are word classes such as noun, verbs and
 adjectives. A special case of n-grams is 1-grams which is just a count of the
 different tokens in a sequence. We will refer to 1-grams as frequencies.
 
-\subsection{Delta Method} \label{subsec: Delta Method}
+\subsection{Delta Method} \label{subsec:method:delta_method}
 We have chosen to use the Delta method as a baseline method for our other
 implementations. The Delta method is described by \cite{evert2015towards} and
 consist of extracting word frequencies, applying a linear transformation to
@@ -91,7 +91,7 @@ find frequencies for has to be chosen (it was originally chosen at 150 words
 usual transformation is a normalization to zero mean unit variance. And finally
 the distance metric can be chosen.
 
-\subsection{Generalising Random Forest} \label{subsec:Generalising Random Forest}
+\subsection{Generalising Random Forest} \label{subsec:method:generalising_random_forest}
 In addition to the delta method we chose to use the Random Forest approach
 suggested by \cite{pacheco2015}. In our implementation we use different features
 than in the their proposal. The idea of the method is to learn a general
@@ -145,7 +145,7 @@ The random forest algorithm is then trained on these encoded feature vectors
 where it is supposed to learn a general difference between feature vectors of
 the same author and feature vectors of different authors.
 
-\subsection{Extended Delta}
+\subsection{Extended Delta} \label{subsec:method:extended_delta}
 As described earlier there are many ways to extend and change the delta method.
 We tried both using different features and different distance measures to obtain
 better results than the Delta Method described in Section \ref{subsec: Delta
@@ -160,7 +160,7 @@ Euclidean distance.
 
 % TODO: Justify choices of distances.
 
-\subsection{Author Specific SVM} \label{subsec:author_specific_svm}
+\subsection{Author Specific SVM} \label{subsec:method:author_specific_svm}
 We implemented an approach using \gls{SVM}'s inspired by \cite{hansen2014}. The
 approach is only applicable to problems with more than a single text per author.
 The classification in this approach is done by training an \gls{SVM} classifier
@@ -171,7 +171,7 @@ belonging to the same author or as belonging to a different author.
 If there is only a single known text available for an author it does not make
 sense to train an \gls{SVM} since there is simply too little data.
 
-\subsection{Experiments}
+\subsection{Experiments} \label{subsec:method:experiments}
 In this section we describe the different experiments we have performed.
 We have tested the different methods we have implemented with different
 features and on different datasets. In our experiments we use data from PAN
@@ -204,7 +204,7 @@ data with the accuracy of the algorithms. The accuracy is computed as the number
 of correct answers divided by the total number of problems. For some methods we
 will also report the \gls{TPR} and \gls{TNR}.
 
-\subsubsection{Delta Method}
+\subsubsection{Delta Method} \label{subsubsec:method:delta_method}
 In the delta method we work only with word frequencies as originally proposed.
 As the linear function we normalize to 0 mean and unit variance and as features
 we use the $n$ most frequent words. We get the most frequent words by using the
@@ -339,14 +339,14 @@ opposing authors.
     \label{fig:delta_pan_2015_res}
 \end{table}
 
-\subsubsection{Generalising Random Forest}
-In the \nameref{subsec:Generalising Random Forest}, we have the possibility
-to use of a wide variety of features. It's a random subset of these features
-which are then used to train each of the trees in our random forest. There are
-no limit to how many and what features can be used, thus the task of finding a
-good/perfect input to train our forest on is quite extensive. As such only some
-preliminary tests have been perform, to get a general idea of the efficiency of
-the method. There will however be expanded on this in the future.
+\subsubsection{Generalising Random Forest} \label{subsubsec:method:generalising_random_forest}
+In the Generalising Random Forest, we have the possibility to use of a wide
+variety of features. It's a random subset of these features which are then used
+to train each of the trees in our random forest. There are no limit to how many
+and what features can be used, thus the task of finding a good/perfect input to
+train our forest on is quite extensive. As such only some preliminary tests have
+been perform, to get a general idea of the efficiency of the method. There will
+however be expanded on this in the future.
 
 The \texttt{sklearn} library
 \footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.Rand
@@ -415,7 +415,7 @@ That yielded an accuracy of 0.5675. This was again dominated by character
 features, when looking at the final feature importance. However \gls{POS}-tags
 had slightly more impact.
 
-\subsubsection{Extended Delta}
+\subsubsection{Extended Delta} \label{subsubsec:method:extended_delta}
 We tried different feature combinations and distances. The
 results of running on the training data is shown in Table
 \ref{fig:extended_delta_method_manhattan_result} for the Manhattan distance and
@@ -564,7 +564,7 @@ distance.
 \end{table}
 \end{landscape}
 
-\subsubsection{Author Specific SVM} \label{subsec:author_specific_svm_impl}
+\subsubsection{Author Specific SVM} \label{subsubsec:method:author_specific_svm}
 In this approach we have experimented with a couple of different feature
 configurations. Configuration (A) consists of the 500 most frequent 3-, 4-
 and 5-character-grams, the 100 most frequent 3- and 4-word-grams, the 20
