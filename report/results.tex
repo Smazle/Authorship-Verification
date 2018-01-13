@@ -160,5 +160,19 @@ texts known to be written by the author and the texts from the training dataset
 and predict the unknown text using that SVM.
 
 The best configuration on the training set were configuration B using the
-frequencies of the 300 most frequent words. On the two test datasets it obtained
-accuracies of 0.78650 and 0.78000.
+frequencies of the 300 most frequent words. The results on the two test datasets
+are shown in Table \ref{table:svm_results}.
+
+\begin{table}
+    \centering
+    \begin{tabular}{c|cc}
+        & \textbf{Test Dataset 1} & \textbf{Test Dataset 2} \\
+        \hline
+        \textbf{Accuracies} & 0.77650 & 0.78066 \\
+        \textbf{\gls{TPR}'s} & 0.71444 & 0.70785 \\
+        \textbf{\gls{FPR}'s} & 0.82727 & 0.84437
+    \end{tabular}
+    \caption{Results of the Author Specific SVM on the two test datasets for PAN
+    2013.}
+    \label{table:svm_results}
+\end{table}
