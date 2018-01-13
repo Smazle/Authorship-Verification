@@ -46,7 +46,7 @@ fprs = fprs[p]
 tprs = tprs[p]
 
 plt.plot(fprs, tprs, marker='o', c='r', label='PAN2015 Test Dataset')
-plt.plot([0.0, 1.0], linestyle='--', c='tab:gray', label='Baseline x=x')
+plt.plot([0.0, 1.0], linestyle='--', c='tab:gray', label='Baseline TPR = FPR')
 plt.grid(True)
 plt.ylim(0.0, 1.0)
 plt.xlim(0.0, 1.0)
