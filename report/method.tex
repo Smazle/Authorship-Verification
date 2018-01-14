@@ -60,13 +60,17 @@ solve that problem will reflect that property. The profile based approach
 corresponds to the PAN 2015 dataset here we are given only a single known text
 per author which we can use to construct a profile of the author.
 
-\subsection{Text Features} \label{subsec:method:text_features}
-Feature extraction from a text is the process of finding a vector that
-represents the text. There are a lot of different features that can be extracted
-and we use several of them. Specifically we use some character level features,
-some word level features and some \gls{POS} tagging features. In this section
-we will define the different features we use. The specific features used in
-different experiments will be described at length under those experiments.
+\subsection{Text Features} \label{subsec:method:text_features} Feature
+extraction from a text is the process of finding a vector that represents
+the text. There are a lot of different features that can be extracted when
+performing \gls{NLP}. These features can span a lot of different linguistic
+layers, including but not limited to, layers such as the character layer, which
+describes a text on the character level, and the phonetic layer which analyses a
+text based on the phonetic alphabet. We use features spanning several of these
+layers. Specifically we use some character level features, some word level
+features and some \gls{POS} tagging features. In this section we will define the
+different features we use. The specific features used in different experiments
+will be described at length under those experiments.
 
 N-grams are subsequences extracted from a sequence of tokens. For example,
 3-grams are all subsequences of length three of a given sequence. Using
@@ -112,16 +116,17 @@ datapoint we get our author-specific and non-specific texts, and $k$ denotes a
 specific feature of a given text. As such $R_{i_k}$ describes the encoding of a
 specific feature for a specific data point.
 
-The \gls{UBM} is meant to represent the features of an author independent text.
-It is computed by concatenating all texts in the training dataset and computing
-features from that resulting text. Since multiple authors is then part of the
-text we are computing features from, the assumption is that the author specific
-features will be averaged out and the \gls{UBM} will represent the features of
-an author independent text. The addition of 1 in the model prevent division by
-zero. Since 1 is added both in the numerator and the denominator it does not
-otherwise change the result. The squaring of $(A_i - U_i)$ and $(B - U_i)$ both
-prevent negative values and punishes values that are far away. Therefore each
-value in the resulting encoded feature vector is in the range $[0; \infty[$.
+The \gls{UBM} is meant to represent the features of an author independent
+text. It is computed by concatenating all author-known-texts in the training
+dataset and computing features from that resulting text. Since multiple authors
+is then part of the text we are computing features from, the assumption is
+that the author specific features will be averaged out and the \gls{UBM} will
+represent the features of an author independent text. The addition of 1 in the
+model prevent division by zero. Since 1 is added both in the numerator and the
+denominator it does not otherwise change the result. The squaring of $(A_i -
+U_i)$ and $(B - U_i)$ both prevent negative values and punishes values that are
+far away. Therefore each value in the resulting encoded feature vector is in the
+range $[0; \infty[$.
 
 Let's examine what the above equation describes. Fix any specific $i$ and let
 $A$ be $A_i$ and $U$ be $U_i$ then for each feature $k$ we compute,
@@ -145,15 +150,15 @@ The random forest algorithm is then trained on these encoded feature vectors
 where it is supposed to learn a general difference between feature vectors of
 the same author and feature vectors of different authors.
 
-\subsection{Extended Delta} \label{subsec:method:extended_delta}
-As described earlier there are many ways to extend and change the delta method.
-We tried both using different features and different distance measures to obtain
-better results than the Delta Method described in Section \ref{subsec: Delta
-Method}. The different feature combinations were tried experimentally one after
-the other. If a feature combination did well on a dataset we tried adding or
-removing features from that feature set to maybe obtain something better. The
-features we tried were different combinations of character n-grams, word n-grams
-and \gls{POS}-tag n-grams.
+\subsection{Extended Delta} \label{subsec:method:extended_delta} As
+described earlier there are many ways to extend and change the delta
+method. We tried both using different features and different distance
+measures to obtain better results than the Delta Method described in Section
+\ref{subsec:method:delta_methodDelta}. The different feature combinations were
+tried experimentally one after the other. If a feature combination did well on
+a dataset we tried adding or removing features from that feature set to maybe
+obtain something better. The features we tried were different combinations of
+character n-grams, word n-grams and \gls{POS}-tag n-grams.
 
 The different distance measures we tried were the Manhattan distance and the
 Euclidean distance.
@@ -169,7 +174,8 @@ Then the unknown text is given to the \gls{SVM} and is classified either as
 belonging to the same author or as belonging to a different author.
 
 If there is only a single known text available for an author it does not make
-sense to train an \gls{SVM} since there is simply too little data.
+sense to train an \gls{SVM} since there is simply too little data for it
+to be a viable choice.
 
 \subsection{Experiments} \label{subsec:method:experiments}
 In this section we describe the different experiments we have performed.
@@ -181,8 +187,8 @@ features and on different datasets. In our experiments we use data from PAN
 The PAN 2013 data consist of texts from English, Greek and Spanish authors. We
 work only on the English texts which consists of texts from 10 authors. For each
 author there is (between 1 and 10) known texts and a single unknown text. The
-task is given the known texts of an author to determine whether the unknown text
-is written by the same author.
+task is, given the known texts of an author, to determine whether the unknown
+text is written by the same author.
 
 The PAN 2015 data consist of texts by authors in English, Dutch, Greek and
 Spanish. Again we only work with English texts. Unlike the 2013 dataset there
@@ -201,8 +207,9 @@ dataset.
 
 We will evaluate the performance of the different algorithms on the training
 data with the accuracy of the algorithms. The accuracy is computed as the number
-of correct answers divided by the total number of problems. For some methods we
-will also report the \gls{TPR} and \gls{TNR}.
+of correct answers divided by the total number of problems. For some methods
+we will also report the \gls{TPR} and \gls{TNR}, in addition to the requested
+metrics.
 
 \subsubsection{Delta Method} \label{subsubsec:method:delta_method}
 In the delta method we work only with word frequencies as originally proposed.
@@ -344,9 +351,8 @@ In the Generalising Random Forest, we have the possibility to use of a wide
 variety of features. It's a random subset of these features which are then used
 to train each of the trees in our random forest. There are no limit to how many
 and what features can be used, thus the task of finding a good/perfect input to
-train our forest on is quite extensive. As such only some preliminary tests have
-been perform, to get a general idea of the efficiency of the method. There will
-however be expanded on this in the future.
+train our forest on is quite extensive. As such, one could very well expand on
+current quantity and variety of features used, and possibly get a better result.
 
 The \texttt{sklearn} library
 \footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.Rand
@@ -411,9 +417,9 @@ method is exactly the same as described above except Equation
     R_k = A_k - U_k.
 \end{equation}
 
-That yielded an accuracy of 0.5675. This was again dominated by character
+That yielded an accuracy of 0.5675. This was again dominated by character n-gram
 features, when looking at the final feature importance. However \gls{POS}-tags
-had slightly more impact.
+had slightly more impact, compared to the \gls{UBM} approach.
 
 \subsubsection{Extended Delta} \label{subsubsec:method:extended_delta}
 We tried different feature combinations and distances. The
