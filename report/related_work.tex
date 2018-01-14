@@ -17,50 +17,55 @@ task were ranked according the \gls{AUROC} and the c@1 measure \cite{penas2011}.
 We describe the measures in more detail in Section \ref{sec:results}. In this
 section we describe a lot of the approaches used to solve the PAN 2015 task.
 When we report a "performance" we mean the product of the two measures for the
-PAN 2015 task as that was the final measure they were ranked by.
+PAN 2015 task as that was the final measure they were ranked by. The results
+of the PAN 2013, and PAN 2015 competitions on the English texts can be seen in
+sections \ref{subsec:pan2013res}, and \ref{subsec:pan2015res} respectively.
 
 \cite{juanpablo2015} chose to perform their analysis on the syntactic level.
 This was done using syntactic n-grams, which was extracted using a syntactic
 analyser designed for the designated language. This approach served to subvert
 the topic of text, as the focus would be on the syntactic class of the n-grams
 extracted, rather than the word itself. After extracting the n-grams wanted
-filtering was performed, removing the less frequent n-grams. At this point
-they chose to represent their n-grams frequencies as a vector, allowing them
-to use the jaccard distance to measure the difference between new introduced
-unknown texts, and its' proposed authors' known texts. When the similarity fell
-under a certain threshold, the author was deemed non-valid. This yielded a
-somewhat mediocre performance of 0.39999, and the authors themselves noted that
-a new heuristic handling ill-constructed sentences would probably have improved
-their results, as they were just discarded in their case, which caused very low
-accuracy in some cases. Additionally, more features describing other linguistic
-layers, such as lexical, and syntactic feature would probably improve results as
-well.
+filtering was performed, removing the less frequent n-grams. At this point they
+chose to represent their n-grams frequencies as a vector, allowing them to use
+the jaccard distance to measure the difference between new introduced unknown
+texts, and its' proposed authors' known texts. When the similarity fell under
+a certain threshold, the author was deemed non-valid. This yielded a somewhat
+mediocre performance of 0.39999 on the English texts, and the authors themselves
+noted that a new heuristic handling ill-constructed sentences would probably
+have improved their results, as they were just discarded in their case, which
+caused very low accuracy in some cases. Additionally, more features describing
+other linguistic layers, such as lexical, and syntactic feature would probably
+improve results as well.
 
 \cite{maitra2015} implemented a solution for the PAN 2015 task. They used a
 collection of different features extracted from the text. The features were
 based on punctuation, sentence length, vocabulary, character n grams and
 \gls{POS} tagging. They trained a random forest classifier on the features
 extracted and used that to determine whether or not the unknown texts were
-written by the author. The performance of the method were 0.34749 which is not
-overwhelming and they commented that deep learning might make their results
-better.
+written by the author. The performance of the method were 0.34749 on English
+texts, which is not overwhelming and they commented that deep learning might
+make their results better.
 
 \cite{pacheco2015} also proposed using a random forest for the PAN 2015 task.
 They implemented two baseline models and one real model. The baseline models
 were a simple distance metric with a trained cutoff point and a Gaussian Mixture
-Model - \gls{UBM}. The second baseline model was about defining a general
-feature vector for all authors and a feature vector for each specific author. To
-determine if a text from an unknown author belongs to a given author you compute
-the distance between the texts feature set and the universal and author specific
-feature set. If the unknown text is closer to universal than to the author
-specific it is presumed to not be written by the author. The used features in
-this case were number of stop words, number of sentences, number of paragraphs,
-spacing, punctuation, word frequencies, character frequencies, punctuation
-frequencies, lexical density, word diversity, unique words and unique words
-over all authors. The main model were a random forest and a \gls{UBM}. A feature
-vector representing all documents and a feature vector for each document were
-constructed. The vectors were then combined and the result were fed to a random
-forest model. Their performance were 0.43811.
+Model. The second baseline model was about defining a general feature vector for
+all authors and a feature vector for each specific author, called a \gls{UBM}.
+To determine if a text from an unknown author was written by a given author,
+you compute the distance between the texts feature set and the universal and
+author specific feature set. If the unknown text is closer to universal than to
+the author specific it is presumed to not be written by the author. The used
+features in this case were number of stop words, number of sentences, number
+of paragraphs, spacing, punctuation, word frequencies, character frequencies,
+punctuation frequencies, lexical density, word diversity, unique words and
+unique words over all authors. The main model made use a random forest and a
+\gls{UBM} again. A feature was yet again computed for all the known author-known
+texts in the dataset, the \gls{UBM}. I addition to that, a feature vector was
+computed on each individual known text of the dataset. Each of these author
+specific feature vectors is then encoded using the \gls{UBM}. The encoded
+vectors were then combined and the result were fed to a random forest model.
+Their performance were 0.43811 on English texts.
 
 \cite{bartoli2015b} proposed yet another random forest based approach.
 They didn't use a random forest classifier as \cite{maitra2015} and
@@ -92,7 +97,8 @@ majority vote of those 3, determine what should be votes on that feature. This
 is done for each of the 10 features, where in case of a tie vote(5 against 5) no
 decision is taken. This yielded some very good results, however some questions
 was raised as to the accuracy of documents on other genres. The performance of
-the method were 0.52041 which is the second best for the English language.
+this average based voting method, ended up being being the second best in the
+PAN 2015 competition with a score of 0.52041 on English texts.
 
 \cite{gutierrez2015} uses a somewhat different approach by using Homotopy-based
 Classification in their work. Their approach use a set of 4 features. Bag
@@ -108,11 +114,12 @@ for all the languages used in their test besides Dutch which they explain is
 because of the short texts provided. The performance were 0.51.
 
 \cite{gomezadorno2015} tried to solve the PAN 2015 task by using a graph based
-approach. The graph used is a \gls{ISG} which represents the text by creating a
-graph for each sentence and combining those graphs into one large graph. The
-authors constructed such a graph for each text and used commonalities in
+approach. The graph used is a \gls{ISG} which represents the text by creating
+a graph for each sentence and combining those graphs into one large graph.
+The authors constructed such a graph for each text and used commonalities in
 shortest paths in the graph to compare the texts. The results were not very
-good with a performance of 0.2809.
+good, relative to the other entries in the competition, with a performance of
+0.2809.
 
 \cite{layton:2014} makes use of a more simple approach. It makes use of
 \gls{LNG}. This is used to compute a feature vector for each document written
