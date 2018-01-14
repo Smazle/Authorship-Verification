@@ -27,7 +27,29 @@ the baseline method both on the PAN 2013 dataset and the PAN 2015 dataset.
 \end{table}
 
 \subsection{Comparison to other PAN results}
-The best results for the PAN 2013 dataset can be found in Appendix \ref{sec:appendix:pan_2013_results}
+The best results for the PAN 2013 dataset can be found in Appendix
+\ref{sec:appendix:pan_2013_results} and our results can be found in Table
+\ref{tab:all_final_results}. It can be seen that we obtained the third best
+result on the PAN 2013 data using the author specific SVM. The best approach
+that beat our method were the approach described by \cite{seidman:2013}. They
+used a \textit{GenIM} method that uses the imposter method. To determine whether
+a document $X$ is written by the same author as has written $Y$, $X$ is compared
+to $Y$ and to a random set of imposter documents. If $X$ is found to be closer
+to $Y$ than the imposters it is reported as written by the same author and not
+otherwise. The approach is similar to ours as we also use text from other
+authors to do the verification. However \cite{sidman:2013} did not use the
+training set as the set of imposters but rather generated the imposters from
+data found on the internet. It might be that the reason he performed better than
+we did were because he had a better set of imposters. \cite{seidman:2013} also
+used predefined function words as features. So instead of using only mechanical
+n-grams as we do they used prior knowledge about the language to construct good
+features.
+
+% TODO: Describe other PAN2013 text that is better than we are.
+
+% TODO: Describe our space in the PAN2015 competition.
+
+% TODO: Describe selection of articles that are better than us on PAN2015 data.
 
 % TODO: Create magnificent graph in this style:
 % http://scikit-learn.org/stable/auto_examples/ensemble/plot_forest_importances.html.
