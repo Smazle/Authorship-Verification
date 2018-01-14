@@ -2,7 +2,44 @@
 
 \subsection{Comparison to baseline approach}
 Our baseline approach was the Delta Method described in Section
-\ref{subsec:method:delta_method}.
+\ref{subsec:method:delta_method}. One of the goals of this report was finding
+and implementing methods for authorship verification that could beat our
+baseline method. An overview of the different methods final results can be seen
+in Table \ref{tab:all_final_results}. It can be seen that we were able to beat
+the baseline method both on the PAN 2013 dataset and the PAN 2015 dataset.
+
+% TODO: Maybe elaborate on what it means that we beat the baseline methods.
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{Method}             & \textbf{P2013.1 F1 Score} & \textbf{P2013.2 F1 Score} & \textbf{P2015 Final Score} \\ \hline
+    Delta (BASELINE)            & 0.64438                      & 0.63291                      & 0.3188                        \\ \hline
+    Random Forest (\gls{UBM}) & -                            & -                            & 0.3858                        \\ \hline
+    Random Forest (Minus)       & -                            & -                            & 0.3318                        \\ \hline
+    Extended Delta              & 0.73213                      & 0.67173                      & 0.4053                        \\ \hline
+    SVM                         & 0.77650                      & 0.78066                      & -                             \\ \hline
+    \end{tabular}
+    \caption{Final results for all our implemented algorithms for authorship
+    verification on the datasets that apply to the method.}
+    \label{tab:all_final_results}
+\end{table}
+
+%\begin{table}
+    %\begin{tabular}{lll}
+        %\textbf{Method} & \textbf{PAN 2013 Result} & \textbf{PAN 2015 Result} \\
+        %\hline
+        %\textbf{Delta Method}                      & 0.63864 & 0.31882 \\
+        %\textbf{Generalising Random Forest Pancho} & n/a     & 0.3858 \\
+        %\textbf{Generalising Random Forest Minus}  & n/a     & 0.3318 \\
+        %\textbf{Extended Delta Method}             & 0.70193 & 0.40539 \\
+        %\textbf{Author Specific SVM}               & 0.77858 & n/a
+    %\end{tabular}
+    %\caption{Final results for all our implemented algorithms for authorship
+    %verification on the datasets that apply to the method.}
+    %\label{tab:all_final_results}
+%\end{table}
 
 \subsection{Comparison to other PAN results}
 
@@ -20,27 +57,27 @@ such, relating our method to the real world example of MaCom might give some
 perspective as well. The data MaCom has, closely resembles the data from the PAN
 2013 task. However, with a lot more authors and no unknown text.
 
-Starting off with the Generalized Random Forest \ref{subsec:Generalising Random
-Forest}. This method was off to a bad start, as the paper it was based on
-\cite{pacheco2015} only got 6'th place in the PAN 2015 authorship verification
-task, and our implementation of that same method only ranked 9'th. \ref{subsec:
-Pan2015Res} The main focus of this method however, was the way it attempted to
-circumvent the lack of data, associated with each specific author, by instead
-learning on the know-text dataset in its entirety. This approach, actually
-worked as seen in the test results. By learning based on a \gls{UBM}, we were
-able to improve the results compared to learning on the author-specific feature
-difference. The lack of text associated with each author also left quite an
-impact in terms of what features were relevant. After training our random forest
-model, it became apparent that there was no case where word N-grams performed
-well, in terms of the classification. The suspected reason for this, might be
-that very lack of text. The texts being limited to about 150 words, means that
-there are only that many word N-grams in the text, which limit the variety of
-word N-grams. However, the word-N-grams extracted from the brown corpus, varies
-a lot, and as such only a few of the word-N-grams extracted from the brown
-corpus are in the actual text, this only becomes more evident as N increases due
-to the limited size of the texts. As such, while the feature might very will
-have a high impact in some cases, we suspect the impact will be averaged out
-over all the trees in the random forest.
+Starting off with the Generalized Random Forest
+\ref{subsubsec:method:generalizing_random_forest}. This method was off to a bad
+start, as the paper it was based on \cite{pacheco2015} only got 6'th place in
+the PAN 2015 authorship verification task, and our implementation of that same
+method only ranked 9'th. \ref{subsec: Pan2015Res} The main focus of this method
+however, was the way it attempted to circumvent the lack of data, associated
+with each specific author, by instead learning on the know-text dataset in
+its entirety. This approach, actually worked as seen in the test results. By
+learning based on a \gls{UBM}, we were able to improve the results compared to
+learning on the author-specific feature difference. The lack of text associated
+with each author also left quite an impact in terms of what features were
+relevant. After training our random forest model, it became apparent that there
+was no case where word N-grams performed well, in terms of the classification.
+The suspected reason for this, might be that very lack of text. The texts being
+limited to about 150 words, means that there are only that many word N-grams in
+the text, which limit the variety of word N-grams. However, the word-N-grams
+extracted from the brown corpus, varies a lot, and as such only a few of the
+word-N-grams extracted from the brown corpus are in the actual text, this only
+becomes more evident as N increases due to the limited size of the texts. As
+such, while the feature might very will have a high impact in some cases, we
+suspect the impact will be averaged out over all the trees in the random forest.
 
 If this \gls{UBM} method was to be applied to the MaCom data set, time
 complexity would also have to analyzed in order to determine the viability of
