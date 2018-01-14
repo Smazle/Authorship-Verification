@@ -72,11 +72,17 @@
     \thispagestyle{empty}
     \newpage
 
+    \pagenumbering{roman}
+    \setcounter{page}{1}
+
     \input{./abstract.tex}
 
     \newpage
     \tableofcontents
     \newpage
+
+    \pagenumbering{arabic}
+    \setcounter{page}{1}
 
     \input{./introduction.tex}
     \FloatBarrier
