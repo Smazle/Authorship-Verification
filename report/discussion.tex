@@ -28,12 +28,90 @@ the baseline method both on the PAN 2013 dataset and the PAN 2015 dataset.
 
 \subsection{Comparison to other PAN results}
 
+% TODO: Create magnificent graph in this style:
+% http://scikit-learn.org/stable/auto_examples/ensemble/plot_forest_importances.html.
+\subsection{Feature Importance}
+The \textit{sklearn} random forest implementation has a build in notion of
+feature importance. The importance is estimated based on how often the forest
+splits on specific features. We have used the feature importance estimation to
+get an idea of which features are important for authorship verification. The 20
+most important features were,
+
+\begin{tabular}{lll}
+    \textbf{Feature Class} & \textbf{Feature}     & \textbf{Importance Score} \\
+    \hline
+    char-4-gram            & 'for '               & 0.01230                   \\
+    char-2-gram            & 'in'                 & 0.01056                   \\
+    char-5-gram            & ' for '              & 0.00984                   \\
+    char-3-gram            & 'e o'                & 0.00967                   \\
+    special-char-2-gram    & ',,'                 & 0.00887                   \\
+    postag-3-gram          & NOUN, ADP, DET       & 0.00863                   \\
+    char-5-gram            & 'ould '              & 0.00800                   \\
+    char-2-gram            & 't '                 & 0.00788                   \\
+    postag-2-gram          & NOUN, CONJ           & 0.00739                   \\
+    char-3-gram            & 'for'                & 0.00700                   \\
+    char-3-gram            & ' fo'                & 0.00623                   \\
+    postag-3-gram          & DET, NOUN, PUNCT     & 0.00582                   \\
+    postag-2-gram          & VERB, ADJ            & 0.00563                   \\
+    word-1-gram            & 'for'                & 0.00557                   \\
+    postag-4-gram          & VERB, DET, ADJ, NOUN & 0.00556                   \\
+    char-4-gram            & ' for'               & 0.00538                   \\
+    char-4-gram            & '. Th'               & 0.00499                   \\
+    char-5-gram            & 'here '              & 0.00496                   \\
+    char-3-gram            & 'ng '                & 0.00493                   \\
+    char-3-gram            & 'or '                & 0.00480
+\end{tabular}
+
+From that overview it is clear that the most important feature is the frequency
+of the word \textit{for} as multiple features seem to capture that word. Most
+of the words captured by the different features seem to be English stop words.
+Both \textit{for}, \textit{in}, \textit{could}, \textit{should}, \textit{would},
+\textit{here} and \textit{or} seem to be represented in the list and are part
+of the list of English stop words \footnote{https://www.ranks.nl/stopwords}.
+Besides that an important feature is the special-character-2-gram consisting
+of two commas. That feature might capture an authors prevalence for using long
+sentences. Longer sentences will more likely contain a larger amount of commas.
+The character-4-gram ". Th" most likely captures an authors tendency to start
+her sentences with the word "The". Besides that the \gls{POS}-tags capture the
+general sentence structure of the authors.
+
+% TODO: Could we maybe find some article with this point?
+The reason the English stop words is so important is probably because they are
+consistently used over all genres. Texts about different topics and in different
+genres will probably all contain the words \textit{the} and \textit{for}. It is
+therefore easier to use them as an estimate of which author has written the text
+since they are not dependent on which text the author was writing.
+
+% TODO: Table with least important features.
+The lack of text associated
+with each author also left quite an impact in terms of what features were
+relevant. After training our random forest model, it became apparent that there
+was no case where word N-grams performed well, in terms of the classification.
+The suspected reason for this, might be that very lack of text. The texts being
+limited to about 150 words, means that there are only that many word N-grams in
+the text, which limit the variety of word N-grams. However, the word-N-grams
+extracted from the brown corpus, varies a lot, and as such only a few of the
+word-N-grams extracted from the brown corpus are in the actual text, this only
+becomes more evident as N increases due to the limited size of the texts. As
+such, while the feature might very will have a high impact in some cases, we
+suspect the impact will be averaged out over all the trees in the random forest.
+
+
+
+
+
+
+
+
+
+
+
 Throughout the making of this paper, several oddities occurred, which needs
 addressing in order to better understand the behavior of our implemented
 verification models. In in the real world, authorship-verification problems
 like this are especially relevant for companies like MaCom, who operates a
 website, used for submission of high-school students assignments throughout
-Denmark. While both the PAN 2013, and PAN 2015 tasks aim is to implement
+Denmark. While the aim of the task of both PAN 2013 and PAN 2015 is to implement
 authorship-verification, they both represent extremes in that very area. PAN
 2013, lends itself very well to author specific methods, as it contains a lot of
 text for each author, but a small amount of authors, and PAN 2015 lends itself
@@ -51,18 +129,7 @@ however, was the way it attempted to circumvent the lack of data, associated
 with each specific author, by instead learning on the know-text dataset in
 its entirety. This approach, actually worked as seen in the test results. By
 learning based on a \gls{UBM}, we were able to improve the results compared to
-learning on the author-specific feature difference. The lack of text associated
-with each author also left quite an impact in terms of what features were
-relevant. After training our random forest model, it became apparent that there
-was no case where word N-grams performed well, in terms of the classification.
-The suspected reason for this, might be that very lack of text. The texts being
-limited to about 150 words, means that there are only that many word N-grams in
-the text, which limit the variety of word N-grams. However, the word-N-grams
-extracted from the brown corpus, varies a lot, and as such only a few of the
-word-N-grams extracted from the brown corpus are in the actual text, this only
-becomes more evident as N increases due to the limited size of the texts. As
-such, while the feature might very will have a high impact in some cases, we
-suspect the impact will be averaged out over all the trees in the random forest.
+learning on the author-specific feature difference.
 
 If this \gls{UBM} method was to be applied to the MaCom data set, time
 complexity would also have to analyzed in order to determine the viability of
@@ -75,13 +142,13 @@ the tree. In our case, each tree considers $\log{N}$ features. This gives us a
 final time complexity of $O(\log{N} \cdot n \log{n})$.\cite{RFTime}
 
 While the method didn't provide any impressive results, the generalized approach
-might very well be useful in the future, in case one comes across another data
-sparse set. An improvement that could be done however, was to increase the
-number of features fed to the random forest. Not only quantity, but also
+might very well be useful in the future, in case one comes across another
+data sparse set. An improvement that could be done however, was to increase
+the number of features fed to the random forest. Not only quantity, but also
 different types of features than the ones used in this paper. This would
-work since Random Forest by its' very nature selects the best features for
+work since Random Forest by its very nature selects the best features for
 classification, we can at the cost of some run time, train on a much larger
-feature-set and we suspect better results some might be produced.
+feature-set and we suspect better results might be produced.
 
 \begin{itemize}
     \item Why did the delta method perform so much better on the training data?
