@@ -75,18 +75,6 @@ author otherwise. It was very surprising to us that the best performing method
 was a neural network as such networks normally require a lot more data to
 prevent overfitting.
 
-As for the Generalized Random Forest described in Section
-\ref{subsec:method:generalising_random_forest}. This method was off to a bad
-start, as the paper it was based on \cite{pacheco2015} only got 6'th place in
-the PAN 2015 authorship verification task, and our implementation of that same
-method only ranked 9'th. \ref{sec:appendix:pan_2015_results} The main focus of
-this method however, was the way it attempted to circumvent the lack of data,
-associated with each specific author, by instead learning on the know-text
-dataset in its entirety. While the results of this attempt didn't land us at any
-place near the top, in terms of placement it did actually work. By comparing
-out \gls{UBM} based results to the author specific Minus encoding we can
-actually see an improvement in terms of accuracy, thus making the \gls{UBM} 
-a viable choice when faced with small amounts of entry-specific data.
 
 %If this \gls{UBM} method was to be applied to the MaCom data set, time
 %complexity would also have to analyzed in order to determine the viability of
@@ -138,7 +126,7 @@ most important features according to the random forest is shown in Table
     \label{tab:feature_importance}
 \end{table}
 
-
+% TODO: Use the figures as part of some argument in the feature importance part.
 \begin{landscape}
     \begin{figure}
         \centering
@@ -149,7 +137,6 @@ most important features according to the random forest is shown in Table
     \end{figure}
 \end{landscape}
 
-
 \begin{figure}
     \centering
     \includegraphics[scale=.34]{./pictures/FeatureImpotranceAll.png}
@@ -157,7 +144,6 @@ most important features according to the random forest is shown in Table
     to the random forest model}
     \label{fig:feature_importance_all}
 \end{figure}
-
 
 From that overview it is clear that the most important feature is the frequency
 of the word \textit{for} as multiple features seem to capture that word. Most
@@ -191,7 +177,7 @@ they have the same author.
 \begin{table}
     \centering
     \begin{tabular}{lll}
-        \textbf{Feature Class} & \textbf{Feature}     & \textbf{Importance Score} \\
+        \textbf{Feature Class} & \textbf{Feature} & \textbf{Importance Score} \\
         \hline
         word-5-gram & is one of the most & 0.0 \\
         word-5-gram & index words and electronic switches & 0.0 \\
@@ -241,31 +227,46 @@ contributes to the classification. While this could very well only be the case
 for out selected features, it does lend some credence to the idea that throwing
 more features at the forest during training most would increase accuracy.
 
-%\subsection{MaCom Application}
-%Throughout the making of this paper, several oddities occurred, which needs
-%addressing in order to better understand the behavior of our implemented
-%verification models. In in the real world, authorship-verification problems
-%like this are especially relevant for companies like MaCom, who operates a
-%website, used for submission of high-school students assignments throughout
-%Denmark. While the aim of the task of both PAN 2013 and PAN 2015 is to implement
-%authorship-verification, they both represent extremes in that very area. PAN
-%2013, lends itself very well to author specific methods, as it contains a lot of
-%text for each author, but a small amount of authors, and PAN 2015 lends itself
-%more to the generalized approach due to the small amount of text per author. As
-%such, relating our method to the real world example of MaCom might give some
-%perspective as well. The data MaCom has, closely resembles the data from the PAN
-%2013 task. However, with a lot more authors and no unknown text.
+\subsection{Performance of our different methods}
+The Delta Method performed better on the training dataset than the testing
+dataset. The difference on the PAN 2013 data were 0.06198 and on the PAN 2015
+dataset it was 0.03689. It was surprising to us that the performance of the
+Delta method deteriorated between train and test since the method does not use
+any machine learning. We would have expected the Delta Method to perform the
+same on training and testing. The deterioration might be due to the fact that
+on both training and testing the Delta Method used the training set for finding
+opposing authors. So on training there was a chance that the method would draw
+multiple texts from the same author while on test it was guaranteed to only draw
+other authors.
 
-\subsection{Improvements}
-While the method didn't provide any impressive results, the generalized approach
-might very well be useful in the future, in case one comes across another
-sparse dataset. An improvement that could be done however, was to increase
-the number of features fed to the random forest. Not only quantity, but also
-different types of features than the ones used in this paper. This would
-work since Random Forest by its very nature selects the best features for
-classification, we can at the cost of some run time, train on a much larger
-feature-set and we suspect better results might be produced, as point supported
-by \ref{fig:feature_importance_all} as mentioned earlier.
+The Extended Delta Method achieved the best result of any of our method on the
+PAN 2015 data. % TODO: Continues
+
+As for the Generalized Random Forest described in Section
+\ref{subsec:method:generalising_random_forest}. This method was off to a bad
+start, as the paper it was based on \cite{pacheco2015} only got 6'th place in
+the PAN 2015 authorship verification task, and our implementation of that same
+method only ranked 9'th. \ref{sec:appendix:pan_2015_results} The main focus of
+this method however, was the way it attempted to circumvent the lack of data,
+associated with each specific author, by instead learning on the know-text
+dataset in its entirety. While the results of this attempt didn't land us at any
+place near the top, in terms of placement it did actually work. By comparing
+out \gls{UBM} based results to the author specific Minus encoding we can
+actually see an improvement in terms of accuracy, thus making the \gls{UBM} 
+a viable choice when faced with small amounts of entry-specific data.
+
+\subsection{Improvements} 
+
+While the Random Forest method didn't provide any
+impressive results, the generalized approach might very well be useful in the
+future, in case one comes across another sparse dataset. An improvement that
+could be done however, was to increase the number of features fed to the random
+forest. Not only quantity, but also different types of features than the ones
+used in this paper. This would work since Random Forest by its very nature
+selects the best features for classification, we can at the cost of some run
+time, train on a much larger feature-set and we suspect better results might be
+produced, as point supported by \ref{fig:feature_importance_all} as mentioned
+earlier.
 
 \begin{itemize}
     \item Why did the delta method perform so much better on the training data?
