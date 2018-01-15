@@ -240,9 +240,6 @@ opposing authors. So on training there was a chance that the method would draw
 multiple texts from the same author while on test it was guaranteed to only draw
 other authors.
 
-The Extended Delta Method achieved the best result of any of our method on the
-PAN 2015 data. % TODO: Continues
-
 As for the Generalized Random Forest described in Section
 \ref{subsec:method:generalising_random_forest}. This method was off to a bad
 start, as the paper it was based on \cite{pacheco2015} only got 6'th place in
@@ -251,30 +248,49 @@ method only ranked 9'th. \ref{sec:appendix:pan_2015_results} The main focus of
 this method however, was the way it attempted to circumvent the lack of data,
 associated with each specific author, by instead learning on the know-text
 dataset in its entirety. While the results of this attempt didn't land us at any
-place near the top, in terms of placement it did actually work. By comparing out
+place near the top, in terms of placement it did actually work. By comparing our
 \gls{UBM} based results to the author specific Minus encoding we can actually
 see an improvement in terms of accuracy, thus making the \gls{UBM} a viable
 choice when faced with small amounts of entry-specific data.
 
-\subsection{Improvements} 
+The Extended Delta Method achieved the best result of any of our methods on the
+PAN 2015 data. The ROC curve for the method is clearly the best one of any of
+our implemented methods. The method used only 60 features and all of them were
+different special-character-n-grams. We tried the method using both the
+Euclidean and the Manhattan distance. They performed about the same but the
+Manhattan distance was a little better in all cases. The reason for that is
+probably the curse of dimensionality that reduces the Euclidean distances
+ability to distinguish between texts.
+
+The Author Specific SVM performed very well on the PAN 2013 dataset.
+As described by \cite{stamatos2009} SVM's are great for doing Authorship
+Attribution and Verification since they are able to handle very large
+amounts of features. And since representing a text document will typically use
+very large vectors SVM's are a natural approach. Besides the accuracy the
+\gls{TPR} and \gls{TNR} achieved by the Author Specific SVM was also very good.
+However they were clearly better on the training dataset than on the testing
+dataset.
+
+\subsection{Improvements}
 While the Random Forest method didn't provide any impressive results, the
-generalized approach might very well be useful in the future, in case one comes
-across another sparse dataset. An improvement that could be done however, was
-to increase the number of features fed to the random forest. Not only quantity,
-but also different types of features than the ones used in this paper. This
-would work since Random Forest by its very nature selects the best features for
+generalized approach might very well be useful in the future, in case one
+comes across another sparse dataset. An improvement could be to increase the
+number of features fed to the random forest. Not only quantity, but also
+different types of features than the ones used in this paper. This would
+work since Random Forest by its very nature selects the best features for
 classification, we can at the cost of some run time, train on a much larger
 feature-set and we suspect better results might be produced, as point supported
 by \ref{fig:feature_importance_all} as mentioned earlier.
 
+Similar to the Random Forest method the Author Specific SVM might also have been
+able to perform better by using more features. As explained earlier SVM's are
+very good at handling large amounts of features so we could have probably
+improved performance by adding more. Furthermore as described earlier the
+solutions that performed better than ours usually used extra text documents not
+from the dataset as opposing authors (imposters). We believe that we might have
+achieved better results if we had done that too.
+
 \begin{itemize}
-    \item Why did the delta method perform so much better on the training data?
     \item How does different methods scale to huge amounts of data?
     \item Discuss potential usage in future project based on TPR and TNR.
-    \item What improvements could be made to any of the method used. RF Done
-    \item Why did SVM's perform so well (https://link.springer.com/article/10.1023/A:1023824908771).
-        \begin{itemize}
-            \item SVM's can handle many thousands of features.
-        \end{itemize}
-    \item Manhattan performs better than euclidean in extended delta.
 \end{itemize}
