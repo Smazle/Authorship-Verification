@@ -36,8 +36,7 @@ our method were the approach described by \cite{seidman:2013}. They used a
 \textit{GenIM} method that uses the imposter method. To determine whether a
 document $X$ is written by the same author as has written $Y$, $X$ is compared
 to $Y$ and to a random set of imposter documents. If $X$ is found to be closer
-to $Y$ than the imposters it is reported as written by the same author and
-not otherwise. The approach is similar to ours as we also use text from other
+to $Y$ than the imposters it is reported as written by the same author and not otherwise. The approach is similar to ours as we also use text from other
 authors to do the verification. However \cite{seidman:2013} did not use the
 training set as the set of imposters but rather generated the imposters from
 data found on the internet. It might be that the reason he performed better than
@@ -76,8 +75,30 @@ author otherwise. It was very surprising to us that the best performing method
 was a neural network as such networks normally require a lot more data to
 prevent overfitting.
 
-% TODO: Create magnificent graph in this style:
-% http://scikit-learn.org/stable/auto_examples/ensemble/plot_forest_importances.html.
+As for the Generalized Random Forest described in Section
+\ref{subsec:method:generalising_random_forest}. This method was off to a bad
+start, as the paper it was based on \cite{pacheco2015} only got 6'th place in
+the PAN 2015 authorship verification task, and our implementation of that same
+method only ranked 9'th. \ref{sec:appendix:pan_2015_results} The main focus of
+this method however, was the way it attempted to circumvent the lack of data,
+associated with each specific author, by instead learning on the know-text
+dataset in its entirety. While the results of this attempt didn't land us at any
+place near the top, in terms of placement it did actually work. By comparing
+out \gls{UBM} based results to the author specific Minus encoding we can
+actually see an improvement in terms of accuracy, thus making the \gls{UBM} 
+a viable choice when faced with small amounts of entry-specific data.
+
+%If this \gls{UBM} method was to be applied to the MaCom data set, time
+%complexity would also have to analyzed in order to determine the viability of
+%the Generalized RF method. By only considering $\log(N)$ features in our case,
+%where N is the total number of features, we are able to handle large amount of
+%data. The time complexity of the method can be broken down into two parts. The
+%creating of a tree, and number of features considered. The time complexity of a
+%single decision tree, is $O(n \log{n})$, where n is the total number of leafs on
+%the tree. In our case, each tree considers $\log{N}$ features. This gives us a
+%final time complexity of $O(\log{N} \cdot n \log{n})$.\cite{RFTime}
+
+
 \subsection{Feature Importance}
 The \textit{sklearn} random forest implementation has a build in notion of
 feature importance. The importance is estimated based on how often the forest
@@ -121,23 +142,21 @@ most important features according to the random forest is shown in Table
 \begin{landscape}
     \begin{figure}
         \centering
-        \includegraphics[scale=.26]{./pictures/FeatureImpotrance30.png}
-        \caption{The 30 Most important features after applying the UBM encoded
+        \includegraphics[scale=.34]{./pictures/FeatureImpotrance20.png}
+        \caption{The 20 Most important features after applying the UBM encoded
         features to the random forest model}
         \label{fig:feature_importance_small}
     \end{figure}
 \end{landscape}
 
 
-\begin{landscape}
-    \begin{figure}
-        \centering
-        \includegraphics[scale=.26]{./pictures/FeatureImpotranceAll.png}
-        \caption{The feature importance for all UBM encoded features given
-        to the random forest model}
-        \label{fig:feature_importance_all}
-    \end{figure}
-\end{landscape}
+\begin{figure}
+    \centering
+    \includegraphics[scale=.34]{./pictures/FeatureImpotranceAll.png}
+    \caption{The feature importance for all UBM encoded features given
+    to the random forest model}
+    \label{fig:feature_importance_all}
+\end{figure}
 
 
 From that overview it is clear that the most important feature is the frequency
@@ -211,42 +230,33 @@ extracted from the brown corpus are in the PAN 2015 texts. This only becomes
 more evident as n increases as the word-n-grams becomes more and more text
 specific.
 
-% TODO: Headings for the rest.
-Throughout the making of this paper, several oddities occurred, which needs
-addressing in order to better understand the behavior of our implemented
-verification models. In in the real world, authorship-verification problems
-like this are especially relevant for companies like MaCom, who operates a
-website, used for submission of high-school students assignments throughout
-Denmark. While the aim of the task of both PAN 2013 and PAN 2015 is to implement
-authorship-verification, they both represent extremes in that very area. PAN
-2013, lends itself very well to author specific methods, as it contains a lot of
-text for each author, but a small amount of authors, and PAN 2015 lends itself
-more to the generalized approach due to the small amount of text per author. As
-such, relating our method to the real world example of MaCom might give some
-perspective as well. The data MaCom has, closely resembles the data from the PAN
-2013 task. However, with a lot more authors and no unknown text.
+Looking at figure \ref{fig:feature_importance_all} however, we can see that
+the overall feature contribution if somewhat good. This bases on the fact
+that 600 features were used, meaning that each features importance
+averages out at $\frac{1}{600} = 0.00166666666$ if the importance was
+equally distributed, which is represented as a line on the graph. As such
+rather than out model depending on a very small amount of the total number
+of features, it can be seen that over 50\% of the feature set actually
+contributes to the classification. While this could very well only be the case
+for out selected features, it does lend some credence to the idea that throwing
+more features at the forest during training most would increase accuracy.
 
-Starting off with the Generalized Random Forest described in Section
-\ref{subsec:method:generalising_random_forest}. This method was off to a bad
-start, as the paper it was based on \cite{pacheco2015} only got 6'th place in
-the PAN 2015 authorship verification task, and our implementation of that same
-method only ranked 9'th. \ref{sec:appendix:pan_2015_results} The main focus of
-this method however, was the way it attempted to circumvent the lack of data,
-associated with each specific author, by instead learning on the know-text
-dataset in its entirety. This approach, actually worked as seen in the test
-results. By learning based on a \gls{UBM}, we were able to improve the results
-compared to learning on the author-specific feature difference.
+%\subsection{MaCom Application}
+%Throughout the making of this paper, several oddities occurred, which needs
+%addressing in order to better understand the behavior of our implemented
+%verification models. In in the real world, authorship-verification problems
+%like this are especially relevant for companies like MaCom, who operates a
+%website, used for submission of high-school students assignments throughout
+%Denmark. While the aim of the task of both PAN 2013 and PAN 2015 is to implement
+%authorship-verification, they both represent extremes in that very area. PAN
+%2013, lends itself very well to author specific methods, as it contains a lot of
+%text for each author, but a small amount of authors, and PAN 2015 lends itself
+%more to the generalized approach due to the small amount of text per author. As
+%such, relating our method to the real world example of MaCom might give some
+%perspective as well. The data MaCom has, closely resembles the data from the PAN
+%2013 task. However, with a lot more authors and no unknown text.
 
-If this \gls{UBM} method was to be applied to the MaCom data set, time
-complexity would also have to analyzed in order to determine the viability of
-the Generalized RF method. By only considering $\log(N)$ features in our case,
-where N is the total number of features, we are able to handle large amount of
-data. The time complexity of the method can be broken down into two parts. The
-creating of a tree, and number of features considered. The time complexity of a
-single decision tree, is $O(n \log{n})$, where n is the total number of leafs on
-the tree. In our case, each tree considers $\log{N}$ features. This gives us a
-final time complexity of $O(\log{N} \cdot n \log{n})$.\cite{RFTime}
-
+\subsection{Improvements}
 While the method didn't provide any impressive results, the generalized approach
 might very well be useful in the future, in case one comes across another
 sparse dataset. An improvement that could be done however, was to increase
@@ -254,7 +264,8 @@ the number of features fed to the random forest. Not only quantity, but also
 different types of features than the ones used in this paper. This would
 work since Random Forest by its very nature selects the best features for
 classification, we can at the cost of some run time, train on a much larger
-feature-set and we suspect better results might be produced.
+feature-set and we suspect better results might be produced, as point supported
+by \ref{fig:feature_importance_all} as mentioned earlier.
 
 \begin{itemize}
     \item Why did the delta method perform so much better on the training data?
