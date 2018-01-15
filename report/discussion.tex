@@ -209,6 +209,21 @@ extracted from the brown corpus are in the PAN 2015 texts. This only becomes
 more evident as n increases as the word-n-grams becomes more and more text
 specific.
 
+\subsection{Performance of our different methods}
+The Delta Method performed better on the training dataset than the testing
+dataset. The difference on the PAN 2013 data were 0.06198 and on the PAN 2015
+dataset it was 0.03689. It was surprising to us that the performance of the
+Delta method deteriorated between train and test since the method does not use
+any machine learning. We would have expected the Delta Method to perform the
+same on training and testing. The deterioration might be due to the fact that
+on both training and testing the Delta Method used the training set for finding
+opposing authors. So on training there was a chance that the method would draw
+multiple texts from the same author while on test it was guaranteed to only draw
+other authors.
+
+The Extended Delta Method achieved the best result of any of our method on the
+PAN 2015 data. % TODO: Continues
+
 % TODO: Headings for the rest.
 Throughout the making of this paper, several oddities occurred, which needs
 addressing in order to better understand the behavior of our implemented
