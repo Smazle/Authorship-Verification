@@ -59,6 +59,10 @@ if args.with_normalization:
     X_unknown = (X_unknown - mean) / std_var
 
 final_results = []
+true_positives = 0
+true_negatives = 0
+false_positives = 0
+false_negatives = 0
 for author in np.unique(authors):
     result = results[authors == author][0]
     same_author = X_known[authors == author]
@@ -79,4 +83,14 @@ for author in np.unique(authors):
 
     final_results.append(prediction == result)
 
-print(np.sum(final_results) / float(len(final_results)))
+    if prediction == result and result:
+        true_positives += 1
+    elif prediction == result and not result:
+        true_negatives += 1
+    elif prediction != result and result:
+        false_negatives += 1
+    else:
+        false_positives += 1
+
+print(np.sum(final_results) / float(len(final_results)), true_positives,
+        true_negatives, false_positives, false_negatives)
