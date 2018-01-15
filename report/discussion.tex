@@ -269,7 +269,12 @@ amounts of features. And since representing a text document will typically use
 very large vectors SVM's are a natural approach. Besides the accuracy the
 \gls{TPR} and \gls{TNR} achieved by the Author Specific SVM was also very good.
 However they were clearly better on the training dataset than on the testing
-dataset.
+dataset. The main drawback of the SVM method is that it requires either several
+examples of text from an author or a single long example that can be split into
+multiple. \cite{stamatos2009} describes that performance for SVM's have
+previously been shown to drop significantly when only a small amount of data is
+available. Unfortunately the PAN 2015 dataset did not contain enough data for us
+to split the text into multiple and try the SVM approach on them.
 
 \subsection{Improvements}
 While the Random Forest method didn't provide any impressive results, the
@@ -290,7 +295,7 @@ solutions that performed better than ours usually used extra text documents not
 from the dataset as opposing authors (imposters). We believe that we might have
 achieved better results if we had done that too.
 
-\begin{itemize}
-    \item How does different methods scale to huge amounts of data?
-    \item Discuss potential usage in future project based on TPR and TNR.
-\end{itemize}
+%\begin{itemize}
+    %\item How does different methods scale to huge amounts of data?
+    %\item Discuss potential usage in future project based on TPR and TNR.
+%\end{itemize}
