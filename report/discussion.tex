@@ -113,9 +113,32 @@ most important features according to the random forest is shown in Table
         char-3-gram            & 'or '                & 0.00480
     \end{tabular}
     \caption{The 20 features the random forest most often split on when doing
-    authorship verification.}
+    authorship verification, using the \gls{UBM} Random Forest approach.}
     \label{tab:feature_importance}
 \end{table}
+
+
+\begin{landscape}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=.26]{./pictures/FeatureImpotrance30.png}
+        \caption{The 30 Most important features after applying the UBM encoded
+        features to the random forest model}
+        \label{fig:feature_importance_small}
+    \end{figure}
+\end{landscape}
+
+
+\begin{landscape}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=.26]{./pictures/FeatureImpotranceAll.png}
+        \caption{The feature importance for all UBM encoded features given
+        to the random forest model}
+        \label{fig:feature_importance_all}
+    \end{figure}
+\end{landscape}
+
 
 From that overview it is clear that the most important feature is the frequency
 of the word \textit{for} as multiple features seem to capture that word. Most
