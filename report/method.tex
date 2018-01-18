@@ -356,11 +356,13 @@ opposing author.
 
 When applying the Generalising Random Forest algorithm, we have the possibility
 to use of a wide variety of features. A random subset of these features are then
-used to train each of the trees in our random forest. There are no limit to how
-many and what features can be used, thus the task of finding a good/perfect
-input to train our forest on is quite extensive. As such, one could very well
-expand on current quantity and variety of features used, and possibly get a
-better result.
+used to train each of the trees in our random forest. Since the Random Forest
+algorithm algorithm, when applied, selects the best features from a given set of
+features, then one could simply provide it with a very large set of features,
+and let the algorithm do its work. This however comes at the cost of runtime.
+Thus the task of finding a good/perfect input to train our forest on is quite
+extensive. As such, one could very well expand on current quantity and variety
+of features used, and possibly get a better result.
 
 The \texttt{sklearn} library
 \footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.Rand
