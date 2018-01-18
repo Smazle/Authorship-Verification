@@ -1,15 +1,16 @@
-\section{Method} \label{sec:method}
-In this section we will describe the methods we have implemented to solve the
-PAN 2013 and PAN 2015 problems. The problems are both known as authorship
-verification problems. \cite{stamatos2009} describes the problem in a machine
-learning sense as a binary classification problem. Either the unknown texts
-are written by the same author or they are written by different authors. All
-our implemented methods solve that classification problem by answering either
-\textit{True} (unknown text is written by the same author as the known texts) or
-\textit{False} (unknown text is \textbf{not} written by the same author as the
-known texts). Since both PAN 2013 and PAN 2015 is a binary decision problem we
-can compute the number of \gls{TP}, \gls{TN}, \gls{FP} and \gls{FN}. In these
-problems we get,
+\section{Method} \label{sec:method} 
+
+In this section we will describe the methods
+we have implemented to solve the PAN 2013 and PAN 2015 problems. Both problems
+are known as authorship verification problems. \cite{stamatos2009} describes
+the problem in a machine learning sense as a binary classification problem.
+Either the unknown texts are written by the same author or they are written by
+different authors. All our implemented methods solve that classification problem
+by answering either \textit{True} (unknown text is written by the same author as
+the known texts) or \textit{False} (unknown text is \textbf{not} written by the
+same author as the known texts). Since both PAN 2013 and PAN 2015 are a binary
+decision problem we can compute the number of \gls{TP}, \gls{TN}, \gls{FP} and
+\gls{FN}. In these problems we get,
 
 \begin{itemize}
     \item a \gls{TP} whenever we answer \textit{True} and the texts are written
@@ -52,7 +53,7 @@ And they can be computed as,
 \cite{stamatos2009} describes instance based and profile based approaches for
 authorship attribution/verification. The instance based approach uses several
 texts from an author to create multiple different feature vectors representing
-the authors writing style while the profile based approach concatenates all
+the authors' writing style while the profile based approach concatenates all
 texts to a single text and creates only a single vector representing that text.
 The instance based approach corresponds to the PAN 2013 problem. In that problem
 we are given multiple texts to train from and the methods we have implemented to
@@ -63,7 +64,7 @@ per author, which we can use to construct a profile of the author.
 \subsection{Text Features} \label{subsec:method:text_features} 
 
 Feature extraction from a text is the process of finding a vector that
-represents the text. There are a lot of different features that can be extracted
+represents the text. A lot of different features can be extracted
 when performing \gls{NLP}. These features can span a lot of different linguistic
 layers, including but not limited to, layers such as the character layer, which
 describes a text on the character level, and the phonetic layer which analyses a
@@ -81,20 +82,21 @@ in different experiments including character n-grams, word n-grams, special
 character n-grams and \gls{POS}-tagging n-grams. Word n-grams are subsequences
 of words, special character n-grams are subsequences of characters with
 alphanumeric and space characters removed and \gls{POS} tagging n-grams are
-subsequences of \gls{POS} tags which are word classes such as noun, verbs and
+subsequences of \gls{POS} tags which are word classes such as nouns, verbs and
 adjectives. A special case of n-grams is 1-grams which is just a count of the
 different tokens in a sequence. We will refer to 1-grams as frequencies.
 
 \subsection{Delta Method} \label{subsec:method:delta_method}
+
 We have chosen to use the Delta method as a baseline method for our other
 implementations. The Delta method is described by \cite{evert2015towards} and
-consist of extracting word frequencies, applying a linear transformation to
+consists of extracting word frequencies, applying a linear transformation to
 those frequencies and using \gls{KNN} with different distance metrics. There are
-a number of parameters to choose. First of all the number of different words to
-find frequencies for has to be chosen (it was originally chosen at 150 words
-\cite{evert2015towards}). Then the linear transformation can be chosen, the
-usual transformation is a normalization to zero mean unit variance. And finally
-the distance metric can be chosen.
+a number of parameters to choose. The first step, is choosing how many word we
+are going to consider, when finding the word frequencies. Firstly the amount of
+words (it was originally chosen at 150 words \cite{evert2015towards}). Then the
+linear transformation can be chosen, the usual transformation is a normalization
+to zero mean unit variance. Finally the distance metric can be chosen.
 
 \subsection{Generalising Random Forest} \label{subsec:method:generalising_random_forest}
 In addition to the delta method we chose to use the Random Forest approach
@@ -120,12 +122,12 @@ specific feature for a specific data point.
 The \gls{UBM} is meant to represent the features of an author independent
 text. It is computed by concatenating all author-known-texts in the training
 dataset and computing features from that resulting text. Since multiple authors
-is then part of the text we are computing features from, the assumption is
+are then part of the text we are computing features from, the assumption is
 that the author specific features will be averaged out and the \gls{UBM} will
 represent the features of an author independent text. The addition of 1 in the
-model prevent division by zero. Since 1 is added both in the numerator and the
+model prevents division by zero. Since 1 is added both in the numerator and the
 denominator it does not otherwise change the result. The squaring of $(A_i -
-U_i)$ and $(B - U_i)$ both prevent negative values and punishes values that are
+U_i)$ and $(B - U_i)$ both prevents negative values and punishes values that are
 far away. Therefore each value in the resulting encoded feature vector is in the
 range $[0; \infty[$.
 
@@ -185,13 +187,13 @@ features and on different datasets. In our experiments we use data from PAN
 2013 \footnote{http://pan.webis.de/clef13/pan13-web/index.html} and PAN 2015
 \footnote{http://pan.webis.de/clef15/pan15-web/index.html}.
 
-The PAN 2013 data consist of texts from English, Greek and Spanish authors. We
-work only on the English texts which consists of texts from 10 authors. For each
+The PAN 2013 data consists of texts from English, Greek and Spanish authors. We
+work only on the English texts which, of which there are 10 authors. For each
 author there is (between 1 and 10) known texts and a single unknown text. The
 task is, given the known texts of an author, to determine whether the unknown
 text is written by the same author.
 
-The PAN 2015 data consist of texts by authors in English, Dutch, Greek and
+The PAN 2015 data consists of texts by authors in English, Dutch, Greek and
 Spanish. Again we only work with English texts. Unlike the 2013 dataset there
 is only a single known text for each author and a single unknown text. There
 is therefore much less known data available for each author which makes the
@@ -205,7 +207,7 @@ To generate metadata about English texts we use the Brown dataset
 contains more than 1,000,000, words organized in sentences, across different
 genres and is therefore perfect to use for our datasets. We specifically use the
 dataset to identify the most frequently used n-grams (of all kinds). If we were
-to use our training data to generate that we would risk having a bias towards
+to use our training data to generate that, we would risk having a bias towards
 our specific training dataset.
 
 We will evaluate the performance of the different algorithms on the training
@@ -235,10 +237,10 @@ best values. Each configuration is tried 100 times since random authors are
 chosen in each run. On the training dataset we obtained the results shown in
 Table \ref{fig:delta_pan_2013_res} for the PAN 2013 data and in Table
 \ref{fig:delta_pan_2015_res} for the PAN 2015 data. For PAN 2013 the results are
-generally better since there is more text available and the best accuracy were
+generally better since there is more text available and the best accuracy was
 obtained when using the 300 most frequent words and 4 opposing authors. For PAN
 2015 the best result is obtained when using the 200 most frequent words and 1
-opposing authors.
+opposing author.
 
 \begin{table}
     \centering
@@ -286,8 +288,8 @@ opposing authors.
                & \textbf{TPR}      & 0.34625 & 0.51375 & 0.54937 & 0.53125 & 0.46312 \\
                & \textbf{TNR}      & 0.90500 & 0.86187 & 0.81750 & 0.82250 & 0.85687
     \end{tabular}
-    \caption{Accuracy, \gls{TPR} and \gls{TNR} on different number of most
-        frequent words $n$ and different number of opposing authors $m$ for the
+    \caption{Accuracy, \gls{TPR} and \gls{TNR} on different amounts of most
+        frequent words $n$ and different numbers of opposing authors $m$ for the
         Delta Method. Each number is an average of 100 runs since there is
         randomness involved when picking the opposing authors. The test is run
         on the PAN 2013 dataset. Maximum values for both Accuracy, \gls{TPR} and
@@ -341,8 +343,8 @@ opposing authors.
                & \textbf{TPR}      & 0.11860 & 0.13760 & 0.13960 & 0.13660 & 0.12940 \\
                & \textbf{TNR}      & 0.91700 & 0.91340 & 0.90560 & \textbf{0.94500} & 0.93360
     \end{tabular}
-    \caption{Accuracy, \gls{TPR} and \gls{TNR} on different number of most
-        frequent words $n$ and different number of opposing authors $m$ for the
+    \caption{Accuracy, \gls{TPR} and \gls{TNR} on different amount of most
+        frequent words $n$ and different numbers of opposing authors $m$ for the
         Delta Method. Each number is an average of 100 runs since there is
         randomness involved when picking the opposing authors. The test is run
         on the PAN 2015 dataset. Maximum values for both Accuracy, \gls{TPR} and
@@ -351,12 +353,16 @@ opposing authors.
 \end{table}
 
 \subsubsection{Generalising Random Forest} \label{subsubsec:method:generalising_random_forest}
-In the Generalising Random Forest, we have the possibility to use of a wide
-variety of features. A random subset of these features are then used to train
-each of the trees in our random forest. There are no limit to how many and what
-features can be used, thus the task of finding a good/perfect input to train our
-forest on is quite extensive. As such, one could very well expand on current
-quantity and variety of features used, and possibly get a better result.
+
+When applying the Generalising Random Forest algorithm, we have the possibility
+to use of a wide variety of features. A random subset of these features are then
+used to train each of the trees in our random forest. Since the Random Forest
+algorithm algorithm, when applied, selects the best features from a given set of
+features, then one could simply provide it with a very large set of features,
+and let the algorithm do its work. This however comes at the cost of runtime.
+Thus the task of finding a good/perfect input to train our forest on is quite
+extensive. As such, one could very well expand on current quantity and variety
+of features used, and possibly get a better result.
 
 The \texttt{sklearn} library
 \footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.Rand
@@ -375,15 +381,15 @@ variance is only altered very little with each tree. 1000 trees were the number
 we deemed to adequately decrease the variance of the forest, while still running
 at an acceptable speed.
 
-The dataset in these experiments were split into a test and a validation set.
+The dataset in these experiments was split into a test and a validation set.
 The selection was done by randomly shuffling the entire data set and taking
 the first 80\% of the dataset as the training set, and the last 20\% as the
-validation set. As such we need a another layer of averaging, to combat the
+validation set. As such we need another layer of averaging, to combat the
 variance introduced by the random shuffling. In the following cases, this is
 done over 100 iterations of random forest predictions.
 
 In the following, we created our \gls{UBM} using the concatenation of all
-author-specific texts, from our training data set.
+author-specific texts, from our training dataset.
 
 In terms of features, we chose to feed our random forest algorithm a large set
 of features with different focuses. The algorithm is going to pick and chose
@@ -405,12 +411,12 @@ bases for the generation of the features.
 When applying the algorithm to the 2015, and using the \gls{UBM} style encoding,
 we got an accuracy of 0.6015, or 60.15\%. Looking at the feature influences
 averaged over all 100 model iterations, we can see that the top features are
-mostly dominated by the ones who are character based. While the word-n-grams
+mostly dominated by the ones who are character based. The word-n-grams
 have little to no influence on the outcome of the predictions. The suspected
 reason for this is the small amount of words in each text of the 2015 data set.
-This means that the sequences of words that are present, are very rare, and thus
+This means that the sequences of words that are present are very rare, and thus
 has little influence. This point is backed up by that fact that word-1-grams
-does actually have an influence, as the capture the use of stop words, such as
+do actually have an influence, as they capture the use of stop words, such as
 "for" and "has".
 
 In addition to the \gls{UBM} based encoding we also tried another encoding. The
@@ -422,8 +428,8 @@ method is exactly the same as described above except Equation
 \end{equation}
 
 That yielded an accuracy of 0.5675. This was again dominated by character n-gram
-features, when looking at the final feature importance. However \gls{POS}-tags
-had slightly more impact, compared to the \gls{UBM} approach.
+features, when looking at the final feature importance. However, \gls{POS}-tags
+had slightly more impact compared to the \gls{UBM} approach.
 
 \subsubsection{Extended Delta} \label{subsubsec:method:extended_delta}
 We tried different feature combinations and distances. The
@@ -494,7 +500,7 @@ distance.
         0.69406, 8
     \end{tabular}
     \caption{Results of different feature combinations with the Delta method
-    using the Manhattan distance. The result consist of 2 numbers in the format
+    using the Manhattan distance. The results consist of 2 numbers in the format
     $a, b$. $a$ corresponds to the accuracy obtained with the configuration and
     $b$ is the number of opponents that obtained that accuracy. Results that
     beat our baseline results are shown in bold.}
@@ -566,7 +572,7 @@ distance.
         0.68125, 10
     \end{tabular}
     \caption{Results of different feature combinations with the Delta method
-    using the Euclidean distance.  The result consist of 2 numbers in the format
+    using the Euclidean distance.  The results consist of 2 numbers in the format
     $a, b$. $a$ corresponds to the accuracy obtained with the configuration and
     $b$ is the number of opponents that obtained that accuracy. Results that
     beat our baseline results are shown in bold.}
@@ -579,7 +585,7 @@ In this approach we have experimented with a couple of different feature
 configurations. Configuration (A) consists of the 500 most frequent 3-, 4-
 and 5-character-grams, the 100 most frequent 3- and 4-word-grams, the 20
 most frequent 2-, 3- and 4-postag-grams. Configuration (B) consists of the
-frequencies of the 300 most frequent words. The most frequent n-grams is found
+frequencies of the 300 most frequent words. The most frequent n-grams are found
 in the brown text corpus. We test only on the PAN 2013 dataset since the PAN
 2015 dataset contains only a single known text per author and an SVM cannot
 train with a single datapoint in each class. We use the \textit{sklearn}
@@ -596,8 +602,8 @@ After we have found the best hyperparameters we run the classifier over all
 authors 100 times with those hyperparameters. The mean accuracy over the 100
 runs is then computed.
 
-Configuration (A) use the hyperparameters $C = 100$ and $\gamma = 0.00001$
+Configuration (A) used the hyperparameters $C = 100$ and $\gamma = 0.00001$
 and obtained an average accuracy of 0.84599 with a \gls{TPR} of 0.95 and a
-\gls{TNR} of 0.634. Configuration (B) use the hyperparameters $C = 100$ and
+\gls{TNR} of 0.634. Configuration (B) used the hyperparameters $C = 100$ and
 $\gamma = 0.001$ and obtained an average accuracy of 0.84799 with a \gls{TPR}
 of 0.99899 and a \gls{TNR} of 0.632.

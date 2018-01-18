@@ -9,8 +9,8 @@ measure is defined using \textit{precision} and \textit{recall} which in PAN
     recall &= \frac{correct\_answers}{problems}
 \end{align}
 
-Since we answer all problems $problems$ and $answers$ are the same in our case
-and therefore we get that the F1 measure is the same as an accuracy,
+Since we answer all problems, $problems$ and $answers$ are the same in our case
+and therefore the F1 measure is the same as an accuracy,
 
 \begin{equation}
     F1 = 2 \frac{precision \cdot recall}{precision + recall}
@@ -29,7 +29,7 @@ and 0.9, fair when between 0.7 and 0.8, poor when between 0.6 and 0.7 and a
 failure when between 0.5 and 0.6. The c@1 measure is chosen since it measures
 performance in the binary case. The c@1 measure does not use probabilities but
 classifies everything above 0.5 as a yes everything below as a no and a 0.5 as a
-don't know. Like F1 in PAN 2015 the c@1 also corresponds to an accuracy in our
+don't know. Like F1 in PAN 2015, the c@1 also corresponds to an accuracy in our
 case since we answer all questions. The definition of c@1 is,
 
 \begin{equation}
@@ -112,7 +112,7 @@ accuracy of 0.58400 a \gls{TPR} of 0.66800 and a \gls{TNR} of 0.50000.
 We have generated the \gls{ROC} curve for both random forest tests. The area
 under the curve was 0.63868 for the \gls{UBM} method and 0.56821 for the Minus
 method. The curves is shown in Figure \ref{fig:forest_roc}. This means that the
-Final Score, of the methods are the following:
+Final Scores, of the methods are:
 
 \begin{align}
     \text{Final Score \gls{UBM}} &= c@1 \cdot AUROC = 0.604 \cdot 0.63868 = 0.3858  \\
@@ -177,7 +177,7 @@ opponents to the texts written by the author. Then we train an SVM using the
 texts known to be written by the author and the texts from the training dataset
 and predict the unknown text using that SVM.
 
-The best configuration on the training set were configuration B using the
+The best configuration on the training set was configuration B using the
 frequencies of the 300 most frequent words. The results on the two test datasets
 are shown in Table \ref{table:svm_results}.
 
