@@ -11,8 +11,6 @@ baseline method. An overview of the different methods final results can be seen
 in Table \ref{tab:all_final_results}. We were able to beat
 the baseline method both on the PAN 2013 dataset and the PAN 2015 dataset.
 
-% TODO: Maybe elaborate on what it means that we beat the baseline methods.
-
 \begin{table}
     \centering
     \begin{tabular}{ll|cc}
@@ -95,18 +93,6 @@ text, the text was classified as not written by the same author. It was very
 surprising to us that the best performing method was a neural network as such
 networks normally require a lot more data to prevent overfitting.
 
-
-%If this \gls{UBM} method was to be applied to the MaCom data set, time
-%complexity would also have to analyzed in order to determine the viability of
-%the Generalized RF method. By only considering $\log(N)$ features in our case,
-%where N is the total number of features, we are able to handle large amount of
-%data. The time complexity of the method can be broken down into two parts. The
-%creating of a tree, and number of features considered. The time complexity of a
-%single decision tree, is $O(n \log{n})$, where n is the total number of leafs on
-%the tree. In our case, each tree considers $\log{N}$ features. This gives us a
-%final time complexity of $O(\log{N} \cdot n \log{n})$.\cite{RFTime}
-
-
 \subsection{Feature Importance}
 The \textit{sklearn} random forest implementation has a build in notion of
 feature importance. The importance is estimated based on how often the forest
@@ -147,7 +133,6 @@ most important features according to the random forest are shown in Table
     \label{tab:feature_importance}
 \end{table}
 
-% TODO: Use the figures as part of some argument in the feature importance part.
 \begin{landscape}
     \begin{figure}
         \centering
