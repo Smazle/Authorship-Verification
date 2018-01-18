@@ -2,7 +2,7 @@
 In this section we will describe the methods we have implemented to solve the
 PAN 2013 and PAN 2015 problems. The problems are both known as authorship
 verification problems. \cite{stamatos2009} describes the problem in a machine
-learning sense as a two class classification problem. Either the unknown texts
+learning sense as a binary classification problem. Either the unknown texts
 are written by the same author or they are written by different authors. All
 our implemented methods solve that classification problem by answering either
 \textit{True} (unknown text is written by the same author as the known texts) or
@@ -57,8 +57,8 @@ texts to a single text and creates only a single vector representing that text.
 The instance based approach corresponds to the PAN 2013 problem. In that problem
 we are given multiple texts to train from and the methods we have implemented to
 solve that problem will reflect that property. The profile based approach
-corresponds to the PAN 2015 dataset here we are given only a single known text
-per author which we can use to construct a profile of the author.
+corresponds to the PAN 2015 dataset; here we are given only a single known text
+per author, which we can use to construct a profile of the author.
 
 \subsection{Text Features} \label{subsec:method:text_features} Feature
 extraction from a text is the process of finding a vector that represents
@@ -166,7 +166,7 @@ Euclidean distance.
 % TODO: Justify choices of distances.
 
 \subsection{Author Specific SVM} \label{subsec:method:author_specific_svm}
-We implemented an approach using \gls{SVM}'s inspired by \cite{hansen2014}. The
+We implemented an approach using a \gls{SVM} inspired by \cite{hansen2014}. The
 approach is only applicable to problems with more than a single text per author.
 The classification in this approach is done by training an \gls{SVM} classifier
 on all known texts of an author and an equal number of texts from other authors.
@@ -198,12 +198,12 @@ verification harder. In the 2015 dataset there are 100 \textit{problems} in
 which some of the known texts are the same (i.e. there are not 100 authors).
 
 To generate metadata about English texts we use the Brown dataset
-\footnote{http://clu.uni.no/icame/brown/bcm-los.html}. The brown dataset
-contains more than 1,000,000 words across different genres and is therefore
-perfect to use for our datasets. We specifically use the dataset to identify
-the most frequently used n-grams (of all kinds). If we were to use our training
-data to generate that we would risk having a bias towards our specific training
-dataset.
+\footnote{http://clu.uni.no/icame/brown/bcm-los.html}. The Brown dataset
+contains more than 1,000,000, words organized in sentences, across different
+genres and is therefore perfect to use for our datasets. We specifically use the
+dataset to identify the most frequently used n-grams (of all kinds). If we were
+to use our training data to generate that we would risk having a bias towards
+our specific training dataset.
 
 We will evaluate the performance of the different algorithms on the training
 data with the accuracy of the algorithms. The accuracy is computed as the number
@@ -214,16 +214,17 @@ metrics.
 \subsubsection{Delta Method} \label{subsubsec:method:delta_method}
 In the delta method we work only with word frequencies as originally proposed.
 As the linear function we normalize to 0 mean and unit variance and as features
-we use the $n$ most frequent words. We get the most frequent words by using the
-brown dataset. In the \gls{KNN} part we use the Manhatten distance and only a
-single nearest neighbour since in one of the datasets we have only 1 text for
-each author. To classify the unknown texts as either written by or not written
-by the author we train a \gls{KNN} for each unknown text. Each classifier is
-trained with a known text from the author in question and $m$ other random
-texts. If the unknown text is classified as belonging to one of the $m$ random
-authors instead of the author in question we report that the unknown text is not
-written by the author. If the text is classified as belonging to the author in
-question we classify it as being written by the author.
+we use the word frequencies of the $n$ most frequent words. We get the most
+frequent words by using the Brown dataset. In the \gls{KNN} part we use the
+Manhatten distance and only a single nearest neighbour since in one of the
+datasets we have only 1 text for each author. To classify the unknown texts as
+either written by or not written by the author we train a \gls{KNN} for each
+unknown text. Each classifier is trained with a known text from the author
+in question and $m$ other random texts. If the unknown text is classified as
+belonging to one of the $m$ random authors instead of the author in question
+we report that the unknown text is not written by the author. If the text is
+classified as belonging to the author in question we classify it as being
+written by the author.
 
 We chose the number of most frequent words $n$ and number of opposing
 authors $m$ by trying different configurations in a grid and choosing the
@@ -348,11 +349,11 @@ opposing authors.
 
 \subsubsection{Generalising Random Forest} \label{subsubsec:method:generalising_random_forest}
 In the Generalising Random Forest, we have the possibility to use of a wide
-variety of features. It's a random subset of these features which are then used
-to train each of the trees in our random forest. There are no limit to how many
-and what features can be used, thus the task of finding a good/perfect input to
-train our forest on is quite extensive. As such, one could very well expand on
-current quantity and variety of features used, and possibly get a better result.
+variety of features. A random subset of these features are then used to train
+each of the trees in our random forest. There are no limit to how many and what
+features can be used, thus the task of finding a good/perfect input to train our
+forest on is quite extensive. As such, one could very well expand on current
+quantity and variety of features used, and possibly get a better result.
 
 The \texttt{sklearn} library
 \footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.Rand
@@ -367,7 +368,7 @@ variance our model. In the following tests, \texttt{n\_estimators} is set to
 Having 1000 trees in your forest results in a slower runtime, compared to 100.
 The increase in trees also have diminishing returns on the decrease of variance,
 so at some point increasing the trees don't make a lot of sense, as the
-variance is only altered very little with each tree. 1000 trees were the amount
+variance is only altered very little with each tree. 1000 trees were the number
 we deemed to adequately decrease the variance of the forest, while still running
 at an acceptable speed.
 
@@ -579,7 +580,7 @@ frequencies of the 300 most frequent words. The most frequent n-grams is found
 in the brown text corpus. We test only on the PAN 2013 dataset since the PAN
 2015 dataset contains only a single known text per author and an SVM cannot
 train with a single datapoint in each class. We use the \textit{sklearn}
-implementation of \gls{SVM}'s which internally use \textit{libsvm}.
+implementation of \gls{SVM}s which internally use \textit{libsvm}.
 
 We use the RBF kernel and we choose hyperparameters via cross validation.
 Each configuration of features will use different hyperparameters. The cross
