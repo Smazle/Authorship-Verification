@@ -60,10 +60,11 @@ solve that problem will reflect that property. The profile based approach
 corresponds to the PAN 2015 dataset here we are given only a single known text
 per author which we can use to construct a profile of the author.
 
-\subsection{Text Features} \label{subsec:method:text_features} Feature
-extraction from a text is the process of finding a vector that represents
-the text. There are a lot of different features that can be extracted when
-performing \gls{NLP}. These features can span a lot of different linguistic
+\subsection{Text Features} \label{subsec:method:text_features} 
+
+Feature extraction from a text is the process of finding a vector that
+represents the text. There are a lot of different features that can be extracted
+when performing \gls{NLP}. These features can span a lot of different linguistic
 layers, including but not limited to, layers such as the character layer, which
 describes a text on the character level, and the phonetic layer which analyses a
 text based on the phonetic alphabet. We use features spanning several of these
@@ -196,6 +197,8 @@ is only a single known text for each author and a single unknown text. There
 is therefore much less known data available for each author which makes the
 verification harder. In the 2015 dataset there are 100 \textit{problems} in
 which some of the known texts are the same (i.e. there are not 100 authors).
+The PAN 2013, and PAN 2015 text, have an average word count of 1038, and 460
+respectively.
 
 To generate metadata about English texts we use the Brown dataset
 \footnote{http://clu.uni.no/icame/brown/bcm-los.html}. The brown dataset
