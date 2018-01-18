@@ -1,39 +1,62 @@
 \section{Conclusion} \label{sec:conclusion} 
 
 We presented a collection of machine learning and distance based approaches
-to the PAN 2013, and PAN 2015 tasks. We set out to beat the baseline a baseline
-method, which in our case was the Delta Method, using a subset of algorithmic
-approaches used on the two PAN tasks.
+to the PAN 2013, and PAN 2015 tasks. We set out to beat the baseline, 
+which in our case was the Delta Method, using a subset of algorithmic
+approaches used on the two PAN tasks. 
 
-While we did succeed in doing so, the results produced for the two different
-tasks were vastly different. This stems from the different nature of each of
-the PAN tasks. While they both serve to verify if a person is indeed the author
-of a specific text, the format of the data in the two tasks, results in vastly
-different methods having to be used. As mentioned earlier, the PAN 2015 data-set
-contains very little data. It does have a lot of data entries in the form of
-authors, but each author only has 1 known text, and that texts' length has an
-average word count of 460. After implementing several algorithm, it became
-obvious that this data was more suited for a generalizing approach, due to the
-high author count. This however contradicted the more appropriate approaches
-for the 2013 set. With its numerous text per author, and its 1038 average word
-count, the PAN 2013 set was more suited for approaches which made use of the
-larger quantities of data the set provided. This different is showcased by the
-performance of the Generalizing random forest and the SVM. The encoding used
-for the random forest was used to get around the data lack of data in the 2015
-set, by creating a generalizing model instead. Thus depending on the amount of
-authors, instead of the amount of data. This resulted in the performance on the
-2013 set, to be far inferior compared to the 2015 set. On the other hand, the
-SVM bases itself on the large amount of data entries per author. If one was to
-use that on the 2015 set, one would have to split the singular text for each
-author up, to then get more data, thus further diluting the already sparse data
-set, ending up with poor results.
+Not only did we succeed in beating that baseline, but our SVM implementation
+manages to get a third place, when comparing to the other results from the
+PAN 2015 task. While out best results from our Extended Delta method, did
+manage to beat the baseline as well. It didn't place as high on the PAN 2013
+scoreboard. With its' final score of 0.4053, it places ninth in that year of the
+PAN competition.
 
-One thing worth noting however, was that the importance of stop word was way 
-above expectation. Looking at the feature importance graphs for the 
-generalizing random forest, we can see that stop words in has
-a great impact the classification. Not only that by special characters,
-does as well, most likely due to the information about sentence composition it
-conveys.
+We have reached the conclusion that stop-words and special characters, have a
+far greater impact on authorship verification, than content specific words.
+Additionally the problem becomes much easier with an increased amount of data,
+whereas when confronted with a low amount of data, one if forced to take other
+weaker performing approaches to compensate for that.
+
+%We found out that specific words, in this case stop words, has a great impact
+%when validating the author. Not only that, but special characters also had a 
+%far greater impact than anticipated.
+%
+%We can also conclude, that a problem like 
+%
+%
+%
+%
+%
+%While we did succeed in doing so, the results produced for the two different
+%tasks were vastly different. This stems from the different nature of each of
+%the PAN tasks. While they both serve to verify if a person is indeed the author
+%of a specific text, the format of the data in the two tasks, results in vastly
+%different methods having to be used. As mentioned earlier, the PAN 2015 data-set
+%contains very little data. It does have a lot of data entries in the form of
+%authors, but each author only has 1 known text, and that texts' length has an
+%average word count of 460. After implementing several algorithm, it became
+%obvious that this data was more suited for a generalizing approach, due to the
+%high author count. This however contradicted the more appropriate approaches
+%for the 2013 set. With its numerous text per author, and its 1038 average word
+%count, the PAN 2013 set was more suited for approaches which made use of the
+%larger quantities of data the set provided. This different is showcased by the
+%performance of the Generalizing random forest and the SVM. The encoding used
+%for the random forest was used to get around the data lack of data in the 2015
+%set, by creating a generalizing model instead. Thus depending on the amount of
+%authors, instead of the amount of data. This resulted in the performance on the
+%2013 set, to be far inferior compared to the 2015 set. On the other hand, the
+%SVM bases itself on the large amount of data entries per author. If one was to
+%use that on the 2015 set, one would have to split the singular text for each
+%author up, to then get more data, thus further diluting the already sparse data
+%set, ending up with poor results.
+%
+%One thing worth noting however, was that the importance of stop word was way 
+%above expectation. Looking at the feature importance graphs for the 
+%generalizing random forest, we can see that stop words in has
+%a great impact the classification. Not only that by special characters,
+%does as well, most likely due to the information about sentence composition it
+%conveys.
 
 
 
@@ -47,3 +70,4 @@ conveys.
     \item Were able to beat all baseline methods.
     \item Performed very well on PAN 2013 but not so well on PAN 2015.
 \end{itemize}
+
