@@ -16,8 +16,8 @@ main = do
         fp = mean fps
         fn = mean fns
 
-    print $ ("Accuracy", "TPR", "FPR")
-    print $ (mean accuracies, tpr tp fn, fpr fp tn)
+    print $ ("Accuracy", "TPR", "FPR", "TNR")
+    print $ (mean accuracies, tpr tp fn, fpr fp tn, tnr tn fp)
 
 mean :: [Double] -> Double
 mean xs = sum xs / fromIntegral (length xs)
@@ -27,3 +27,6 @@ tpr tp fn = tp / (tp + fn)
 
 fpr :: Double -> Double -> Double
 fpr fp tn = fp / (fp + tn)
+
+tnr :: Double -> Double -> Double
+tnr tn fp = tn / (tn + fp)

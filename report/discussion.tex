@@ -1,5 +1,6 @@
 % TODO: Discuss our own results not just in relation to others.
 % TODO: Opposite TPR/TNR on train/test Author Specific SVM.
+% TODO: Discuss TPR/TNR which we should also report for all methods.
 \section{Discussion} \label{sec:discussion}
 
 \subsection{Comparison to baseline approach}
@@ -14,17 +15,35 @@ the baseline method both on the PAN 2013 dataset and the PAN 2015 dataset.
 
 \begin{table}
     \centering
-    \begin{tabular}{|c|c|c|c|}
-    \hline
-    \textbf{Method}             & \textbf{P2013.1 F1 Score} & \textbf{P2013.2 F1 Score} & \textbf{P2015 Final Score} \\ \hline
-    Delta (BASELINE)            & 0.64438                      & 0.63291                      & 0.31373                        \\ \hline
-    Random Forest (\gls{UBM}) & -                            & -                            & 0.3858                        \\ \hline
-    Random Forest (Minus)       & -                            & -                            & 0.3318                        \\ \hline
-    Extended Delta              & 0.73213                      & 0.67173                      & 0.4053                        \\ \hline
-    SVM                         & 0.77650                      & 0.78066                      & -                             \\ \hline
+    \begin{tabular}{ll|cc}
+        \textbf{Method}           &           & \textbf{PAN 2013} & \textbf{PAN 2015} \\ \hline
+        Delta (BASELINE)          & Score     & 0.62252           & 0.31373           \\
+                                  & \gls{TPR} & 0.52196           & 0.50820           \\
+                                  & \gls{TNR} & 0.71204           & 0.60140           \\
+                                  & Rank      & 12/20             & 11/18             \\ \hline
+        Random Forest (\gls{UBM}) & Score     & n/a               & 0.38576           \\
+                                  & \gls{TPR} & n/a               & 0.63200           \\
+                                  & \gls{TNR} & n/a               & 0.57600           \\
+                                  & Rank      & n/a               & 9/18              \\ \hline
+        Random Forest (Minus)     & Score     & n/a               & 0.33183           \\
+                                  & \gls{TPR} & n/a               & 0.66800           \\
+                                  & \gls{TNR} & n/a               & 0.50000           \\
+                                  & Rank      & n/a               & 10/18             \\ \hline
+        Extended Delta            & Score     & 0.69909           & 0.40383           \\
+                                  & \gls{TPR} & 0.71255           & 0.49760           \\
+                                  & \gls{TNR} & 0.68098           & 0.74140           \\
+                                  & Rank      & 10/20             & 8/18              \\ \hline
+        Author Specific SVM       & Score     & 0.77858           & n/a               \\
+                                  & \gls{TPR} & 0.71114           & n/a               \\
+                                  & \gls{TNR} & 0.83582           & n/a               \\
+                                  & Rank      & 3/20              & n/a
     \end{tabular}
-    \caption{Final results for all our implemented algorithms for authorship
-    verification on the datasets that apply to the method.}
+    \caption{Final results for all our implemented algorithms on the test
+        datasets of PAN 2013 and PAN 2015. Since there are two test datasets for
+        PAN 2013 \textit{Score}, \textit{\gls{TPR}} and \textit{\gls{TNR}} in
+        the PAN 2013 column are all an average over the values on the two
+        datasets. Algorithms that were only made for one of the dataset has
+        \textit{n/a} in the fields they are missing.}
     \label{tab:all_final_results}
 \end{table}
 

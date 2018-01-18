@@ -62,6 +62,10 @@ if args.with_normalization:
 # test aginst.
 problem_number = X_known.shape[0]
 predictions = []
+true_positives = 0
+true_negatives = 0
+false_negatives = 0
+false_positives = 0
 for i in range(0, problem_number):
     opposing = np.random.uniform(0, traindata.shape[0],
                                  args.opposing_set_size).astype(np.int)
@@ -79,9 +83,19 @@ for i in range(0, problem_number):
 
     prediction = model.predict(X_unknown[i].reshape(1, -1))[0]
 
+    if prediction == y[i] and y[i]:
+        true_positives += 1
+    elif prediction == y[i] and not y[i]:
+        true_negatives += 1
+    elif prediction != y[i] and y[i]:
+        false_negatives += 1
+    else:
+        false_positives += 1
+
     predictions.append(prediction)
 
 predictions = np.array(predictions)
 results = predictions == y
 
-print(np.sum(results) / X_known.shape[0])
+print(np.sum(results) / X_known.shape[0], true_positives,
+      true_negatives, false_positives, false_negatives)

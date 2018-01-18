@@ -98,20 +98,21 @@ by computing our feature set and generating our \gls{UBM} as described in
 Section \ref{subsec:method:generalising_random_forest}.
 
 The feature set and \gls{UBM}, are then encoded according to Equation
-\eqref{eq:rf-encode}, and are then used to train a random forest with parameters
+\eqref{eq:rf-encode}, and are used to train a random forest with parameters
 matching the ones used in experiments. That is all parameters being set to their
 default except \texttt{n\_estimators} that is set to 1000. At this point we
 encode the feature set created from the test data, against the \gls{UBM}, which
 is then fed to our trained random forest to get the predictions. This resulted
-in an accuracy of 0.604, on the pan 2015 dataset. On the other hand, we also
-chose to train our model using the alternate subtraction encoding, which doesn't
-make use of the \gls{UBM}. The subtraction encoding under-performed relative to
-the \gls{UBM} approach, with an accuracy of 0.584.
+in an accuracy of 0.60400, \gls{TPR} of 0.63200 and \gls{TNR} of 0.57600 on the
+pan 2015 dataset. On the other hand, we also chose to train our model using the
+alternate subtraction encoding, which doesn't make use of the \gls{UBM}. The
+subtraction encoding under-performed relative to the \gls{UBM} approach, with an
+accuracy of 0.58400 a \gls{TPR} of 0.66800 and a \gls{TNR} of 0.50000.
 
-We have generated the \gls{AUROC} curve for both random forest tests. The area
+We have generated the \gls{ROC} curve for both random forest tests. The area
 under the curve was 0.63868 for the \gls{UBM} method and 0.56821 for the Minus
-method. The curves is shown in Figure \ref{fig:forest_roc}. 
-This means that the Final Score, of the methods are the following:
+method. The curves is shown in Figure \ref{fig:forest_roc}. This means that the
+Final Score, of the methods are the following:
 
 \begin{align}
     \text{Final Score \gls{UBM}} &= c@1 \cdot AUROC = 0.604 \cdot 0.63868 = 0.3858  \\
@@ -134,16 +135,30 @@ computed for all thresholds. In our case we tried the thresholds $\{0.0, 0.01,
 
 \subsection{Extended Delta} \label{subsec:results:extended_delta}
 The Extended Delta Method is tested by generating features according to the best
-configurations found in the training phase. Then the same procedure used to test
-the regular delta method is employed. The best configuration for the PAN 2013
-data were the 100 most frequent 2-, 3-, and 4-char-grams and the 300 most
+configurations found in the training phase. Then the same procedure used to
+test the regular delta method is employed. The best configuration for the PAN
+2013 data were the 100 most frequent 2-, 3-, and 4-char-grams and the 300 most
 frequent words for 5 opposing authors. The best configuration for the PAN 2015
 data were the 20 most frequent 1-, 2-, and 3-special-char-grams for 2 opposing
-authors. The accuracy obtained on the PAN 2013 test datasets were 0.73213 and
-0.67173. The accuracy obtained on the PAN 2015 dataset were 0.62189. Since the
-2015 dataset depends on the \gls{AUROC} it is shown in Figure
-\ref{fig:extended_delta_method_roc} and the area was 0.65188. Giving a final of
-0.4053.
+authors. The accuracies, \gls{TPR}s and \gls{TNR}s obtained on all test datasets
+are shown in Table \ref{tab:extended_delta_method_final_results}. The \gls{ROC}
+curve is shown in Figure \ref{fig:extended_delta_method_roc} and the \gls{AUROC}
+was 0.65188.
+
+\begin{table}
+    \centering
+    \begin{tabular}{c|ccc}
+        & \textbf{PAN 2013 Dataset 1} & \textbf{PAN 2013 Dataset 2} & \textbf{PAN 2015 Dataset} \\
+        \hline
+        \textbf{Accuracy}  & 0.72528 & 0.67291 & 0.61949 \\
+        \textbf{\gls{TPR}} & 0.66750 & 0.75761 & 0.49760 \\
+        \textbf{\gls{TNR}} & 0.77244 & 0.58953 & 0.74140
+    \end{tabular}
+    \caption{Result of running the extended delta method on two test sets
+    included in PAN 2013 and single test set included in PAN 2015 with the best
+    configurations found in the training phase.}
+    \label{tab:extended_delta_method_final_results}
+\end{table}
 
 \begin{figure}
     \centering

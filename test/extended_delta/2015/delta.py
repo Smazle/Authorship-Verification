@@ -103,8 +103,5 @@ for i in range(0, problem_number):
 predictions = np.array(predictions)
 results = predictions == y
 
-if args.with_PN:
-    print(np.sum(results) / X_known.shape[0], true_positives,
-          true_negatives, false_positives, false_negatives)
-else:
-    print(np.sum(results) / X_known.shape[0])
+print(np.sum(results) / X_known.shape[0], true_positives,
+      true_negatives, false_positives, false_negatives)
