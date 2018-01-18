@@ -64,9 +64,10 @@ unique words over all authors. The main model made use a random forest and a
 \gls{UBM} again. A feature vector was yet again computed for all the known
 author-known texts in the dataset, the \gls{UBM}. I addition to that, a feature
 vector was computed on each individual known text of the dataset. Each of these
-author specific feature vectors is then encoded using the \gls{UBM}. The encoded
-vectors were then combined and the result were fed to a random forest model.
-Their performance were 0.43811 on English texts.
+author specific feature vectors were then encoded using the \gls{UBM}. The
+encoded vectors were then combined, with and author-specific and non-specific
+text after which the result were fed to a random forest model. Their performance
+were 0.43811 on English texts.
 
 \cite{bartoli2015b} proposed yet another random forest based approach.
 They didn't use a random forest classifier as \cite{maitra2015} and
@@ -78,41 +79,43 @@ punctuation n-grams and text shape n-grams. They then performed a feature
 selection and normalization. They performed the final regression with both
 trees, a random forest and an SVM. They ended up choosing the random forest as
 it performed the best. Their results were very good having the best performance
-on Spanish texts. However their English performance were only 0.323.
+on Spanish texts. However their English performance was only 0.323.
 
-\cite{castro2015Paper} presents an approach that focuses more on the feature
+\cite{castro2015Paper} present an approach that focuses more on the feature
 extraction, than the algorithm applied to it. Using a set of 10 features
 spanning across 3 different linguistic layers, the character layer, the lexical
 layer and the semantic layer. For each of these 10 features a vote is cast. This
-vote is determined by comparing the average similarity of the authors texts. In
-the scenario where a new unknown document is introduced, and wished validated
-the following happened. For each author, the similarity of their texts are
-computed using one of the 10 feature vectors as input for a chosen similarity
-function. The similarity for each of these author are then averaged to form
-the \gls{AGS}. The new document is then added to the group of documents of the
-proposed author, and the similarity of that group of documents is computed.
-If that similarity is above \gls{AGS}, then a vote for this being the correct
-author is thrown. However, before the vote for the feature is finalized, this
-is done with 3 different similarity functions, Cosine, Dice and 1-MinMax. The
-majority vote of those 3, determine what should be votes on that feature. This
-is done for each of the 10 features, where in case of a tie vote(5 against 5) no
-decision is taken. This yielded some very good results, however some questions
-was raised as to the accuracy of documents on other genres. The performance of
-this average based voting method, ended up being the second best in the PAN 2015
-competition with a score of 0.52041 on English texts.
+vote is determined by comparing the average similarity of the authors' texts.
+In the scenario where a new unknown document is introduced, and the validity of
+the author needs to be determined, the following happened: For each author, the
+similarity of their texts are computed using one of the 10 feature vectors as
+input for a chosen similarity function. The similarity for each of these authors
+are then averaged to form the \gls{AGS}. The new document is then added to the
+group of documents of the proposed author, and the similarity of that group of
+documents is computed. If that similarity is above \gls{AGS}, then the author
+will be considered valid, and a vote for this decision is thrown. However,
+before the vote for the feature is finalized, this is done with 3 different
+similarity functions, Cosine, Dice and 1-MinMax. The majority vote of these
+3, similarity functions, determine what the vote should be on that specific
+feature. This is done for each of the 10 features, where in case of a tie vote
+(5 against 5) no decision is taken. This yielded some very good results, however
+some questions were raised as to the accuracy of documents on other genres. The
+performance of this average based voting method, ended up being the second best
+in the PAN 2015 competition with a score of 0.52041 on English texts.
 
-\cite{gutierrez2015} uses a somewhat different approach by using Homotopy-based
-Classification in their work. Their approach use a set of 4 features. Bag
+\cite{gutierrez2015} use a somewhat different approach by using Homotopy-based
+Classification in their work. Their approach uses a set of 4 features. Bag
 of words, Bigram of words, Punctuation and trigram of words. All represent
 frequencies. From there a set of $N$ imposters are created, using the generic
-imposter method. The \textit{L}-1 homotopy then applied to construct a feature
-set matching a document generated using the imposters and a known other. The
-unknown document and the reconstructed document are then compared using what is
-called the computed residual. This residual is compared to each author in the
-set, and if it doesn't match the proposed author, the author isn't considered
-the writer of the unknown text. The method had relatively good performance
-for all the languages used in their test besides Dutch which they explain is
-because of the short texts provided. The performance was 0.51.
+imposter method. The \textit{L}-1 homotopy is then applied, constructing a
+feature set. That feature set will be matching a document generated using the
+imposters and a known text. The unknown document and the reconstructed document
+are then compared using what is called the computed residual. This residual
+is compared to each author in the set, and if it doesn't match the proposed
+author, the author isn't considered the writer of the unknown text. The method
+performed well for all the languages used in their test besides
+Dutch which they explain is because of the short texts provided. The performance
+was 0.51.
 
 \cite{gomezadorno2015} tried to solve the PAN 2015 task by using a graph based
 approach. The graph used is an \gls{ISG} which represents the text by creating
@@ -122,31 +125,32 @@ shortest paths in the graph to compare the texts. The results were not very
 good, relative to the other entries in the competition, with a performance of
 0.2809.
 
-\cite{layton:2014} makes use of a more simple approach. It makes use of
+\cite{layton:2014} makes use of a more simple approach. He makes use of
 \gls{LNG}. This is used to compute a feature vector for each document written
 by a specific author. Collectively they can be combined to a matrix describing
 the writing style of that author. When a new unknown text is introduced, one of
-three comparative algorithms were used to compute the average similarity between
-each of the authors known texts (Intra-Distance). The average similarity between
+three comparative algorithms is used to compute the average similarity between
+each of the authors' known texts (Intra-Distance). The average similarity between
 the unknown text and the known ones by the proposed author is then computed as
 well (Inter-Distance). The author is considered correct if the Inter-Distance
-was lower than the Intra-Distance plus 2 times the known datasets' standard
-diviation. This was performed using the \gls{CNG}, \gls{SCAP} and \gls{RLP} as
-the methods for comparing the different texts. It did however not perform very
+is lower than the Intra-Distance plus 2 times the known datasets' standard
+deviation. This was performed using the \gls{CNG}, \gls{SCAP} and \gls{RLP} as
+the methods for comparing the different texts. It did however, not perform very
 well having a final score of 0.36277.
 
 \cite{castro2015} solved the PAN 2014 task by using the average similarity of
 an unknown text to known texts of an author. The features used were character
 n-grams, character n gram prefixes, character n gram postfixes, word n grams,
 punctuation, \gls{POS} tagging n grams, \gls{POS} tagging at start of sentences
-and \gls{POS} tagging at the end of sentences. The authors tried several
+and \gls{POS} tagging at the end of sentences. \cite{castro2015} tried several
 different similarity measures Cosine, Dice, Jaccard, Tanimoto, Euclidean and
 MinMax. They generally got the best results with Dice and Jaccard similarity.
-The results obtained were quite good.
+The results obtained were quite good, as they placed number two in the PAN 2015
+competition with a final score of 0.52041.
 
 \cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
 attribution methods in identifying authors of texts written in Danish secondary
-school. \cite{aalykke2016} mainly used a distance based approach, they extracted
-features and then used different distance metrics to compute the closest and
-therefore best author. \cite{hansen2014} used \gls{SVM}s for the author
-classification they obtained an accuracy of 84\% .
+schools. \cite{aalykke2016} mainly used a distance based approach. They
+extracted features and then used different distance metrics to compute the
+closest and therefore best author. \cite{hansen2014} used \gls{SVM}s for the
+author classification. They obtained an accuracy of 84\% .
