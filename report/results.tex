@@ -1,3 +1,4 @@
+% TODO: Report both TPR and TNR for all methods.
 \section{Results} \label{sec:results}
 As described earlier the PAN 2013 results are ranked using the F1 measure. The
 measure is defined using \textit{precision} and \textit{recall} which in PAN
@@ -56,38 +57,32 @@ The Delta method was tested by creating the same features for both the training
 dataset and the test datasets. We then computed the mean and standard variance
 of the training set and used that to normalize both the training and test
 dataset. For each text in the test dataset we then drew differing numbers of
-opposing texts from the training dataset. Those opposing texts were used as the
-opposition in the Delta Method. The results for running the delta method on
-the two test sets included in PAN 2013 and one dataset included in PAN 2015 is
-shown in Table \ref{tab:delta_method_final_results}. The \gls{AUROC} curve for
-the Delta Method is shown in Figure \ref{fig:delta_method_roc}. It is created
-by computing the \gls{TPR} and \gls{FPR} for the differing number of opposing
-authors.
+opposing texts from the training dataset. Those opposing texts were used as
+the opposition in the Delta Method. The number of opposing authors we used
+were the ones we found in the training section and were 4 for PAN 2013 and 1
+for PAN 2015. The results for running the delta method on the two test sets
+included in PAN 2013 and one dataset included in PAN 2015 is shown in Table
+\ref{tab:delta_method_final_results}. The \gls{AUROC} curve for the Delta Method
+is shown in Figure \ref{fig:delta_method_roc}. It is created by computing the
+\gls{TPR} and \gls{FPR} for the differing number of opposing authors.
 
 \begin{table}
     \centering
-    \begin{tabular}{l|lll}
-        \textbf{Opponents} & \textbf{PAN 2013 Test 1} & \textbf{PAN 2013 Test 2}
-        & \textbf{PAN 2015 Test} \\ \hline
-        1  & 0.58685 & 0.58283 & 0.55870 \\
-        2  & 0.62235 & 0.60125 & \textbf{0.56550} \\
-        3  & 0.63348 & 0.60771 & 0.53969 \\
-        4  & 0.63741 & 0.62173 & 0.52880 \\
-        5  & 0.63483 & 0.61897 & 0.52269 \\
-        6  & 0.63876 & 0.62787 & 0.52080 \\
-        7  & 0.64337 & 0.63188 & 0.51399 \\
-        8  & 0.64123 & 0.63488 & 0.51270 \\
-        9  & \textbf{0.64438} & 0.63173 & 0.51320 \\
-        10 & 0.64235 & \textbf{0.63291} & 0.50840
+    \begin{tabular}{c|ccc}
+        & \textbf{PAN 2013 Dataset 1} & \textbf{PAN 2013 Dataset 2} & \textbf{PAN 2015 Dataset}\\
+        \hline
+        \textbf{Accuracy}  & 0.63191 & 0.61314 & 0.55480 \\
+        \textbf{\gls{TPR}} & 0.51900 & 0.52492 & 0.50820 \\
+        \textbf{\gls{TNR}} & 0.72408 & 0.70000 & 0.60140
     \end{tabular}
     \caption{Result of running the delta method on two test sets included in PAN
-    2013 and single test set included in PAN 2015 with different number of
-    authors. The best score obtained on each dataset is highlighted.}
+    2013 and single test set included in PAN 2015 with 4 opposing authors for
+    the PAN 2013 set and 1 opposing author for PAN 2015.}
     \label{tab:delta_method_final_results}
 \end{table}
 
 The \gls{AUROC} for the delta method on the 2015 data was 0.56378. Resulting
-in a final score of $0.56378 \cdot 0.56550 = 0.3188$ for the PAN 2015 set.
+in a final score of $0.55480 \cdot 0.56550 = 0.31373$ for the PAN 2015 set.
 
 \begin{figure}
     \centering
