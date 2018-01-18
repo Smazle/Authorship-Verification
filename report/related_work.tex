@@ -13,7 +13,7 @@ it was grouped with. In the 2015 task a dataset of authors were also given.
 However each author had only a single known texts and a single unknown text
 and the task was to determine which of the unknown texts belonged to the same
 author as the known texts. The PAN 2013 task were ranked by the F1 measure
-and the PAN 2015 task were ranked according the \gls{AUROC} and the c@1
+and the PAN 2015 task were ranked according to the \gls{AUROC} and the c@1
 measure \cite{penas2011}. We describe the measures in more detail in Section
 \ref{sec:results}. In this section we describe a lot of the approaches used to
 solve the PAN 2015 task. When we report a "performance" we mean the product
@@ -26,22 +26,22 @@ English texts can be seen in sections \ref{sec:appendix:pan_2013_results}, and
 This was done using syntactic n-grams, which was extracted using a syntactic
 analyser designed for the designated language. This approach served to subvert
 the topic of text, as the focus would be on the syntactic class of the n-grams
-extracted, rather than the word itself. After extracting the n-grams wanted
+extracted, rather than the word itself. After extracting the n-grams wanted,
 filtering was performed, removing the less frequent n-grams. At this point they
 chose to represent their n-grams frequencies as a vector, allowing them to use
-the jaccard distance to measure the difference between new introduced unknown
-texts, and its' proposed authors' known texts. When the similarity fell under
+the Jaccard distance to measure the difference between new introduced unknown
+texts, and their proposed authors' known texts. When the similarity fell under
 a certain threshold, the author was deemed non-valid. This yielded a somewhat
 mediocre performance of 0.39999 on the English texts, and the authors themselves
 noted that a new heuristic handling ill-constructed sentences would probably
 have improved their results, as they were just discarded in their case, which
 caused very low accuracy in some cases. Additionally, more features describing
-other linguistic layers, such as lexical, and syntactic feature would probably
+other linguistic layers, such as lexical, and syntactic features would probably
 improve results as well.
 
 \cite{maitra2015} implemented a solution for the PAN 2015 task. They used a
 collection of different features extracted from the text. The features were
-based on punctuation, sentence length, vocabulary, character n grams and
+based on punctuation, sentence length, vocabulary, character n-grams and
 \gls{POS} tagging. They trained a random forest classifier on the features
 extracted and used that to determine whether or not the unknown texts were
 written by the author. The performance of the method were 0.34749 on English
@@ -61,10 +61,10 @@ features in this case were number of stop words, number of sentences, number
 of paragraphs, spacing, punctuation, word frequencies, character frequencies,
 punctuation frequencies, lexical density, word diversity, unique words and
 unique words over all authors. The main model made use a random forest and a
-\gls{UBM} again. A feature was yet again computed for all the known author-known
-texts in the dataset, the \gls{UBM}. I addition to that, a feature vector was
-computed on each individual known text of the dataset. Each of these author
-specific feature vectors is then encoded using the \gls{UBM}. The encoded
+\gls{UBM} again. A feature vector was yet again computed for all the known
+author-known texts in the dataset, the \gls{UBM}. I addition to that, a feature
+vector was computed on each individual known text of the dataset. Each of these
+author specific feature vectors is then encoded using the \gls{UBM}. The encoded
 vectors were then combined and the result were fed to a random forest model.
 Their performance were 0.43811 on English texts.
 
@@ -98,8 +98,8 @@ majority vote of those 3, determine what should be votes on that feature. This
 is done for each of the 10 features, where in case of a tie vote(5 against 5) no
 decision is taken. This yielded some very good results, however some questions
 was raised as to the accuracy of documents on other genres. The performance of
-this average based voting method, ended up being being the second best in the
-PAN 2015 competition with a score of 0.52041 on English texts.
+this average based voting method, ended up being the second best in the PAN 2015
+competition with a score of 0.52041 on English texts.
 
 \cite{gutierrez2015} uses a somewhat different approach by using Homotopy-based
 Classification in their work. Their approach use a set of 4 features. Bag
@@ -112,10 +112,10 @@ called the computed residual. This residual is compared to each author in the
 set, and if it doesn't match the proposed author, the author isn't considered
 the writer of the unknown text. The method had relatively good performance
 for all the languages used in their test besides Dutch which they explain is
-because of the short texts provided. The performance were 0.51.
+because of the short texts provided. The performance was 0.51.
 
 \cite{gomezadorno2015} tried to solve the PAN 2015 task by using a graph based
-approach. The graph used is a \gls{ISG} which represents the text by creating
+approach. The graph used is an \gls{ISG} which represents the text by creating
 a graph for each sentence and combining those graphs into one large graph.
 The authors constructed such a graph for each text and used commonalities in
 shortest paths in the graph to compare the texts. The results were not very
@@ -127,7 +127,7 @@ good, relative to the other entries in the competition, with a performance of
 by a specific author. Collectively they can be combined to a matrix describing
 the writing style of that author. When a new unknown text is introduced, one of
 three comparative algorithms were used to compute the average similarity between
-each of the authors known texts (Intra-Distance. The average similarity between
+each of the authors known texts (Intra-Distance). The average similarity between
 the unknown text and the known ones by the proposed author is then computed as
 well (Inter-Distance). The author is considered correct if the Inter-Distance
 was lower than the Intra-Distance plus 2 times the known datasets' standard
@@ -146,7 +146,7 @@ The results obtained were quite good.
 
 \cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
 attribution methods in identifying authors of texts written in Danish secondary
-school. \cite{aalykke2016} mainly used a distance based approach, he extracted
+school. \cite{aalykke2016} mainly used a distance based approach, they extracted
 features and then used different distance metrics to compute the closest and
-therefore best author. \cite{hansen2014} used SVM's for the author
+therefore best author. \cite{hansen2014} used \gls{SVM}s for the author
 classification they obtained an accuracy of 84\% .

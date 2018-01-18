@@ -1,3 +1,5 @@
+% TODO: Discuss our own results not just in relation to others.
+% TODO: Opposite TPR/TNR on train/test Author Specific SVM.
 \section{Discussion} \label{sec:discussion}
 
 \subsection{Comparison to baseline approach}
@@ -41,8 +43,8 @@ not otherwise. The approach is similar to ours as we also use text from other
 authors to do the verification. However \cite{seidman:2013} did not use the
 training set as the set of imposters but rather generated the imposters from
 data found on the internet. It might be that the reason he performed better than
-we did were because he had a better set of imposters. \cite{seidman:2013} also
-used predefined function words as features. So instead of using only mechanical
+we did was because he had a better set of imposters. \cite{seidman:2013} also
+used predefined function words as features. So instead of using only normal
 n-grams as we do they used prior knowledge about the language to construct good
 features.
 
@@ -64,9 +66,9 @@ that place with was the extended delta method. The extended delta method is a
 distance based approach that does not involve any machine learning. The reason
 that is our best performing method might be because of the lack of data in
 the PAN 2015 dataset which diminishes how well machine learning algorithms
-can perform. The best submission on the PAN 2015 task were described by
+can perform. The best submission on the PAN 2015 task was described by
 \cite{bagnall:2015}. The submission used a Recurrent Neural Network to make
-the prediction. The network were trained on the authors text and was supposed
+the prediction. The network was trained on the authors text and was supposed
 to predict the next character in a text given the context of the previous
 characters. A text was then classified as written by the same author by
 again using the imposter method. If the trained neural network was better at
@@ -93,7 +95,7 @@ The \textit{sklearn} random forest implementation has a build in notion of
 feature importance. The importance is estimated based on how often the forest
 splits on specific features. We have used the feature importance estimation to
 get an idea of which features are important for authorship verification. The 20
-most important features according to the random forest is shown in Table
+most important features according to the random forest are shown in Table
 \ref{tab:feature_importance}.
 
 \begin{table}
@@ -123,7 +125,8 @@ most important features according to the random forest is shown in Table
         char-3-gram            & 'or '                & 0.00480
     \end{tabular}
     \caption{The 20 features the random forest most often split on when doing
-    authorship verification, using the \gls{UBM} Random Forest approach.}
+    authorship verification, using the \gls{UBM} Random Forest approach on the
+    PAN 2015 dataset.}
     \label{tab:feature_importance}
 \end{table}
 
@@ -132,7 +135,7 @@ most important features according to the random forest is shown in Table
     \begin{figure}
         \centering
         \includegraphics[scale=.34]{./pictures/FeatureImpotrance20.png}
-        \caption{The 20 Most important features after applying the UBM encoded
+        \caption{The 20 most important features after applying the UBM encoded
         features to the random forest model}
         \label{fig:feature_importance_small}
     \end{figure}
@@ -142,7 +145,7 @@ most important features according to the random forest is shown in Table
     \centering
     \includegraphics[scale=.34]{./pictures/FeatureImpotranceAll.png}
     \caption{The feature importance for all UBM encoded features given
-    to the random forest model}
+    to the random forest model on the PAN 2015 dataset.}
     \label{fig:feature_importance_all}
 \end{figure}
 
@@ -162,9 +165,10 @@ general sentence structure of the authors.
 % TODO: Could we maybe find some article with this point?
 The reason the English stop words is so important is probably because they are
 consistently used over all genres. Texts about different topics and in different
-genres will probably all contain the words \textit{the} and \textit{for}. It is
-therefore easier to use them as an estimate of which author has written the text
-since they are not dependent on which text the author was writing.
+genres will probably all contain the words \textit{the} and \textit{for}. It
+is therefore easier to use them as an estimate of which author has written the
+text since they are not dependent on which genre or type of text the author was
+writing.
 
 The least important features according to the random forest are shown in Table
 \ref{tab:feature_non_importance}. It can be seen that all of those features
@@ -202,7 +206,7 @@ they have the same author.
         word-5-gram & year of our lord one & 0.0
     \end{tabular}
     \caption{The 20 features the random forest least often split on when doing
-    authorship verification.}
+    authorship verification on the PAN 2015 dataset.}
     \label{tab:feature_non_importance}
 \end{table}
 
@@ -244,14 +248,14 @@ As for the Generalized Random Forest described in Section
 \ref{subsec:method:generalising_random_forest}. This method was off to a bad
 start, as the paper it was based on \cite{pacheco2015} only got 6'th place in
 the PAN 2015 authorship verification task, and our implementation of that same
-method only ranked 9'th. \ref{sec:appendix:pan_2015_results} The main focus of
-this method however, was the way it attempted to circumvent the lack of data,
-associated with each specific author, by instead learning on the know-text
-dataset in its entirety. While the results of this attempt didn't land us at any
-place near the top, in terms of placement it did actually work. By comparing our
-\gls{UBM} based results to the author specific Minus encoding we can actually
-see an improvement in terms of accuracy, thus making the \gls{UBM} a viable
-choice when faced with small amounts of entry-specific data.
+method only ranked 9'th. The main focus of this method however, was the way it
+attempted to circumvent the lack of data, associated with each specific author,
+by instead learning on the known-text dataset in its entirety. While the results
+of this attempt didn't land us at any place near the top, in terms of placement
+it did actually work. By comparing our \gls{UBM} based results to the author
+specific Minus encoding we can actually see an improvement in terms of accuracy,
+thus making the \gls{UBM} a viable choice when faced with small amounts of
+entry-specific data.
 
 The Extended Delta Method achieved the best result of any of our methods on the
 PAN 2015 data. The ROC curve for the method is clearly the best one of any of
@@ -263,15 +267,15 @@ probably the curse of dimensionality that reduces the Euclidean distances
 ability to distinguish between texts.
 
 The Author Specific SVM performed very well on the PAN 2013 dataset.
-As described by \cite{stamatos2009} SVM's are great for doing Authorship
+As described by \cite{stamatos2009} \gls{SVM}s are great for doing Authorship
 Attribution and Verification since they are able to handle very large
 amounts of features. And since representing a text document will typically use
-very large vectors SVM's are a natural approach. Besides the accuracy the
+very large vectors \gls{SVM}s are a natural approach. Besides the accuracy the
 \gls{TPR} and \gls{TNR} achieved by the Author Specific SVM was also very good.
 However they were clearly better on the training dataset than on the testing
 dataset. The main drawback of the SVM method is that it requires either several
 examples of text from an author or a single long example that can be split into
-multiple. \cite{stamatos2009} describes that performance for SVM's have
+multiple. \cite{stamatos2009} describes that performance for \gls{SVM}s have
 previously been shown to drop significantly when only a small amount of data is
 available. Unfortunately the PAN 2015 dataset did not contain enough data for us
 to split the text into multiple and try the SVM approach on them.
@@ -284,11 +288,11 @@ number of features fed to the random forest. Not only quantity, but also
 different types of features than the ones used in this paper. This would
 work since Random Forest by its very nature selects the best features for
 classification, we can at the cost of some run time, train on a much larger
-feature-set and we suspect better results might be produced, as point supported
-by \ref{fig:feature_importance_all} as mentioned earlier.
+feature-set and we suspect better results might be produced, a point supported
+by Figure \ref{fig:feature_importance_all} as mentioned earlier.
 
 Similar to the Random Forest method the Author Specific SVM might also have been
-able to perform better by using more features. As explained earlier SVM's are
+able to perform better by using more features. As explained earlier \gls{SVM}s are
 very good at handling large amounts of features so we could have probably
 improved performance by adding more. Furthermore as described earlier the
 solutions that performed better than ours usually used extra text documents not

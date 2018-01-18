@@ -132,7 +132,7 @@ computed for all thresholds. In our case we tried the thresholds $\{0.0, 0.01,
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{./pictures/forest_roc.png}
-    \caption{The ROC curve of the two Generalizing Random Forest
+    \caption{The ROC curve of the two Generalising Random Forest
     approaches.}
     \label{fig:forest_roc}
 \end{figure}
@@ -168,18 +168,17 @@ texts known to be written by the author and the texts from the training dataset
 and predict the unknown text using that SVM.
 
 The best configuration on the training set were configuration B using the
-frequencies of the 300 most frequent words and 100 most frequent 2-, 3- and
-4-character-n-gram. The results on the two test datasets are shown in Table
-\ref{table:svm_results}.
+frequencies of the 300 most frequent words. The results on the two test datasets
+are shown in Table \ref{table:svm_results}.
 
 \begin{table}
     \centering
     \begin{tabular}{c|cc}
         & \textbf{Test Dataset 1} & \textbf{Test Dataset 2} \\
         \hline
-        \textbf{Accuracies} & 0.77650 & 0.78066 \\
-        \textbf{\gls{TPR}'s} & 0.71444 & 0.70785 \\
-        \textbf{\gls{FPR}'s} & 0.82727 & 0.84437
+        \textbf{Accuracy}  & 0.77650 & 0.78066 \\
+        \textbf{\gls{TPR}} & 0.71444 & 0.70785 \\
+        \textbf{\gls{TNR}} & 0.82727 & 0.84437
     \end{tabular}
     \caption{Results of the Author Specific SVM on the two test datasets for PAN
     2013.}
