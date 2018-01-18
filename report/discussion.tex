@@ -12,22 +12,22 @@ the baseline method both on the PAN 2013 dataset and the PAN 2015 dataset.
     \centering
     \begin{tabular}{ll|cc}
         \textbf{Method}           &           & \textbf{PAN 2013} & \textbf{PAN 2015} \\ \hline
-        Delta (BASELINE)          & Score     & 0.62252           & 0.31373           \\
-                                  & \gls{TPR} & 0.52196           & 0.50820           \\
-                                  & \gls{TNR} & 0.71204           & 0.60140           \\
-                                  & Rank      & 12/20             & 11/18             \\ \hline
+        Delta (BASELINE)          & Score     & 0.62252           & 0.34201           \\
+                                  & \gls{TPR} & 0.52196           & 0.54899           \\
+                                  & \gls{TNR} & 0.71204           & 0.60800           \\
+                                  & Rank      & 13/19             & 10/17             \\ \hline
         Random Forest (\gls{UBM}) & Score     & n/a               & 0.38576           \\
                                   & \gls{TPR} & n/a               & 0.63200           \\
                                   & \gls{TNR} & n/a               & 0.57600           \\
-                                  & Rank      & n/a               & 9/18              \\ \hline
+                                  & Rank      & n/a               & 9/17              \\ \hline
         Random Forest (Minus)     & Score     & n/a               & 0.33183           \\
                                   & \gls{TPR} & n/a               & 0.66800           \\
                                   & \gls{TNR} & n/a               & 0.50000           \\
-                                  & Rank      & n/a               & 10/18             \\ \hline
+                                  & Rank      & n/a               & 10/17             \\ \hline
         Extended Delta            & Score     & 0.69909           & 0.40383           \\
                                   & \gls{TPR} & 0.71255           & 0.49760           \\
                                   & \gls{TNR} & 0.68098           & 0.74140           \\
-                                  & Rank      & 10/20             & 8/18              \\ \hline
+                                  & Rank      & 10/19             & 8/17              \\ \hline
         Author Specific SVM       & Score     & 0.77858           & n/a               \\
                                   & \gls{TPR} & 0.71114           & n/a               \\
                                   & \gls{TNR} & 0.83582           & n/a               \\
@@ -242,7 +242,8 @@ same author. On the training data we found that the number of opposing authors
 on the 2013 dataset should be 4 but it seems like the number was to high for the
 test dataset. Even though the results were not significant we still obtained a
 better result than 8/19 competitors. On the PAN 2015 dataset we obtained a final
-score of % TODO: When results are fixed to using 200 words instead of 300.
+score of 0.34201 an \gls{TPR} of 0.54899 and a \gls{TNR} of 0.60800. Again the
+\gls{TNR} is far better than the \gls{TPR}.
 
 The Generalized Random Forest were off to a bad start start, as the paper it
 was based on \cite{pacheco2015} only got 6'th place in the PAN 2015 authorship

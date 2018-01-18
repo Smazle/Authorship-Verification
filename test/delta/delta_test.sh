@@ -13,7 +13,7 @@ if [ ! -f ./15_features_train.txt ]; then
     ../../feature_extraction/main.py ../../data/pan_2015/ ./15_features_train.txt \
         --corpus brown \
         --normalize false \
-        --word-frequencies 300
+        --word-frequencies 200
 fi
 
 if [ ! -f ./13_features_1.txt ]; then
@@ -37,35 +37,38 @@ if [ ! -f ./15_features.txt ]; then
     ../../feature_extraction/main.py ../../data/pan_2015/ ./15_features.txt \
         --corpus brown \
         --normalize false \
-        --word-frequencies 300
+        --word-frequencies 200
 fi
 
 echo "Using 13 1 features"
-for i in {0..20}
+for j in {1..100}
 do
-    for j in {1..100}
-    do
-        ./delta.py ./13_features_train.txt ./13_features_1.txt \
-            --with-normalization \
-            --opposing-set-size $i \
-            --with-PN
-    done | ./analyse.hs
-done
+    ./delta.py ./13_features_train.txt ./13_features_1.txt \
+        --with-normalization \
+        --opposing-set-size 4 \
+        --with-PN
+done | ./analyse.hs
 
 echo "Using 13 2 features"
-for i in {0..20}
+for j in {1..100}
 do
-    for j in {1..100}
-    do
-        ./delta.py ./13_features_train.txt ./13_features_2.txt \
-            --with-normalization \
-            --opposing-set-size $i \
-            --with-PN
-    done | ./analyse.hs
-done
+    ./delta.py ./13_features_train.txt ./13_features_2.txt \
+        --with-normalization \
+        --opposing-set-size 4 \
+        --with-PN
+done | ./analyse.hs
 
 echo "Using 15 features"
-for i in {0..20}
+for j in {1..100}
+do
+    ./delta.py ./15_features_train.txt ./15_features.txt \
+        --with-normalization \
+        --opposing-set-size 1 \
+        --with-PN
+done | ./analyse.hs
+
+echo "For generating AUROC graph"
+for i in {1..100}
 do
     for j in {1..100}
     do

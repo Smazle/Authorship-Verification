@@ -70,9 +70,9 @@ is shown in Figure \ref{fig:delta_method_roc}. It is created by computing the
     \begin{tabular}{c|ccc}
         & \textbf{PAN 2013 Dataset 1} & \textbf{PAN 2013 Dataset 2} & \textbf{PAN 2015 Dataset}\\
         \hline
-        \textbf{Accuracy}  & 0.63191 & 0.61314 & 0.55480 \\
-        \textbf{\gls{TPR}} & 0.51900 & 0.52492 & 0.50820 \\
-        \textbf{\gls{TNR}} & 0.72408 & 0.70000 & 0.60140
+        \textbf{Accuracy}  & 0.63191 & 0.61314 & 0.57850 \\
+        \textbf{\gls{TPR}} & 0.51900 & 0.52492 & 0.54899 \\
+        \textbf{\gls{TNR}} & 0.72408 & 0.70000 & 0.60800
     \end{tabular}
     \caption{Result of running the delta method on two test sets included in PAN
     2013 and single test set included in PAN 2015 with 4 opposing authors for
@@ -80,8 +80,9 @@ is shown in Figure \ref{fig:delta_method_roc}. It is created by computing the
     \label{tab:delta_method_final_results}
 \end{table}
 
-The \gls{AUROC} for the delta method on the 2015 data was 0.56378. Resulting
-in a final score of $0.55480 \cdot 0.56550 = 0.31373$ for the PAN 2015 set.
+
+The \gls{AUROC} for the Delta Method on the 2015 data was 0.59121. Resulting
+in a final score of $0.57850 \cdot 0.59121 = 0.34201$ for the PAN 2015 set.
 
 \begin{figure}
     \centering
