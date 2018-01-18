@@ -1,1 +1,33 @@
-\section{Abstract} \label{sec:abstract}
+\begin{abstract} \label{sec:abstract}
+
+    In this report we investigate different methods for authorship verification.
+    Authorship verification is the process of determining whether a text is
+    written by an author given a set of previous texts written by the author. We
+    will implement a select few of the algorithms we investigate. The specific
+    algorithms are:
+
+    First, the Delta Method which we use as a baseline for the other methods we
+    implement. The Delta Method is a distance based approach that use features
+    (vector of numbers) extracted from the texts and a distance metric to find
+    the closest author of an unknown text.
+
+    Second, a generalising Random Forest approach is implemented. The method
+    encodes features extracted from the texts using a \gls{UBM} and applies the
+    random forest to those encoded features.
+
+    Third, the Delta Method is expanded by trying different features and
+    distance metrics than used in the original Delta Method.
+
+    Fourth, an Author Specific \gls{SVM} is implemented. The SVM is trained
+    using the imposter method. Features are extracted from a set of texts known
+    to be written by an author and from a set of similar size of texts known to
+    not be written by the author. The \gls{SVM} is then trained on those two
+    sets of features.
+
+    For training and evaluation we use two datasets. The datasets are from two
+    instances of a yearly competition in text forensics (PAN). Specifically we
+    use the dataset from the 2013 edition and the 2015 edition. We obtain the
+    third best result on the PAN 2013 task and the eights best result on the PAN
+    2015 task.
+
+\end{abstract}
