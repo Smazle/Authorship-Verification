@@ -164,9 +164,11 @@ obtain something better. The features we tried were different combinations of
 character n-grams, word n-grams and \gls{POS}-tag n-grams.
 
 The different distance measures we tried were the Manhattan distance and the
-Euclidean distance.
-
-% TODO: Justify choices of distances.
+Euclidean distance. We chose the Manhattan distance since it has been shown to
+consistently perform well when compared to other distance metrics
+\cite{evert2015towards}. And we chose the Euclidean metric since it is very easy
+to implement and it performs about as well as the Manhattan distance on small
+number of most frequent words \cite{evert2015towards}.
 
 \subsection{Author Specific SVM} \label{subsec:method:author_specific_svm}
 We implemented an approach using a \gls{SVM} inspired by \cite{hansen2014}. The
