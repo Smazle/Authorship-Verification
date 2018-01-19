@@ -1,5 +1,4 @@
-\section{Discussion} \label{sec:discussion}
-
+\section{Discussion} \label{sec:discussion} 
 \subsection{Comparison to baseline approach}
 Our baseline approach was the Delta Method described in Section
 \ref{subsec:method:delta_method}. One of the goals of this report was finding
@@ -155,7 +154,7 @@ Both \textit{for}, \textit{in}, \textit{could}, \textit{should}, \textit{would},
 \textit{here} and \textit{or} seem to be represented in the list and are part
 of the list of English stop words \footnote{https://www.ranks.nl/stopwords}.
 Besides that an important feature is the special-character-2-gram consisting
-of two commas. That feature might capture an authors prevalence for using long
+of two commas. That feature might capture an authors tendency to using long
 sentences. Longer sentences will more likely contain a larger amount of commas.
 The character-4-gram ". Th" most likely captures an authors tendency to start
 her sentences with the word "The". Besides that the \gls{POS}-tags capture the
@@ -172,7 +171,7 @@ The least important features according to the random forest are shown in
 Table \ref{tab:feature_non_importance}. That all of those features consist of
 word-5-grams and all of them seem to be very specific to a source text. For
 example one of the features are the words "in the united states and". There is a
-good change that no author will have that phrase at about the same frequency in
+good chance that no author will have that phrase at about the same frequency in
 all texts she writes. The phrase will clearly be more prevalent in texts about
 the United States and less prevalent in cooking recipes even though they have
 the same author.
@@ -210,20 +209,20 @@ the same author.
 
 It was not only word-5-grams that did not perform very well. After training our
 random forest model, it became apparent that in no case did word n-grams perform
-well. The reason for that might be the lack of text in the PAN 2015 dataset. The
-texts on PAN 2015 being limited to about 150 words meaning that there are few
-different word-n-grams in the texts. However, the word-n-grams extracted from
-the brown corpus vary a lot and is usually very subject specific as described
-above. As such only a few of the word-n-grams extracted from the brown corpus
-are in the PAN 2015 texts. This only becomes more evident as n increases as the
-word-n-grams becomes more and more text specific.
+well. The reason for that might be the lack of text in the PAN 2015 dataset.
+The texts on PAN 2015 being limited to an average of 460 words meaning that
+there are few different word-n-grams in the texts. However, the word-n-grams
+extracted from the brown corpus vary a lot and is usually very subject specific
+as described above. As such only a few of the word-n-grams extracted from the
+brown corpus are in the PAN 2015 texts. This only becomes more evident as n
+increases as the word-n-grams becomes more and more text specific.
 
 Looking at figure \ref{fig:feature_importance_all} however, we can see that
 the overall feature contribution is somewhat good. Based on the fact that
 600 features were used, meaning that each feature importance averages out at
 $\frac{1}{600} = 0.00166666666$ if the importance was equally distributed, which
 is represented as a line on the graph. As such rather than our model depending
-on a very small amount of the total number of features, it can be seen that
+on a very small amount of features, it can be seen that
 over 50\% of the feature set actually contributes to the classification, with
 an importance over the average. While this could very well only be the case for
 our selected features, it does lend some credence to the idea that using more
@@ -304,10 +303,10 @@ While the Random Forest method didn't provide any impressive results, the
 generalized approach might very well be useful in the future, in case one comes
 across another sparse dataset. An improvement could be to increase the number
 of features fed to the random forest. Not only quantity, but also different
-types of features than the ones used in this paper. This would work since
-Random Forest by its very nature selects the best features for classification,
-we can at the cost of some run time, train on a much larger feature-set and
-we suspect better results might be produced, a point supported by Figure
+types of features than the ones used in this paper. This would work since Random
+Forest by its very nature selects the best features for classification. Thus we
+can, at the cost of some run time, train on a much larger feature-set and we
+suspect that this better results might be produced, a point supported by Figure
 \ref{fig:feature_importance_all} as mentioned earlier.
 
 Similar to the Random Forest method the Author Specific SVM might also have been

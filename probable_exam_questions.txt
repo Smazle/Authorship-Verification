@@ -3,3 +3,6 @@ What is TPR/TNR/FPR/FNR?
     - and what is the relations between them?
 What is the cosine similarity?
 Why are our UBM results worse than Pancheco?
+Why doesn't RF need normalizing
+How does a decision tree work?
+
