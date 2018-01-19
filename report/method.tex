@@ -89,14 +89,16 @@ different tokens in a sequence. We will refer to 1-grams as frequencies.
 \subsection{Delta Method} \label{subsec:method:delta_method}
 
 We have chosen to use the Delta method as a baseline method for our other
-implementations. The Delta method is described by \cite{evert2015towards} and
-consists of extracting word frequencies, applying a linear transformation to
-those frequencies and using \gls{KNN} with different distance metrics. There are
-a number of parameters to choose from. The first step, is choosing how many word we
-are going to consider, when finding the word frequencies. Firstly the amount of
-words (it was originally chosen at 150 words \cite{evert2015towards}). Then the
-linear transformation can be chosen, the usual transformation is a normalization
-to zero mean unit variance. Finally the distance metric can be chosen.
+implementations. The Delta method is described by \cite{evert2015towards}
+and consists of first extracting word frequencies, then applying a linear
+transformation to those frequencies and finally using \gls{KNN} with different
+distance metrics. There are a number of parameters to choose. The main
+parameter, is choosing how many word we are going to consider when finding
+the word frequencies. The amount of words was originally chosen at 150 words
+\cite{evert2015towards}. Then the linear transformation can be chosen, the
+usual transformation is a normalization to zero mean unit variance. And finally
+the distance metric can be chosen. The distance metric used in the original
+Delta Method was the Manhattan distance \cite{evert2015towards}.
 
 \subsection{Generalising Random Forest}
 \label{subsec:method:generalising_random_forest} In addition to the delta method
@@ -584,15 +586,16 @@ distance.
 \end{landscape}
 
 \subsubsection{Author Specific SVM} \label{subsubsec:method:author_specific_svm}
+
 In this approach we have experimented with a couple of different feature
-configurations. Configuration (A) consists of the 500 most frequent 3-, 4-
-and 5-character-grams, the 100 most frequent 3- and 4-word-grams, the 20
-most frequent 2-, 3- and 4-postag-grams. Configuration (B) consists of the
-frequencies of the 300 most frequent words. The most frequent n-grams are found
-in the brown text corpus. We test only on the PAN 2013 dataset since the PAN
-2015 dataset contains only a single known text per author and an SVM cannot
-train with a single datapoint in each class. We use the \textit{sklearn}
-implementation of \gls{SVM}s which internally use \textit{libsvm}.
+configurations. Configuration (A) consists of the 500 most frequent character-3,
+-4 and -5-grams, the 100 most frequent word-3 and -4-grams, the 20 most frequent
+postag-2, -3 and -4-grams. Configuration (B) consists of the frequencies of
+the 300 most frequent words. The most frequent n-grams are found in the Brown
+text corpus. We test only on the PAN 2013 dataset since the PAN 2015 dataset
+contains only a single known text per author and an SVM cannot train with a
+single datapoint in each class. We use the \textit{sklearn} implementation of
+\gls{SVM}s which internally use \textit{libsvm}.
 
 We use the RBF kernel and we choose hyperparameters via cross validation.
 Each configuration of features will use different hyperparameters. The cross
