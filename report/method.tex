@@ -1,16 +1,16 @@
 \section{Method} \label{sec:method} 
 
-In this section we will describe the methods
-we have implemented to solve the PAN 2013 and PAN 2015 problems. Both problems
-are known as authorship verification problems. \cite{stamatos2009} describes
-the problem in a machine learning sense as a binary classification problem.
-Either the unknown texts are written by the same author or they are written by
-different authors. All our implemented methods solve that classification problem
-by answering either \textit{True} (unknown text is written by the same author as
-the known texts) or \textit{False} (unknown text is \textbf{not} written by the
-same author as the known texts). Since both PAN 2013 and PAN 2015 are a binary
-decision problem we can compute the number of \gls{TP}, \gls{TN}, \gls{FP} and
-\gls{FN}. In these problems we get,
+In this section we will describe the methods we have implemented to solve
+the PAN 2013 and PAN 2015 problems. Both problems are known as authorship
+verification problems. \cite{stamatos2009} describes the problem in a machine
+learning sense as a binary classification problem. Either the unknown texts
+are written by the same author or they are written by different authors. All
+our implemented methods solve that classification problem by answering either
+\textit{True} (unknown text is written by the same author as the known texts)
+or \textit{False} (unknown text is \textbf{not} written by the same author as
+the known texts). Since both PAN 2013 and PAN 2015 are a binary decision problem
+we can compute the number of \gls{TP}s, \gls{TN}s, \gls{FP}s and \gls{FN}s. In
+these problems we get,
 
 \begin{itemize}
     \item a \gls{TP} whenever we answer \textit{True} and the texts are written
@@ -64,15 +64,15 @@ per author, which we can use to construct a profile of the author.
 \subsection{Text Features} \label{subsec:method:text_features} 
 
 Feature extraction from a text is the process of finding a vector that
-represents the text. A lot of different features can be extracted
-when performing \gls{NLP}. These features can span a lot of different linguistic
-layers, including but not limited to, layers such as the character layer, which
-describes a text on the character level, and the phonetic layer which analyses a
-text based on the phonetic alphabet. We use features spanning several of these
-layers. Specifically we use some character level features, some word level
-features and some \gls{POS} tagging features. In this section we will define the
-different features we use. The specific features used in different experiments
-will be described at length under those experiments.
+represents that text. Many different features can be extracted when performing
+\gls{NLP}. They can span many different linguistic layers, including but
+not limited to, layers such as the character layer, which describes a text
+on the character level, and the phonetic layer which describes a text based
+on the phonetic alphabet. We use features spanning several of these layers.
+Specifically we use some character level features, some word level features and
+some \gls{POS} tagging features. In this section we will define the different
+features we use. The specific features used in different experiments will be
+described at length under those experiments.
 
 N-grams are subsequences extracted from a sequence of tokens. For example,
 3-grams are all subsequences of length three of a given sequence. Using

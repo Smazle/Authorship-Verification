@@ -15,12 +15,14 @@ schools \cite{hansen2014} and also has uses in civil law, criminal law and
 computer forensics \cite{stamatos2009}.
 
 In this article we explore state-of-the-art methods for authorship verification.
-We extract several different types of features including word frequencies, word
-n-grams and \gls{POS}-tagging n-grams. We implement several different algorithms
-to work on the features. We start by implementing a baseline method which is a
-distance based approach in which an unknown text is considered to be written
-by the closest author. We then use the baseline method to compare to our other
-results. We use data from two sources \cite{pan:2015} and \cite{pan:2013} which
-are two instances of a yearly competition in digital text forensics. Since we
-use the data from those two competitions we also compare our results to the
-results obtained by others in the competition.
+We extract several types of features including word frequencies, word n-grams
+and \gls{POS}-tagging n-grams. We implement several algorithms to work on the
+features. We start by implementing a baseline method which is a distance based
+approach in which an unknown text is considered to be written by the closest
+author. We then use the baseline method to compare to our other results. The
+other results are obtained from several different methods. A Random Forest based
+method, an extension of the baseline method and a \gls{SVM} based method. We
+use data from two sources \cite{pan:2015} and \cite{pan:2013} which are two
+instances of a yearly competition in digital text forensics. Since we use the
+data from those two competitions we also compare our results to the results
+obtained by others in the competition.
