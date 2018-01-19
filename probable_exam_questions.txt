@@ -3,3 +3,6 @@ What is TPR/TNR/FPR/FNR?
     - and what is the relations between them?
 What is the cosine similarity?
 Why are our UBM results worse than Pancheco?
+What is average group similarity?
+What is a local n-gram?
+What is a common n-gram?
