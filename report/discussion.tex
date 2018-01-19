@@ -231,26 +231,27 @@ features in the forest during training could increase accuracy.
 
 \subsection{Performance of our different methods}
 
-The Delta Method were our baseline method and has been found to perform well in
+The Delta Method was our baseline method and has been found to perform well in
 the authorship verification setting \cite{evert2015towards}. On the PAN 2013
 datasets we obtained an average accuracy of 0.62252 which is not a significant
-result. From the average \gls{TPR} (0.52196) and \gls{TNR} (0.71204) we can see
-that the main problem is the \gls{TPR}. When the \gls{TPR} is low we have a
-large number of \gls{FN}s compared to \gls{TP}s which means that we will often
-say a text is written by a different author even though it is written by the
-same author. On the training data we found that the number of opposing authors
-on the 2013 dataset should be 4 but it seems like the number was to high for the
-test dataset. Even though the results were not significant we still obtained a
-better result than 8/19 competitors. On the PAN 2015 dataset we obtained a final
-score of 0.34201 an \gls{TPR} of 0.54899 and a \gls{TNR} of 0.60800. Again the
-\gls{TNR} is far better than the \gls{TPR}.
+result, compared to the other results on the 2013 set. From the average
+\gls{TPR} (0.52196) and \gls{TNR} (0.71204) we can see that the main problem is
+the \gls{TPR}. When the \gls{TPR} is low we have a large number of \gls{FN}s
+compared to \gls{TP}s which means that we will often say a text is written by a
+different author even though it is written by the same author. On the training
+data we found that the number of opposing authors on the 2013 dataset should be
+4 but it seems like the number was to high for the test dataset. Even though the
+results were not significant we still ranked 13/19 when comparing to the other
+competitors that year. On the PAN 2015 dataset we obtained a final score of
+0.34201 an \gls{TPR} of 0.54899 and a \gls{TNR} of 0.60800. Again the \gls{TNR}
+is far better than the \gls{TPR}.
 
-The Generalized Random Forest were off to a bad start start, as the paper it
+The Generalized Random Forest was off to a bad start start, as the paper it
 was based on \cite{pacheco2015} only got 6'th place in the PAN 2015 authorship
 verification task, and our implementation of that same method only ranked 9'th.
 The main focus of this method however, was the way it attempted to circumvent
 the lack of data, associated with each specific author, by instead learning
-on the known-text dataset in its entirety. While the results of this attempt
+on the author-known texts dataset in its entirety. While the results of this attempt
 didn't land us at any place near the top, in terms of placement it did work. By
 comparing our \gls{UBM} based results to the author specific Minus encoding we
 can see an improvement in terms of accuracy, thus making the \gls{UBM} a viable
@@ -275,7 +276,7 @@ features when doing authorship verification. The method obtained an accuracy
 of 0.69909 on the PAN 2013 dataset and final score of 0.40383 on the PAN 2015
 dataset. Both results are significant improvements over the original Delta
 Method we also tried. The \gls{TPR}s were 0.71255 for PAN 2013 and 0.49760 for
-PAN 2015 and the \gls{FPR}s were 0.68098 for PAN 2013 and 0.74140 for PAN 2015.
+PAN 2015 and the \gls{TNR}s were 0.68098 for PAN 2013 and 0.74140 for PAN 2015.
 It seems like the PAN 2013 method is good both at identifying when texts are
 written by the same author and when they are not while the PAN 2015 method is
 only good at identifying when texts are written by different authors.
