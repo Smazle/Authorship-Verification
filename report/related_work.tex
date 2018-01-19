@@ -4,28 +4,28 @@ history of authorship verification and authorship attribution methods.
 
 PAN \footnote{\url{http://pan.webis.de/}} keeps a collection of shared tasks in
 digital text forensics. In 2013, 2014 and 2015 the tasks focused on authorship
-verification. In this report we work with data from PAN 2013 and PAN 2015. In
-the 2013 task a dataset of authors were given. Each author had a collection of
-known texts and a single unknown text. The task was to determine which of the
-unknown texts were written by the same author as the known texts it was grouped
-with. In the 2015 task a dataset of authors was also given. However each author
-had only a single known text and a single unknown text, and the task was to
-determine which of the unknown texts belonged to the same author as the known
-texts. The PAN 2013 task was ranked by the F1 measure and the PAN 2015 task
-was ranked according to the \gls{AUROC} and the c@1 measure \cite{penas2011}.
-We describe the measures in more detail in Section \ref{sec:results}. In this
-section we describe many approaches used to solve the PAN 2015 task. When we
-report a "final score" we mean the product of the two measures for the PAN 2015
-task as that was the final measure they were ranked by. The results of the
-PAN 2013, and PAN 2015 competitions on the English texts are found Appendix
-\ref{sec:appendix:pan_2013_results}, and \ref{sec:appendix:pan_2015_results}
-respectively.
+verification among other things. In this report we work with data from PAN 2013
+and PAN 2015. In the 2013 task a dataset of authors were given. Each author
+had a collection of known texts and a single unknown text. The task was to
+determine which of the unknown texts was written by the same author as the
+known texts it was grouped with. In the 2015 task a dataset of authors was also
+given. However, each author had only a single known text and a single unknown
+text, and the task was to determine which of the unknown texts belonged to
+the same author as the known texts. The PAN 2013 task was ranked by the F1
+measure and the PAN 2015 task was ranked according to the \gls{AUROC} and
+the c@1 measure \cite{penas2011}. We describe the measures in more detail in
+Section \ref{sec:results}. In this section we describe many approaches used to
+solve the PAN 2015 task. When we report a "final score" we mean the product
+of the two measures for the PAN 2015 task as that was the final measure they
+were ranked by. The results of the PAN 2013, and PAN 2015 competitions on the
+English texts are found Appendix \ref{sec:appendix:pan_2013_results}, and
+\ref{sec:appendix:pan_2015_results} respectively.
 
 \cite{juanpablo2015} chose to perform their feature extraction on the syntactic
 level. This was done using syntactic n-grams, which was extracted using a
 syntactic analyser designed for the designated language. After extracting the
 n-grams wanted, filtering was performed, removing the less frequent n-grams.
-At this point they chose to represent their n-grams frequencies as a vector,
+At this point they chose to represent their n-gram frequencies as a vector,
 allowing them to use the Jaccard distance to measure the difference between new
 introduced unknown texts, and their proposed authors' known texts. When the
 similarity fell under a certain threshold, the author was deemed non-valid. This
@@ -48,7 +48,7 @@ make their results better.
 They implemented two baseline models and one real model. The baseline models
 were a simple distance metric with a trained cutoff point and a Gaussian Mixture
 Model. The second baseline model was about defining a general feature vector for
-all authors and a feature vector for each specific author, called a \gls{UBM}.
+all authors and a feature vector for each specific author.
 To determine if a text from an unknown author is written by a given author,
 you compute the distance between the texts feature set and the universal and
 author specific feature set. If the unknown text is closer to the universal
@@ -73,30 +73,30 @@ lengths, sentence length n-grams, word richness \footnote{Word richness is
 number of distinct words in a text divided by the total number of words.},
 punctuation n-grams and text shape n-grams. They then performed a feature
 selection and normalization. They performed the final regression with both
-trees, a Random Forest and an \gls{SVM}. They ended up choosing the Random
-Forest as it performed the best. Their results were very good having the best
+trees, a Random Forest and a \gls{SVM}. They ended up choosing the Random
+Forest as it performed the best. Their results were very good, having the best
 final score on Spanish texts. However their English final score was only 0.323.
 
 \cite{castro2015Paper} present an approach that focuses more on the feature
-extraction, than the algorithm applied to it. Using a set of 10 features
-spanning across 3 different linguistic layers, the character layer, the lexical
-layer and the semantic layer. For each of these 10 features a vote is cast. The
-vote is determined by comparing the average similarity of the authors' texts.
-When classifying an unknown text as either written by the same author or another
-author the following steps are performed: For each author, the similarity of
-their texts are computed using one of the 10 feature vectors as input for a
-chosen similarity function. The similarity for each of these authors are then
-averaged to form the \gls{AGS}. The new document is then added to the group of
-documents of the proposed author, and the similarity of that group of documents
-is computed. If that similarity is above the \gls{AGS}, the unknown text will
-be classified as being written by the author, and a vote for this decision is
-thrown. However, before the vote for the feature is finalized, it is done with
-3 different similarity functions, Cosine, Dice and 1-MinMax. The majority vote
-of these 3, similarity functions, determine what the vote should be on that
-specific feature. This is done for each of the 10 features, where in case of
-a tie vote (5 against 5) no decision is taken. This yielded some very good
-results, however some questions were raised as to the accuracy of documents on
-other genres. The final score of this average based voting method, ended up
+extraction, than the algorithm applied to it. They made use of a set of 10
+features spanning across 3 different linguistic layers, the character layer,
+the lexical layer and the semantic layer. For each of these 10 features a vote
+is cast. The vote is determined by comparing the average similarity of the
+authors' texts. When classifying an unknown text as either written by the same
+author or another author the following steps are performed: For each author,
+the similarity of their texts are computed using one of the 10 feature vectors
+as input for a chosen similarity function. The similarity for each of these
+authors are then averaged to form the \gls{AGS}. The new document is then added
+to the group of documents of the proposed author, and the similarity of that new
+group of documents is computed. If that similarity is above the \gls{AGS}, the
+unknown text will be classified as being written by the author, and a vote for
+this decision is thrown. However, before the vote for the feature is finalized,
+it is done with 3 different similarity functions, Cosine, Dice and 1-MinMax. The
+majority vote of these 3, similarity functions, determine what the vote should
+be on that specific feature. This is done for each of the 10 features, where in
+case of a tie vote (5 against 5) no decision is taken. This yielded some very
+good results, however some questions were raised as to the accuracy of documents
+on other genres. The final score of this average based voting method, ended up
 being the second best in the PAN 2015 competition with a score of 0.52041 on
 English texts.
 
@@ -124,17 +124,17 @@ the other entries in the competition, with a final score of 0.2809.
 % TODO: Describe what CNG (Common n grams) are!
 
 \cite{layton:2014} makes use of a more simple approach. He makes use of
-\gls{LNG}. This is used to compute a feature vector for each document written
-by a specific author. Collectively they can be combined to a matrix describing
-the writing style of that author. When a new unknown text is introduced, one of
-three comparative algorithms is used to compute the average similarity between
-each of the authors' known texts (Intra-Distance). The average similarity
-between the unknown text and the known ones by the proposed author is then
-computed as well (Inter-Distance). The author is considered correct if the
-Inter-Distance is lower than the Intra-Distance plus 2 times the known datasets'
-standard deviation. This was performed using the \gls{CNG}, \gls{SCAP} and
-\gls{RLP} as the methods for comparing the different texts. It did however, not
-perform very well having a final score of 0.36277.
+different types of N-Grams. These N-Grams was used to compute a feature
+vector for each document written by a specific author. Collectively they can
+be combined to a matrix describing the writing style of that author. When a
+new unknown text is introduced, one of three comparative algorithms is used
+to compute the average similarity between each of the authors' known texts
+(Intra-Distance). The average similarity between the unknown text and the
+known ones by the proposed author is then computed as well (Inter-Distance).
+The author is considered correct if the Inter-Distance is lower than the
+Intra-Distance plus 2 times the known datasets' standard deviation. This was
+performed using different comparative metrics. It did however, not perform very
+well having a final score of 0.36277.
 
 \cite{castro2015} solved the PAN 2014 task by using the average similarity of
 an unknown text to known texts of an author. The features used were character
@@ -143,8 +143,8 @@ punctuation, \gls{POS} tagging n grams, \gls{POS} tagging at start of sentences
 and \gls{POS} tagging at the end of sentences. \cite{castro2015} tried several
 different similarity measures Cosine, Dice, Jaccard, Tanimoto, Euclidean and
 MinMax. They generally got the best results with Dice and Jaccard similarity.
-The results obtained were quite good, as they placed number two in the PAN 2015
-competition with a final score of 0.52041.
+Their approach was only applied to spanish texts in this case, and as such
+the results aren't relevant for comparison in our case.
 
 \cite{hansen2014} and \cite{aalykke2016} both describe usage of authorship
 attribution methods in identifying authors of texts written in Danish secondary

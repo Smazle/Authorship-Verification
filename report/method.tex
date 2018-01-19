@@ -92,22 +92,23 @@ We have chosen to use the Delta method as a baseline method for our other
 implementations. The Delta method is described by \cite{evert2015towards} and
 consists of extracting word frequencies, applying a linear transformation to
 those frequencies and using \gls{KNN} with different distance metrics. There are
-a number of parameters to choose. The first step, is choosing how many word we
+a number of parameters to choose from. The first step, is choosing how many word we
 are going to consider, when finding the word frequencies. Firstly the amount of
 words (it was originally chosen at 150 words \cite{evert2015towards}). Then the
 linear transformation can be chosen, the usual transformation is a normalization
 to zero mean unit variance. Finally the distance metric can be chosen.
 
-\subsection{Generalising Random Forest} \label{subsec:method:generalising_random_forest}
-In addition to the delta method we chose to use the Random Forest approach
-suggested by \cite{pacheco2015}. In our implementation we use different features
-than in the their proposal. The idea of the method is to learn a general
-difference between feature vectors of texts written by the same author and
-feature vectors written by the different authors. The generalization is obtained
-by combining the vectors of known texts with vectors of unknown text and
-training on that combination instead of on the raw vectors. Rewriting the
-encoding function used in \cite{pacheco2015}, we get the following combining
-function,
+\subsection{Generalising Random Forest}
+\label{subsec:method:generalising_random_forest} In addition to the delta method
+we chose to use the Random Forest approach suggested by \cite{pacheco2015}.
+In our implementation we use different features than in the their proposal.
+Their idea was to make a more generalized approach, which would base itself
+on the comparison of a general model rather than and author-specific one,
+so as to get around the data constraints of the PAN 2015 dataset.
+This was to be be done, by combining the unknown text, the known text, and
+then a third general model of all known-text, using a specific encoding.
+Rewriting the encoding function used
+in \cite{pacheco2015}, we get the following combining function,
 
 \begin{equation}
     R_{i_k} = \frac{(A_{i_k}-U_{i_k})^2+1}{(B_k-U_{i_k})^2+1}
@@ -115,7 +116,7 @@ function,
 
 Where $A$ is an author-specific text, $U$ is an author-unknown text, $B$ is a
 \gls{UBM} describing a general author independent text. $i$ denotes from which
-datapoint we get our author-specific and non-specific texts, and $k$ denotes a
+dataset-entry we get our author-specific and non-specific texts, and $k$ denotes a
 specific feature of a given text. As such $R_{i_k}$ describes the encoding of a
 specific feature for a specific data point.
 
