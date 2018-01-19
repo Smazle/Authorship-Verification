@@ -5,4 +5,6 @@ What is the cosine similarity?
 Why are our UBM results worse than Pancheco?
 Why doesn't RF need normalizing
 How does a decision tree work?
-
+What is average group similarity?
+What is a local n-gram?
+What is a common n-gram?
