@@ -88,52 +88,54 @@ different tokens in a sequence. We will refer to 1-grams as frequencies.
 
 \subsection{Delta Method} \label{subsec:method:delta_method}
 
-We have chosen to use the Delta method as a baseline method for our other
-implementations. The Delta method is described by \cite{evert2015towards} and
-consists of extracting word frequencies, applying a linear transformation to
-those frequencies and using \gls{KNN} with different distance metrics. There are
-a number of parameters to choose from. The first step, is choosing how many word we
-are going to consider, when finding the word frequencies. Firstly the amount of
-words (it was originally chosen at 150 words \cite{evert2015towards}). Then the
-linear transformation can be chosen, the usual transformation is a normalization
-to zero mean unit variance. Finally the distance metric can be chosen.
+We have chosen to use the Delta method as a baseline for our other
+implementations. The Delta method is described by \cite{evert2015towards}
+and consists of first extracting word frequencies, then applying a linear
+transformation to those frequencies and finally using \gls{KNN} with different
+distance metrics. There are a number of parameters to choose. The main
+parameter, is choosing how many word we are going to consider when finding
+the word frequencies. The amount of words was originally chosen at 150 words
+\cite{evert2015towards}. Then the linear transformation can be chosen, the usual
+transformation is a normalization to zero mean unit variance. And finally the
+distance metric can be chosen. The distance metric used in the original Delta
+Method was the Manhattan distance \cite{evert2015towards}.
 
-\subsection{Generalising Random Forest}
-\label{subsec:method:generalising_random_forest} In addition to the delta method
-we chose to use the Random Forest approach suggested by \cite{pacheco2015}.
-In our implementation we use different features than in the their proposal.
-Their idea was to make a more generalized approach, which would base itself
-on the comparison of a general model rather than and author-specific one,
-so as to get around the data constraints of the PAN 2015 dataset.
-This was to be be done, by combining the unknown text, the known text, and
-then a third general model of all known-text, using a specific encoding.
-Rewriting the encoding function used
-in \cite{pacheco2015}, we get the following combining function,
+\subsection{Generalising Random Forest} \label{subsec:method:generalising_random_forest}
 
-\begin{equation}
+In addition to the Delta Method we chose to use the Random Forest approach
+suggested by \cite{pacheco2015}. In our implementation we use different features
+than in the their proposal. Their idea was to make a more generalized approach,
+which would base itself on the comparison of a general model rather than an
+author-specific one. The point was to get around the data constraints of the
+PAN 2015 dataset. This was to be be done, by combining the unknown text, the
+known text, and then a third general model of all known texts, using a specific
+encoding. Rewriting the encoding function used in \cite{pacheco2015}, we get the
+following combining function,
+
+\begin{equation} \label{eq:original_forest_equation}
     R_{i_k} = \frac{(A_{i_k}-U_{i_k})^2+1}{(B_k-U_{i_k})^2+1}
 \end{equation}
 
-Where $A$ is an author-specific text, $U$ is an author-unknown text, $B$ is a
-\gls{UBM} describing a general author independent text. $i$ denotes from which
-dataset-entry we get our author-specific and non-specific texts, and $k$ denotes a
-specific feature of a given text. As such $R_{i_k}$ describes the encoding of a
-specific feature for a specific data point.
+Where $A$ is a known text, $U$ is an unknown text, $B$ is a \gls{UBM} describing
+a general author independent text. $i$ denotes from which dataset-entry we get
+our known and unknown texts, and $k$ denotes a specific feature of a given text.
+As such $R_{i_k}$ describes the encoding of a specific feature for a specific
+data point.
 
-The \gls{UBM} is meant to represent the features of an author independent
-text. It is computed by concatenating all author-known-texts in the training
-dataset and computing features from that resulting text. Since multiple authors
-are then part of the text we are computing features from, the assumption is
-that the author specific features will be averaged out and the \gls{UBM} will
-represent the features of an author independent text. The addition of 1 in the
-model prevents division by zero. Since 1 is added both in the numerator and the
-denominator it does not otherwise change the result. The squaring of $(A_i -
+The \gls{UBM} is meant to represent the features of an author
+\textit{independent} text. It is computed by concatenating all known texts in
+the training dataset and computing features from that resulting text. Since
+multiple authors are then part of the text we are computing features from,
+the assumption is that the author specific features will be averaged out and
+the \gls{UBM} will represent the features of an author independent text. The
+addition of 1 in the model prevents division by zero. The squaring of $(A_i -
 U_i)$ and $(B - U_i)$ both prevents negative values and punishes values that are
 far away. Therefore each value in the resulting encoded feature vector is in the
 range $[0; \infty[$.
 
-Let's examine what the above equation describes. Fix any specific $i$ and let
-$A$ be $A_i$ and $U$ be $U_i$ then for each feature $k$ we compute,
+Let's examine what the Equation \eqref{eq:original_forest_equation} describes.
+Fix any specific $i$ and let $A$ be $A_i$ and $U$ be $U_i$ then for each feature
+$k$ we compute,
 
 \begin{equation}
 \label{eq:rf-encode}
@@ -169,7 +171,7 @@ the Euclidean distance. We chose the Manhattan distance since it has been
 shown to consistently perform well when compared to other distance metrics
 \cite{evert2015towards}. And we chose the Euclidean metric since it is very easy
 to implement and it performs about as well as the Manhattan distance, on a small
-amount number of most frequent words \cite{evert2015towards}.
+amount of features \cite{evert2015towards}.
 
 \subsection{Author Specific SVM} \label{subsec:method:author_specific_svm}
 We implemented an approach using a \gls{SVM} inspired by \cite{hansen2014}. The
@@ -216,11 +218,10 @@ our specific training dataset.
 We will evaluate the performance of the different algorithms on the training
 data with the accuracy of the algorithms. The accuracy is computed as the number
 of correct answers divided by the total number of problems. For some methods
-we will also report the \gls{TPR} and \gls{TNR}, in addition to the requested
-metrics.
+we will also report the \gls{TPR} and \gls{TNR}.
 
 \subsubsection{Delta Method} \label{subsubsec:method:delta_method}
-In the delta method we work only with word frequencies as originally proposed.
+In the Delta Method we work only with word frequencies as originally proposed.
 As the linear function we normalize to 0 mean and unit variance and as features
 we use the word frequencies of the $n$ most frequent words. We get the most
 frequent words by using the Brown dataset. In the \gls{KNN} part we use the
@@ -247,7 +248,7 @@ opposing author.
 
 \begin{table}
     \centering
-    \textbf{PAN 2013 Delta Method Accuracies}\par\medskip
+    \textbf{PAN 2013 Delta Method Results}\par\medskip
     \begin{tabular}{c|lccccc}
                &                   & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
         \hline
@@ -295,14 +296,14 @@ opposing author.
         frequent words $n$ and different numbers of opposing authors $m$ for the
         Delta Method. Each number is an average of 100 runs since there is
         randomness involved when picking the opposing authors. The test is run
-        on the PAN 2013 dataset. Maximum values for both Accuracy, \gls{TPR} and
-        \gls{TNR} is shown in bold.}
+        on the PAN 2013 training dataset. Maximum values for both Accuracy,
+        \gls{TPR} and \gls{TNR} is shown in bold.}
     \label{fig:delta_pan_2013_res}
 \end{table}
 
 \begin{table}
     \centering
-    \textbf{PAN 2015 Delta Method Accuracies}\par\medskip
+    \textbf{PAN 2015 Delta Method Results}\par\medskip
     \begin{tabular}{c|lccccc}
                &                   & $n=100$ & $n=200$ & $n=300$ & $n=400$ & $n=500$ \\
         \hline
@@ -350,54 +351,51 @@ opposing author.
         frequent words $n$ and different numbers of opposing authors $m$ for the
         Delta Method. Each number is an average of 100 runs since there is
         randomness involved when picking the opposing authors. The test is run
-        on the PAN 2015 dataset. Maximum values for both Accuracy, \gls{TPR} and
-        \gls{TNR} is shown in bold.}
+        on the PAN 2015 training dataset. Maximum values for both Accuracy,
+        \gls{TPR} and \gls{TNR} is shown in bold.}
     \label{fig:delta_pan_2015_res}
 \end{table}
 
 \subsubsection{Generalising Random Forest} \label{subsubsec:method:generalising_random_forest}
 
 When applying the Generalising Random Forest algorithm, we have the possibility
-to use of a wide variety of features. A random subset of these features are then
-used to train each of the trees in our random forest. Since the Random Forest
-algorithm algorithm, when applied, selects the best features from a given set of
-features, then one could simply provide it with a very large set of features,
-and let the algorithm do its work. This however comes at the cost of runtime.
-Thus the task of finding a good/perfect input to train our forest on is quite
-extensive. 
+to use many features, since the Random Forest algorithm selects the best
+features from a given set of features. Therefore we could provide it with a
+large set of features, and let the algorithm filter away the bad ones. This
+however comes at the cost of runtime. Thus the task of finding a good/perfect
+input to train our forest on is quite extensive.
 
 The \texttt{sklearn} library
 \footnote{http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.Rand
-omForestClassifier.html} offers a wide variety of configurations with regards to
-how our forest is built. Most configuration was set to its default value, with
-the exception of \texttt{n\_estimators}. \texttt{n\_estimators} denotes how many
-decision trees are in our forest, and due to ensemble nature of the algorithm,
-we can increase this parameter to create an average classification prediction
-based on a larger set of individual predictions, thus decreasing the overall
-variance our model. In the following experiments, \texttt{n\_estimators} is set to
-1000. The payoff when increasing the number of trees used, is the runtime.
-The increase in trees also have diminishing returns on the decrease of variance,
-so at some point increasing the trees don't make a lot of sense, as the
-variance is only altered very little with each tree. 1000 trees were the number
-we deemed to adequately decrease the variance of the forest, while still running
-at an acceptable speed.
+omForestClassifier.html} offers a wide variety of configurations with regards
+to how our forest is built. Most configuration was set to their default value,
+with the exception of \texttt{n\_estimators}. \texttt{n\_estimators} denotes how
+many decision trees are in our forest, and due to the ensemble nature of the
+algorithm, we can increase this parameter to create an average classification
+prediction based on a larger set of individual predictions, thus decreasing the
+overall variance our model. In the following experiments, \texttt{n\_estimators}
+is set to 1000. The payoff when increasing the number of trees used is the
+runtime. The increase in trees also have diminishing returns on the decrease of
+variance, so at some point increasing the trees don't make any sense, as the
+variance is only altered very little with each new tree. 1000 trees were the
+number we deemed appropriate to adequately decrease the variance of the forest,
+while still running at an acceptable speed.
 
-The dataset in these experiments was split into a test and a validation set.
+The dataset in these experiments was split into a training and a validation set.
 The selection was done by randomly shuffling the entire data set and taking
 the first 80\% of the dataset as the training set, and the last 20\% as the
-validation set. As such we need another layer of averaging, to combat the
-variance introduced by the random shuffling. In the following cases, this is
-done over 100 iterations of random forest predictions.
+validation set. As that introduces randomness we run the algorithm 100 times and
+take the average.
 
 In the following, we created our \gls{UBM} using the concatenation of all
 author-specific texts, from our training dataset.
 
 In terms of features, we chose to feed our random forest algorithm a large set
-of features with different focuses. The algorithm is going to pick and chose
-features, based on their impact on the actual classification. The low-impact
-features aren't adding any noise, so we might as well feed the algorithm as
-many features as possible, and then let it make the decision based on their
-individual impact. We chose to use the following features:
+of features with different focuses. The algorithm is going to pick features,
+based on their impact on the actual classification. The low-impact features
+aren't adding any noise, so we might as well feed the algorithm as many features
+as possible, and then let it make the decision based on their individual impact.
+We chose to use the following features:
 
 \begin{itemize}
     \item The 50 most frequent word-n-grams for $n \in \{1, \dots, 5\}$.
@@ -406,19 +404,8 @@ individual impact. We chose to use the following features:
     \item The 5 most frequent special-character-n-grams for $n \in \{2, 3\}$.
 \end{itemize}
 
-In order to achieve better generalization, the brown corpus was used as the
-bases for the generation of the features.
-
-When applying the algorithm to the 2015, and using the \gls{UBM} style
-encoding, we got an accuracy of 0.6015, or 60.15\%. Looking at the
-feature influences averaged over all 100 model iterations, we can see
-that the top features are mostly dominated by the ones who are character
-based.\ref{tab:feature_importance} The word-n-grams have little to no influence
-on the outcome of the predictions. The suspected reason for this is the small
-amount of words in each text of the 2015 data set. This means that the sequences
-of words that are present are very rare, and thus has little influence. This
-point is backed up by that fact that word-1-grams do actually have an influence,
-as they capture the use of stop words, such as "for" and "has".
+In order to achieve better generalization, the Brown corpus was used as the
+basis for the feature generation.
 
 In addition to the \gls{UBM} based encoding we also tried another encoding. The
 method is exactly the same as described above except Equation
@@ -580,15 +567,16 @@ distance.
 \end{landscape}
 
 \subsubsection{Author Specific SVM} \label{subsubsec:method:author_specific_svm}
+
 In this approach we have experimented with a couple of different feature
-configurations. Configuration (A) consists of the 500 most frequent 3-, 4-
-and 5-character-grams, the 100 most frequent 3- and 4-word-grams, the 20
-most frequent 2-, 3- and 4-postag-grams. Configuration (B) consists of the
-frequencies of the 300 most frequent words. The most frequent n-grams are found
-in the brown text corpus. We test only on the PAN 2013 dataset since the PAN
-2015 dataset contains only a single known text per author and an SVM cannot
-train with a single datapoint in each class. We use the \textit{sklearn}
-implementation of \gls{SVM}s which internally use \textit{libsvm}.
+configurations. Configuration (A) consists of the 500 most frequent character-3,
+-4 and -5-grams, the 100 most frequent word-3 and -4-grams, the 20 most frequent
+postag-2, -3 and -4-grams. Configuration (B) consists of the frequencies of
+the 300 most frequent words. The most frequent n-grams are found in the Brown
+text corpus. We test only on the PAN 2013 dataset since the PAN 2015 dataset
+contains only a single known text per author and an SVM cannot train with a
+single datapoint in each class. We use the \textit{sklearn} implementation of
+\gls{SVM}s which internally use \textit{libsvm}.
 
 We use the RBF kernel and we choose hyperparameters via cross validation.
 Each configuration of features will use different hyperparameters. The cross
