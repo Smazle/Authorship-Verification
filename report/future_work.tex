@@ -1,3 +1,16 @@
 \section{Future Work} \label{sec:future_work}
 
+Two of the algorithm we have implemented has only been applied to one of the
+two datasets we have worked with. In particular the random forest approach has
+only been applied to the PAN 2015 data and the \gls{SVM} approach has only been
+applied to the PAN 2013 data. The main reason for that is that the random forest
+approach requires a single known text per author and the \gls{SVM} approach
+require multiple known texts per author. It would be interesting to apply the
+algorithms to the opposite datasets and look at their performance there. We can
+transform the dataset with only a single known text to a dataset with multiple
+by splitting the known text into a collection of known texts. Similarly we can
+transform the dataset with multiple known texts to a dataset with a single known
+text by concatenating the known texts. By making those two transformations we
+could have run all methods on all data and found results for all of them.
+
 % Concatenate 2013 texts and obtain a 2015 instance.
