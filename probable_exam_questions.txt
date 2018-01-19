@@ -1,0 +1,5 @@
+What is compression distance?
+What is TPR/TNR/FPR/FNR?
+    - and what is the relations between them?
+What is the cosine similarity?
+Why are our UBM results worse than Pancheco?
