@@ -1,10 +1,10 @@
 \section{Future Work} \label{sec:future_work}
 
 Two of the algorithm we have implemented has only been applied to one of the
-two datasets we have worked with. In particular the random forest approach has
+two datasets we have worked with. In particular the Random Forest approach has
 only been applied to the PAN 2015 data and the \gls{SVM} approach has only been
-applied to the PAN 2013 data. The main reason for that, is that the random
-forest approach requires a single known text per author and the \gls{SVM}
+applied to the PAN 2013 data. The main reason for that, is that the Random
+Forest approach requires a single known text per author and the \gls{SVM}
 approach require multiple known texts per author. It would be interesting to
 apply the algorithms to the opposite datasets and look at their performance
 there. We can transform the dataset with only a single known text to a dataset
@@ -30,7 +30,9 @@ someone else. When the \gls{TPR} is high it means that there is few \gls{FN}s
 and many \gls{TP}s. \gls{FN}s are as described earlier when we say a text is
 written by a different author while it is actually written by the same.
 
-Since MaCom has much data available per student there case most closely match
+Since MaCom has much data available per student their case most closely match
 that of the PAN 2013 dataset. The method we implemented with the best \gls{TPR}
-on the PAN 2013 dataset was our \gls{SVM} approach. So it would be interesting
-to apply that approach to MaCom's dataset.
+on the PAN 2013 dataset was our Extended Delta Method approach. So it would be
+interesting to apply that approach to MaCom's dataset. The \gls{SVM} approach
+also had a very promising \gls{TPR} on the training dataset so it would also be
+interesting to try that.

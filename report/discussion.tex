@@ -30,35 +30,41 @@ the baseline method both on the PAN 2013 dataset and the PAN 2015 dataset.
         Author Specific SVM       & Score     & 0.77858           & n/a               \\
                                   & \gls{TPR} & 0.71114           & n/a               \\
                                   & \gls{TNR} & 0.83582           & n/a               \\
-                                  & Rank      & 3/20              & n/a
+                                  & Rank      & 3/19              & n/a
     \end{tabular}
     \caption{Final results for all our implemented algorithms on the test
-        datasets of PAN 2013 and PAN 2015. Since there are two test datasets for
-        PAN 2013 \textit{Score}, \textit{\gls{TPR}} and \textit{\gls{TNR}} in
-        the PAN 2013 column are all an average over the values on the two
-        datasets. Algorithms that were only made for one of the dataset has
-        \textit{n/a} in the fields they are missing.}
+        datasets of PAN 2013 and test dataset of PAN 2015. Since there are two
+        test datasets for PAN 2013 \textit{Score}, \textit{\gls{TPR}} and
+        \textit{\gls{TNR}} in the PAN 2013 column are all an average over the
+        values on the two datasets. The score in the PAN 2015 column is the
+        product of the \gls{AUROC} and the c@1 as described earlier. Algorithms
+        that were only made for one of the dataset has \textit{n/a} in the
+        fields they are missing. The ranking is which rank we would have
+        obtained in the PAN competitions had we competed in them.}
     \label{tab:all_final_results}
 \end{table}
 
 \subsection{Comparison to other PAN results}
+
 The best results for the PAN 2013 dataset can be found in Appendix
 \ref{sec:appendix:pan_2013_results} and our results can be found in Table
 \ref{tab:all_final_results}. We obtained the third best result out of 19
-submitted results (excluding our own). The method we obtained the score with
-was the author specific SVM. The best approach that beat our method was the
-approach described by \cite{seidman:2013}. They used a \textit{GenIM} method
-that uses the imposter method. To determine whether a document $X$ is written by
-the same author as has written $Y$, $X$ is compared to $Y$ and to a random set
-of imposter documents. If $X$ is found to be closer to $Y$ than the imposters
-it is reported as written by the same author and not otherwise. The approach is
-similar to ours as we also use text from other authors to do the verification.
-However \cite{seidman:2013} did not use the training set as the set of imposters
-but rather generated the imposters from data found on the internet. It might
-be that the reason he performed better than we did was because he had a better
-set of imposters. \cite{seidman:2013} also used predefined function words as
-features. So instead of using only normal n-grams as we do they used prior
-knowledge about the language to construct good features.
+submitted results (excluding our own). The method we obtained the score with was
+the author specific SVM. The best approach that beat our method was the approach
+described by \cite{seidman:2013}. They used the imposter method. To determine
+whether a document $X$ is written by the same author as has written $Y$, $X$ is
+compared to $Y$ and to a random set of imposter documents. If $X$ is found to be
+closer to $Y$ than the imposters it is reported as written by the same author
+and not otherwise. The approach is similar to ours as we also use text from
+other authors to do the verification. However \cite{seidman:2013} did not use
+the training set as the set of imposters but rather generated the imposters from
+data found on the internet. It might be that the reason they performed better
+than we did was because they had a better set of imposters. \cite{seidman:2013}
+also used predefined function words as features. A function word is a word that
+does not attribute meaning to a sentence but is used to build up the syntax
+of a sentence (words such as \textit{do} in \textit{we do not live here}). So
+instead of using only normal n-grams as we do they used prior knowledge about
+the language to construct good features.
 
 The other PAN 2013 method that achieved better results than we did is described
 by \cite{veenman:2013}. Their method used the compression method of authorship
@@ -75,10 +81,10 @@ The best results for the PAN 2015 dataset can be found in Appendix
 \ref{tab:all_final_results}. We obtained the 8'th place out of 17 submitted
 results (excluding our own). The method that we used was the Extended Delta
 Method. The Extended Delta Method is a distance based approach that does not
-involve any machine learning. This might be is our best performing method
-because of the lack of data in the PAN 2015 dataset which diminishes how well
-machine learning algorithms can perform. The best submission on the PAN 2015
-task was described by \cite{bagnall:2015}. The submission used a Recurrent
+involve any machine learning. It might be that the reason it performs so well
+on the PAN 2015 data is because of the lack of data in the PAN 2015 diminishes
+how well machine learning algorithms can perform. The best submission on the PAN
+2015 task was described by \cite{bagnall:2015}. The submission used a Recurrent
 Neural Network to make the prediction. The network was trained on the authors
 text and was supposed to predict the next character in a text given the context
 of the previous characters. A text was then classified as written by the same
@@ -125,7 +131,8 @@ get an idea of which features are important for authorship verification. The
     \end{tabular}
     \caption{The 20 features the random forest most often splits on when doing
     authorship verification, using the \gls{UBM} Random Forest approach on the
-    PAN 2015 dataset.}
+    PAN 2015 dataset. The importance score represents how often the Random
+    Forest splits on that particular feature.}
     \label{tab:feature_importance}
 \end{table}
 
@@ -134,7 +141,7 @@ get an idea of which features are important for authorship verification. The
         \centering
         \includegraphics[scale=.34]{./pictures/FeatureImpotrance20.png}
         \caption{The 20 most important features after applying the UBM encoded
-        features to the random forest model}
+        features to the random forest model on the PAN 2015 dataset.}
         \label{fig:feature_importance_small}
     \end{figure}
 \end{landscape}
@@ -158,7 +165,8 @@ of two commas. That feature might capture an authors tendency to using long
 sentences. Longer sentences will more likely contain a larger amount of commas.
 The character-4-gram ". Th" most likely captures an authors tendency to start
 her sentences with the word "The". Besides that the \gls{POS}-tags capture the
-general sentence structure of the authors.
+general sentence structure of the authors and many \gls{POS}-tags are important
+for the verification.
 
 The reason the English stop words are so important is probably because they are
 consistently used over all genres. Texts about different topics and in different
@@ -167,14 +175,14 @@ is therefore easier to use them as an estimate of which author has written the
 text since they are not dependent on which genre or type of text the author was
 writing.
 
-The least important features according to the random forest are shown in
-Table \ref{tab:feature_non_importance}. That all of those features consist of
-word-5-grams and all of them seem to be very specific to a source text. For
-example one of the features are the words "in the united states and". There is a
-good chance that no author will have that phrase at about the same frequency in
-all texts she writes. The phrase will clearly be more prevalent in texts about
-the United States and less prevalent in cooking recipes even though they have
-the same author.
+The least important features according to the random forest are shown in Table
+\ref{tab:feature_non_importance}. All of those features consist of word-5-grams
+and all of them seem to be very specific to a source text. For example one of
+the features are the words "in the united states and". There is a good chance
+that no author will have that phrase at about the same frequency in all texts
+she writes. The phrase will clearly be more prevalent in texts about the United
+States and less prevalent in cooking recipes even though they have the same
+author.
 
 \begin{table}
     \centering
@@ -203,30 +211,32 @@ the same author.
         word-5-gram & year of our lord one                & 0.0
     \end{tabular}
     \caption{The 20 features the random forest least often split on when doing
-    authorship verification on the PAN 2015 dataset.}
+    authorship verification on the PAN 2015 dataset. The importance score is how
+    often the random forest splits on that feature.}
     \label{tab:feature_non_importance}
 \end{table}
 
 It was not only word-5-grams that did not perform very well. After training our
-random forest model, it became apparent that in no case did word n-grams perform
-well. The reason for that might be the lack of text in the PAN 2015 dataset.
-The texts on PAN 2015 being limited to an average of 460 words meaning that
-there are few different word-n-grams in the texts. However, the word-n-grams
-extracted from the brown corpus vary a lot and is usually very subject specific
-as described above. As such only a few of the word-n-grams extracted from the
-brown corpus are in the PAN 2015 texts. This only becomes more evident as n
-increases as the word-n-grams becomes more and more text specific.
+random forest model, it became apparent that both word-2-grams, word-3-grams and
+word-4-grams also does not perform very well. The reason for that might be the
+lack of text in the PAN 2015 dataset. The texts on PAN 2015 being limited to an
+average of 460 words meaning that there are few different word-n-grams in the
+texts. However, the word-n-grams extracted from the Brown corpus vary a lot and
+is usually very subject specific as described above. As such only a few of the
+word-n-grams extracted from the brown corpus are in the PAN 2015 texts. This
+only becomes more evident as n increases as the word-n-grams becomes more and
+more text specific.
 
-Looking at figure \ref{fig:feature_importance_all} however, we can see that
-the overall feature contribution is somewhat good. Based on the fact that
-600 features were used, meaning that each feature importance averages out at
-$\frac{1}{600} = 0.00166666666$ if the importance was equally distributed, which
-is represented as a line on the graph. As such rather than our model depending
-on a very small amount of features, it can be seen that
-over 50\% of the feature set actually contributes to the classification, with
-an importance over the average. While this could very well only be the case for
-our selected features, it does lend some credence to the idea that using more
-features in the forest during training could increase accuracy.
+Looking at Figure \ref{fig:feature_importance_all} however, we can see that
+the overall feature contribution is somewhat good. Based on the fact that 600
+features were used, meaning that each feature importance would be $\frac{1}{600}
+= 0.00166$ if they were equally distributed. We have represented that level as a
+red line on the graph. As such rather than our model depending on a very small
+amount of features, it can be seen that over 50\% of the feature set actually
+contributes to the classification, with an importance over the average. While
+this could very well only be the case for our selected features, it does lend
+some credence to the idea that using more features in the forest during training
+could increase accuracy.
 
 \subsection{Performance of our different methods}
 
@@ -242,15 +252,15 @@ data we found that the number of opposing authors on the 2013 dataset should be
 4 but it seems like the number was to high for the test dataset. Even though the
 results were not significant we still ranked 13/19 when comparing to the other
 competitors that year. On the PAN 2015 dataset we obtained a final score of
-0.34201 an \gls{TPR} of 0.54899 and a \gls{TNR} of 0.60800. Again the \gls{TNR}
-is far better than the \gls{TPR}.
+0.34201 a \gls{TPR} of 0.54899 and a \gls{TNR} of 0.60800. Again the \gls{TNR}
+is better than the \gls{TPR}.
 
-The Generalized Random Forest was off to a bad start start, as the paper it
+The Generalising Random Forest was off to a bad start start, as the paper it
 was based on \cite{pacheco2015} only got 6'th place in the PAN 2015 authorship
 verification task, and our implementation of that same method only ranked 9'th.
 The main focus of this method however, was the way it attempted to circumvent
 the lack of data, associated with each specific author, by instead learning
-on the author-known texts dataset in its entirety. While the results of this attempt
+on the known text dataset in its entirety. While the results of this attempt
 didn't land us at any place near the top, in terms of placement it did work. By
 comparing our \gls{UBM} based results to the author specific Minus encoding we
 can see an improvement in terms of accuracy, thus making the \gls{UBM} a viable
@@ -259,7 +269,7 @@ method on the PAN 2015 dataset where it got a score of 0.38576 for \gls{UBM} and
 0.33183 for Minus. Opposite to the Delta Method the main problem of the forest
 is not the \gls{TPR} but the \gls{TNR}. The rates obtained were \gls{TPR} of
 0.63200 for \gls{UBM} and 0.66800 for Minus and \gls{TNR} of 0.57600 and 0.50000
-for Minus. 
+for Minus.
 
 The Extended Delta Method achieved the best result of any of our methods on
 the PAN 2015 data. The ROC curve for the method is clearly the best one of
@@ -269,7 +279,7 @@ features and all of them were different special-character-n-grams. We tried the
 method using both the Euclidean and the Manhattan distance. They performed about
 the same but the Manhattan distance was a little better in all cases. Which
 is similar to the findings of \cite{evert2015towards}. In general Manhatten
-distances emphasises the differences over more small features instead of single
+distances emphasise the differences over more small features instead of single
 large ones so it seems like it is important to consider the differences in many
 features when doing authorship verification. The method obtained an accuracy
 of 0.69909 on the PAN 2013 dataset and final score of 0.40383 on the PAN 2015
@@ -282,15 +292,15 @@ only good at identifying when texts are written by different authors.
 
 The Author Specific SVM performed very well on the PAN 2013 dataset. As
 described by \cite{stamatos2009} \gls{SVM}s are great for doing Authorship
-Attribution and Verification since they are able to handle very large amounts of
-features. And since representing a text document will typically use very large
+Attribution and Verification since they are able to handle large amounts of
+features. And since representing a text document will typically use large
 vectors \gls{SVM}s are a natural approach. Besides the accuracy the \gls{TPR}
 and \gls{TNR} achieved by the Author Specific SVM was also very good. However
 they were clearly better on the training dataset than on the testing dataset.
 The main drawback of the SVM method is that it requires either several examples
 of text from an author or a single long example that can be split into multiple.
 \cite{stamatos2009} describes that performance for \gls{SVM}s have previously
-been shown to drop significantly when only a small amount of data is available.
+been shown to drop significantly when only a small amount of text is available.
 Unfortunately the PAN 2015 dataset did not contain enough data for us to split
 the text into multiple and try the SVM approach on them. The accuracy, \gls{TPR}
 and \gls{TNR} obtained were 0.77858, 0.71114 and 0.83582. The results are
@@ -300,12 +310,12 @@ same author and when they are written by different authors.
 \subsection{Improvements}
 
 While the Random Forest method didn't provide any impressive results, the
-generalized approach might very well be useful in the future, in case one comes
-across another sparse dataset. An improvement could be to increase the number
-of features fed to the random forest. Not only quantity, but also different
-types of features than the ones used in this paper. This would work since Random
-Forest by its very nature selects the best features for classification. Thus we
-can, at the cost of some run time, train on a much larger feature-set and we
+generalized approach might very well be useful in the future, in case one
+comes across another sparse dataset. An improvement could be to increase the
+number of features fed to the random forest. Not only quantity, but also
+different types of features than the ones used in this report. This would work
+since the Random Forest selects the best features for classification. Thus
+we can, at the cost of runtime, train on a much larger feature-set and we
 suspect that this better results might be produced, a point supported by Figure
 \ref{fig:feature_importance_all} as mentioned earlier.
 
@@ -320,5 +330,5 @@ achieved better results if we had done that too.
 We could have also tried more distance metrics/measures in the extended Delta
 Method. The Cosine Measure has by \cite{evert2015towards} been shown to perform
 better than the Manhattan distance. We could have also tried the Min/Max measure
-which \cite{aalykke2016} found to be the best distance metric/measure for Danish
+which \cite{aalykke2016} found to be the best distance measure for Danish
 texts.
