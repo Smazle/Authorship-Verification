@@ -13,4 +13,23 @@ transform the dataset with multiple known texts to a dataset with a single known
 text by concatenating the known texts. By making those two transformations we
 could have run all methods on all data and found results for all of them.
 
-% Concatenate 2013 texts and obtain a 2015 instance.
+We would also like to apply our different implemented methods to larger
+datasets. We have found in this assignment that having more text available per
+author improves the performance of our methods. All our implemented methods
+performed better on the PAN 2013 dataset than on the PAN 2015 dataset. For
+example there is a Danish company, MaCom, that produce software for turning in
+and managing school assignments. MaCom has a large database containing several
+texts for each student and they have an interest in authorship verification.
+They specifically want to verify that assignments uploaded by students match
+their previous assignments and are not written by someone else. MaCom's main
+requirement is a method that has a high \gls{TPR}. The reason is that they
+don't want to accuse anyone of not having written their own assignment while it
+doesn't matter as much if they miss some assignment that is written by someone
+else. When the \gls{TPR} is high it means that there is few \gls{FN}s and many
+\gls{TP}s. \gls{FN}s are as described earlier when we say a text is written by
+a different author while it is actually written by the same.
+
+Since MaCom has much data available per student there case most closely match
+that of the PAN 2013 dataset. The method we implemented with the best \gls{TPR}
+on the PAN 2013 dataset was our \gls{SVM} approach. So it would be interesting
+to apply that approach to MaCom's dataset.
