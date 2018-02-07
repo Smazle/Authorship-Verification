@@ -1,0 +1,227 @@
+\documentclass[10pt]{beamer}
+
+\usetheme[progressbar=frametitle]{metropolis}
+
+\usepackage{appendixnumberbeamer}
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+
+\title{Authorship Verification}
+\subtitle{Project Outside Course Scope}
+% \date{\today}
+\date{}
+\author{Magnus Stavngaard}
+\institute{University of Copenhagen}
+% \titlegraphic{\hfill\includegraphics[height=1.5cm]{logo.pdf}}
+
+\begin{document}
+
+\maketitle
+
+%\begin{frame}{Table of contents}
+  %\setbeamertemplate{section in toc}[sections numbered]
+  %\tableofcontents[hideallsubsections]
+%\end{frame}
+
+\section{Introduction}
+
+\begin{frame}[fragile]{Introduction}
+
+    \begin{itemize}
+        \item Authorship Verification is determining whether the author of an
+            unknown text is the same as the author of a known text.
+        \item We explored methods for Authorship Verification.
+        \item We tried to beat our baseline method (Delta Method) and beat the
+            other competitors in PAN 2013 and PAN 2015.
+    \end{itemize}
+
+\end{frame}
+
+\section{Methods}
+
+\begin{frame}[fragile]{Delta Method}
+
+    \begin{itemize}
+        \item Manhattan distance based approach using only word frequencies.
+        \item Set of imposter authors are chosen besides the author we are
+            verifying.
+        \item The author with the closest text is reported as the author.
+        \item Number of different word frequencies and imposter set size has to
+            be chosen.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Delta Method Implementation}
+
+    \begin{itemize}
+        \item Chose number of different word frequencies and imposter set size
+            via cross validation.
+        \item Number of different words vary from 100 to 500 and imposter set
+            size from 1 to 10.
+        \item The best results on PAN 2013 were 300 most frequent word
+            frequencies and an imposter set size of 4.
+        \item The best results on PAN 2015 were 200 most frequent word
+            frequencies and an imposter set size of 1.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Generalising Random Forest}
+
+    \begin{itemize}
+        \item Based on a Universal Background Model (UBM) that describes a
+            generic text not written by any specific author.
+        \item The generic text is used to encode the feature vectors of other
+            texts.
+
+            \begin{equation}
+                R_k = \frac{(A_k - U_k)^2 + 1}{(B_k - U_k)^2 + 1}
+            \end{equation}
+        %\item Features will be encoded such that features closer to the known
+            %text of an author is between 0 and 1 and features closer to the UBM
+            %is between 1 and $\infty$.
+        \item Hope is that the random forest will learn which features should be
+            closer to the known text than UBM for an unknown text to be written
+            by the author of the known text.
+        \item Another encoding we tried were simply subtracting the features of
+            the unknown text from the known text.
+
+            \begin{equation}
+                R_k = A_k - U_k
+            \end{equation}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Generalising Random Forest Implementation}
+
+    \begin{itemize}
+        \item Only ran on PAN 2015 data since it only makes sense for a single
+            known and unknown text.
+        \item We used the features,
+            \begin{itemize}
+                \item 50 word n-grams for $n \in \{1, \dots, 5\}$.
+                \item 50 character n-grams for $n \in \{2, \dots, 5\}$.
+                \item 50 POS-tag n-grams for $n \in \{2, \dots, 5\}$.
+                \item 5 special character n-grams for $n \in \{2, 3\}$.
+            \end{itemize}
+        \item Random Forest should learn which features are important and
+            classify using those features.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Extended Delta Method}
+
+    \begin{itemize}
+        \item Different extensions to the Delta Method:
+            \begin{itemize}
+                \item Using different distance metrics/measures.
+                \item Using different features than the frequencies of the most
+                    frequent words.
+            \end{itemize}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Extended Delta Method Implementation}
+
+    \begin{itemize}
+        \item We use two distance metrics Manhattan ($L^1$) and Euclidean
+            ($L^2$).
+        \item Manhattan performed better than Euclidean.
+
+            %\begin{equation}
+                %||x||^p = (|x_1|^p + \dots + |x_n|^p)^{\frac{1}{p}}
+            %\end{equation}
+        \item We tried 20 different feature combinations.
+        \item Best features for PAN 2013 were the 100 most frequent character
+            2-3-4-grams and the 300 most frequent word frequencies.
+        \item Best features for PAN 2015 were the 20 most frequent special
+            character 1-2-3-grams.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Author Specific SVM}
+
+    \begin{itemize}
+        \item The imposter method.
+        \item SVM classifier is trained with $n$ texts written by an author and
+            $n$ texts from imposters.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Author Specific SVM Implementation}
+
+    \begin{itemize}
+        \item We tried two feature combinations. The first configuration
+            consisted of the 500 most frequent character 3-4-5-grams, the 100
+            most frequent word 3-4-grams and the 20 most frequent POS-tag
+            2-3-40-grams. The second configuration is just the frequencies of
+            the 300 most frequent words.
+        \item We used an RBF kernel.
+        \item Cross validation to find hyperparameters. Looked for $C \in
+            \{10^{-2}, 10^0, \dots, 10^{10}\}$ and $\gamma \in \{10^{-9},
+            10^{-7}, \dots, 10^3\}$.
+        \item We performed leave one out cross validation for each author in
+            training dataset independently and then used majority vote to find
+            the actual hyperparamters. The best parameters for configuration 1
+            were $C = 100$ and $\gamma = 0.00001$ and for configuration 2
+            $C = 100$ and $\gamma = 0.001$.
+    \end{itemize}
+
+\end{frame}
+
+\section{Results}
+
+\begin{frame}[fragile]{PAN 2013 Results}
+
+    \begin{itemize}
+        \item Delta Method Accuracy 0.62252.
+        \item Extended Delta Method Accuracy 0.69909.
+        \item Author Specific SVM Accuracy 0.77858.
+        \item Obtained third place in the PAN 2013 competition.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{PAN 2015 Results}
+    \begin{figure}
+        \begin{subfigure}{.4\textwidth}
+            \includegraphics[width=\textwidth]{../../report/pictures/delta_method_roc.png}
+            \caption{Delta Method ROC}
+        \end{subfigure}
+        \begin{subfigure}{.4\textwidth}
+            \includegraphics[width=\textwidth]{../../report/pictures/forest_roc.png}
+            \caption{Generalising Random Forest ROC}
+        \end{subfigure}
+        \begin{subfigure}{.4\textwidth}
+            \includegraphics[width=\textwidth]{../../report/pictures/extended_delta_method_roc.png}
+            \caption{Extended Delta Method ROC}
+        \end{subfigure}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{pan 2015 results}
+
+    \begin{itemize}
+        \item Delta Method Final Score 0.34201.
+        \item Random Forest UBM 0.38576.
+        \item Random Forest Minus 0.33183.
+        \item Extended Delta Method 0.40383.
+        \item Obtained 8th place in PAN 2015.
+    \end{itemize}
+
+\end{frame}
+
+\end{document}
