@@ -25,54 +25,63 @@
 
 \maketitle
 
-%\begin{frame}{Table of contents}
-  %\setbeamertemplate{section in toc}[sections numbered]
-  %\tableofcontents[hideallsubsections]
-%\end{frame}
-
-\section{Introduction}
-
 \begin{frame}[fragile]{Introduction}
 
     \begin{itemize}
         \item Authorship Verification is determining whether the author of an
             unknown text is the same as the author of a known text.
         \item We explored methods for Authorship Verification.
-        \item We tried to beat our baseline method (Delta Method) and beat the
-            other competitors in PAN 2013 and PAN 2015.
+        \item Use data from PAN 2013 and PAN 2015 competitions.
+        \item PAN 2013 has average of 1038 words per author.
+        \item PAN 2015 has average of 460 words per author.
     \end{itemize}
 
 \end{frame}
-
-\section{Methods}
 
 \begin{frame}[fragile]{Delta Method}
-
     \begin{itemize}
-        \item Manhattan distance based approach using only word frequencies.
-        \item Set of imposter authors are chosen besides the author we are
-            verifying.
-        \item The author with the closest text is reported as the author.
-        \item Number of different word frequencies and imposter set size has to
-            be chosen.
-    \end{itemize}
+        \item Distance based.
+        \item Use the imposter method for authorship verification.
+        \item Manhattan distance and word frequencies only.
+        \item Cross validation to choose number of imposters and number of word
+            frequencies.
 
+        \begin{table}
+        \begin{tabular}{cc}
+            \textbf{PAN 2013} & 300 most frequent words and 4 imposters. \\
+            \textbf{PAN 2015} & 200 most frequent words and 1 imposter.
+        \end{tabular}
+        \end{table}
+    \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Delta Method Implementation}
+%\begin{frame}[fragile]{Delta Method}
 
-    \begin{itemize}
-        \item Chose number of different word frequencies and imposter set size
-            via cross validation.
-        \item Number of different words vary from 100 to 500 and imposter set
-            size from 1 to 10.
-        \item The best results on PAN 2013 were 300 most frequent word
-            frequencies and an imposter set size of 4.
-        \item The best results on PAN 2015 were 200 most frequent word
-            frequencies and an imposter set size of 1.
-    \end{itemize}
+    %\begin{itemize}
+        %\item Manhattan distance based approach using only word frequencies.
+        %\item Set of imposter authors are chosen besides the author we are
+            %verifying.
+        %\item The author with the closest text is reported as the author.
+        %\item Number of different word frequencies and imposter set size has to
+            %be chosen.
+    %\end{itemize}
 
-\end{frame}
+%\end{frame}
+
+%\begin{frame}[fragile]{Delta Method Implementation}
+
+    %\begin{itemize}
+        %\item Chose number of different word frequencies and imposter set size
+            %via cross validation.
+        %\item Number of different words vary from 100 to 500 and imposter set
+            %size from 1 to 10.
+        %\item The best results on PAN 2013 were 300 most frequent word
+            %frequencies and an imposter set size of 4.
+        %\item The best results on PAN 2015 were 200 most frequent word
+            %frequencies and an imposter set size of 1.
+    %\end{itemize}
+
+%\end{frame}
 
 \begin{frame}[fragile]{Generalising Random Forest}
 
@@ -101,7 +110,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{Generalising Random Forest Implementation}
+\begin{frame}[fragile]{Generalising Random Forest}
 
     \begin{itemize}
         \item Only ran on PAN 2015 data since it only makes sense for a single
@@ -113,8 +122,6 @@
                 \item 50 POS-tag n-grams for $n \in \{2, \dots, 5\}$.
                 \item 5 special character n-grams for $n \in \{2, 3\}$.
             \end{itemize}
-        \item Random Forest should learn which features are important and
-            classify using those features.
     \end{itemize}
 
 \end{frame}
@@ -128,20 +135,9 @@
                 \item Using different features than the frequencies of the most
                     frequent words.
             \end{itemize}
-    \end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]{Extended Delta Method Implementation}
-
-    \begin{itemize}
         \item We use two distance metrics Manhattan ($L^1$) and Euclidean
             ($L^2$).
         \item Manhattan performed better than Euclidean.
-
-            %\begin{equation}
-                %||x||^p = (|x_1|^p + \dots + |x_n|^p)^{\frac{1}{p}}
-            %\end{equation}
         \item We tried 20 different feature combinations.
         \item Best features for PAN 2013 were the 100 most frequent character
             2-3-4-grams and the 300 most frequent word frequencies.
@@ -167,7 +163,7 @@
         \item We tried two feature combinations. The first configuration
             consisted of the 500 most frequent character 3-4-5-grams, the 100
             most frequent word 3-4-grams and the 20 most frequent POS-tag
-            2-3-40-grams. The second configuration is just the frequencies of
+            2-3-4-grams. The second configuration is just the frequencies of
             the 300 most frequent words.
         \item We used an RBF kernel.
         \item Cross validation to find hyperparameters. Looked for $C \in
@@ -181,8 +177,6 @@
     \end{itemize}
 
 \end{frame}
-
-\section{Results}
 
 \begin{frame}[fragile]{PAN 2013 Results}
 
@@ -212,7 +206,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}[fragile]{pan 2015 results}
+\begin{frame}[fragile]{PAN 2015 Results}
 
     \begin{itemize}
         \item Delta Method Final Score 0.34201.
