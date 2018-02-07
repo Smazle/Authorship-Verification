@@ -100,21 +100,11 @@
         \item Hope is that the random forest will learn which features should be
             closer to the known text than UBM for an unknown text to be written
             by the author of the known text.
-        \item Another encoding we tried were simply subtracting the features of
-            the unknown text from the known text.
+        \item Another encoding,
 
             \begin{equation}
                 R_k = A_k - U_k
             \end{equation}
-    \end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]{Generalising Random Forest}
-
-    \begin{itemize}
-        \item Only ran on PAN 2015 data since it only makes sense for a single
-            known and unknown text.
         \item We used the features,
             \begin{itemize}
                 \item 50 word n-grams for $n \in \{1, \dots, 5\}$.
@@ -135,8 +125,7 @@
                 \item Using different features than the frequencies of the most
                     frequent words.
             \end{itemize}
-        \item We use two distance metrics Manhattan ($L^1$) and Euclidean
-            ($L^2$).
+        \item We use two distance metrics Manhattan and Euclidean.
         \item Manhattan performed better than Euclidean.
         \item We tried 20 different feature combinations.
         \item Best features for PAN 2013 were the 100 most frequent character
@@ -153,13 +142,6 @@
         \item The imposter method.
         \item SVM classifier is trained with $n$ texts written by an author and
             $n$ texts from imposters.
-    \end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]{Author Specific SVM Implementation}
-
-    \begin{itemize}
         \item We tried two feature combinations. The first configuration
             consisted of the 500 most frequent character 3-4-5-grams, the 100
             most frequent word 3-4-grams and the 20 most frequent POS-tag
@@ -216,6 +198,80 @@
         \item Obtained 8th place in PAN 2015.
     \end{itemize}
 
+\end{frame}
+
+\begin{frame}[fragile]{Most Important Features}
+    \begin{table}
+        \centering
+        \begin{tabular}{lll}
+            \textbf{Feature Class} & \textbf{Feature}     & \textbf{Importance Score} \\
+            \hline
+            char-4-gram            & 'for '               & 0.01230                   \\
+            char-2-gram            & 'in'                 & 0.01056                   \\
+            char-5-gram            & ' for '              & 0.00984                   \\
+            char-3-gram            & 'e o'                & 0.00967                   \\
+            special-char-2-gram    & ',,'                 & 0.00887                   \\
+            postag-3-gram          & NOUN, ADP, DET       & 0.00863                   \\
+            char-5-gram            & 'ould '              & 0.00800                   \\
+            char-2-gram            & 't '                 & 0.00788                   \\
+            postag-2-gram          & NOUN, CONJ           & 0.00739                   \\
+            char-3-gram            & 'for'                & 0.00700                   \\
+            char-3-gram            & ' fo'                & 0.00623                   \\
+            postag-3-gram          & DET, NOUN, PUNCT     & 0.00582                   \\
+            postag-2-gram          & VERB, ADJ            & 0.00563                   \\
+            word-1-gram            & 'for'                & 0.00557                   \\
+            postag-4-gram          & VERB, DET, ADJ, NOUN & 0.00556                   \\
+            char-4-gram            & ' for'               & 0.00538                   \\
+            char-4-gram            & '. Th'               & 0.00499                   \\
+            char-5-gram            & 'here '              & 0.00496                   \\
+            char-3-gram            & 'ng '                & 0.00493                   \\
+            char-3-gram            & 'or '                & 0.00480
+        \end{tabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}[fragile]{Least Important Features}
+\begin{table}
+    \centering
+    \begin{tabular}{lll}
+        \textbf{Feature Class} & \textbf{Feature} & \textbf{Importance Score} \\
+        \hline
+        word-5-gram & is one of the most                  & 0.0 \\
+        word-5-gram & index words and electronic switches & 0.0 \\
+        word-5-gram & in the united states and            & 0.0 \\
+        word-5-gram & at the foot of the                  & 0.0 \\
+        word-5-gram & we are born of god                  & 0.0 \\
+        word-5-gram & turned out to be a                  & 0.0 \\
+        word-5-gram & the state of rhode island           & 0.0 \\
+        word-5-gram & the secretary of the interior       & 0.0 \\
+        word-5-gram & the second half of the              & 0.0 \\
+        word-5-gram & the first half of the               & 0.0 \\
+        word-5-gram & the far end of the                  & 0.0 \\
+        word-5-gram & president of the united states      & 0.0 \\
+        word-5-gram & of the state of rhode               & 0.0 \\
+        word-5-gram & of the government of the            & 0.0 \\
+        word-5-gram & if we are born of                   & 0.0 \\
+        word-5-gram & for the rest of the                 & 0.0 \\
+        word-5-gram & for a number of years               & 0.0 \\
+        word-5-gram & at the time of the                  & 0.0 \\
+        word-5-gram & are born of god we                  & 0.0 \\
+        word-5-gram & year of our lord one                & 0.0
+    \end{tabular}
+    \caption{The 20 features the random forest least often split on when doing
+    authorship verification on the PAN 2015 dataset. The importance score is how
+    often the random forest splits on that feature.}
+    \label{tab:feature_non_importance}
+\end{table}
+\end{frame}
+
+\begin{frame}[fragile]{Conclusion}
+    \begin{itemize}
+        \item We were able to beat all baseline methods.
+        \item We obtained better results on PAN 2013 than PAN 2015.
+        \item We obtained third place on PAN 2015 competition.
+        \item Stop words, POS-tags and sentence length seem to be important
+            features.
+    \end{itemize}
 \end{frame}
 
 \end{document}
